@@ -17,16 +17,16 @@ if (isset($_POST['logMeIn'])) {
     $username = strip_tags($_POST['userName']);
     $password = strip_tags($_POST['passWord']);
     if (!$username OR !$password) {
-        echo '<script type="text/javascript">alert(\'Lengkapi Username dan Password dengan benar!\');</script>';
+        $messages= '<script type="text/javascript">alert(\'Lengkapi Username dan Password dengan benar!\');</script>';
     } else {
         if (authenticate($username, $password)) {
-            echo '<script type="text/javascript">';
-            echo 'alert(\'Selamat datang di KUKM, '.$_SESSION['userName'].'\');';
+            $messages= '<script type="text/javascript">';
+            $messages.= 'alert(\'Selamat datang di KUKM, '.$_SESSION['userName'].'\');';
             #echo 'location.href = \'admin/index.php\';';
-            echo 'location.href = \'datacenter.php\';';
-            echo '</script>';
+            $messages.= 'location.href = \'datacenter.php\';';
+            $messages.= '</script>';
         } else {
-            echo '<script type="text/javascript">alert(\'Username dan Password tidak cocok!\');</script>';
+            $messages= '<script type="text/javascript">alert(\'Username dan Password tidak cocok!\');</script>';
         }
 	}
 }
@@ -59,7 +59,8 @@ if (isset($_POST['logMeIn'])) {
 </head>
 
 <body>
-
+<html>
+<?php if (isset($messages)) { echo $messages; } ?>
 <div id="main">
 
 	<!-- Tray -->
