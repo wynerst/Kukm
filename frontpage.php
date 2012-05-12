@@ -99,7 +99,7 @@ if (isset($_GET['fp']) and $_GET['fp'] <> "") {
 		</ul>
 
 		<ul class="box">
-		<?php echo menutop(1); ?>
+		<?php echo menutop(4); ?>
 		</ul>
 
 	</div> <!-- /header -->
@@ -161,9 +161,7 @@ if (isset($_GET['fp']) and $_GET['fp'] <> "") {
 		<!-- Content (Right Column) -->
 		<div id="content" class="box">
 
-			<h1>Selamat Datang</h1>
-
-			<h2>Dashboard</h2>
+			<h1>Dashboard</h1>
 			
 			<?php
 			

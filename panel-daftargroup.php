@@ -72,7 +72,8 @@ session_start();
 <?php
 echo menutop(3);
 ?>
-    </ul>
+		</ul>
+
 	</div> <!-- /header -->
 
 	<hr class="noscreen" />
@@ -89,10 +90,10 @@ echo menutop(3);
 				<p id="logo"><a href="#"><img src="tmp/logo.gif" alt="Our logo" title="Visit Site" /></a></p>
 
 			</div> <!-- /padding -->
-
 <?php
 echo navigation(1);
 ?>
+
 		</div> <!-- /aside -->
 
 		<hr class="noscreen" />
@@ -103,8 +104,8 @@ echo navigation(1);
 			<h1>Panel</h1>
 
 			<!-- Headings -->
-			<h3 class="tit">Daftar User</h2>
-			<?php echo listUser(); ?>
+			<h3 class="tit">Daftar Grup</h2>
+			<?php echo listGroup(); ?>
 
 		</div> <!-- /content -->
 

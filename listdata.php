@@ -105,4 +105,19 @@ function listUser() {
 
 }
 
+function listGroup() {
+	global $dbs;
+	$datagrid = new simbio_datagrid();
+	$table_spec = '`group` as g';
+	$datagrid->setSQLColumn('CONCAT(\'<a href="panel-tambahgroup.php?nid=\',g.idgroup,\'">Edit</a>\') as \'&nbsp;\'',
+		'CONCAT(\'<a href="panel-tambahgroup.php">Hapus</a>\') as \'&nbsp;\'',
+		'g.group AS \'Group\'');
+	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
+	$datagrid->debug = true;
+
+	// put the result into variables
+	$datagrid_result = $datagrid->createDataGrid($dbs, $table_spec, 50, false);
+	return $datagrid_result;
+
+}
 ?>

@@ -252,10 +252,25 @@ echo navigation(5);
     <td>Suku bunga pinjaman</td>
     <td><input type="text" size="40" name="s9" value="<?php echo isset($recHarian['s9']) ? $recHarian['s9'] : "0"; ?>" class="input-text" /></td>
   </tr>
+  <tr style="background: #999">
+    <td style="width:5px;">10</td>
+    <td style="width:250px;"><b>NPL/Non Performing Loan</b></td>
+    <td></td>
+  </tr>
   <tr>
-    <td>10</td>
-    <td>Non Performing Loan</td>
-    <td><input type="text" size="40" name="s10" value="<?php echo isset($recHarian['s10']) ? $recHarian['s10'] : "0"; ?>" class="input-text" /></td>
+    <td>&nbsp;</td>
+    <td>Pinjaman Kurang Lancar/PKL</td>
+    <td><input type="text" size="40" name="s10" value="<?php echo isset($recHarian['s101']) ? $recHarian['s101'] : "0"; ?>" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>Pinjaman Diragukan</td>
+    <td><input type="text" size="40" name="s10" value="<?php echo isset($recHarian['s102']) ? $recHarian['s102'] : "0"; ?>" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>Pinjaman Macet</td>
+    <td><input type="text" size="40" name="s10" value="<?php echo isset($recHarian['s103']) ? $recHarian['s103'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
 	<td colspan="4" class="t-right"><input type="submit" name="saveHarian" class="input-submit" value="Submit" /></td>

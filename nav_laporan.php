@@ -2,16 +2,14 @@
 function navigation($nav_active=0) {
 	$nav_menu = '<ul class="box">';
 	if ($nav_active == 1) { $nav_menu .='<li id="submenu-active">'; } else {$nav_menu .='<li>';}
-	$nav_menu .='<a href="#">Panel</a>
-					<ul>
-						<li><a href="panel-tambahlembaga.php">Daftar Lembaga Baru</a></li>
-						<li><a href="panel-tambahuser.php">Tambah User Baru</a></li>
-						<li><a href="panel-tambahgroup.php">Buat Grup Baru</a></li>
-						<li><a href="panel-daftarlembaga.php">Daftar Lembaga</a></li>
-						<li><a href="panel-daftaruser.php">Daftar User</a></li>
-						<li><a href="panel-daftargroup.php">Daftar Grup</a></li>
-					</ul>
-			</li>';
+	$nav_menu .='<a href="#">Laporan</a>
+                <ul>
+                    <li><a href="frontpage.php">Dashboard</a></li>
+                    <li><a href="#">User Grup</a></li>
+                    <li><a href="#">Chart of Account</a></li>
+                </ul>
+        </li>
+        </ul>';
 	return $nav_menu;
 }
 

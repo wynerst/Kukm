@@ -1,13 +1,14 @@
 <?php
 // required file
 require 'sysconfig.inc.php';
-include "listdata.php";
-include "nav_panel.php";
+require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+include "nav_laporan.php";
 
 // start the output buffering for main content
 ob_start();
 
 session_start();
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -54,7 +55,7 @@ session_start();
 
 		</p>
 
-		<p class="f-right">User: <strong><a href="#"><?php echo isset($_SESSION['userName']) ? $_SESSION['userName'] : "None";?></a></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong><a href="index.php?login=" id="logout">Log out</a></strong></p>
+		<p class="f-right">User: <strong><a href="#"><?php echo isset($_SESSION['userName']) ? $_SESSION['userName'] : "None";?></a></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong><a href="index.php?login" id="logout">Log out</a></strong></p>
 
 	</div> <!--  /tray -->
 
@@ -68,11 +69,9 @@ session_start();
 		</ul>
 
 		<ul class="box">
+		<?php echo menutop(4); ?>
+		</ul>
 
-<?php
-echo menutop(3);
-?>
-    </ul>
 	</div> <!-- /header -->
 
 	<hr class="noscreen" />
@@ -89,10 +88,10 @@ echo menutop(3);
 				<p id="logo"><a href="#"><img src="tmp/logo.gif" alt="Our logo" title="Visit Site" /></a></p>
 
 			</div> <!-- /padding -->
-
 <?php
 echo navigation(1);
 ?>
+
 		</div> <!-- /aside -->
 
 		<hr class="noscreen" />
@@ -100,11 +99,13 @@ echo navigation(1);
 		<!-- Content (Right Column) -->
 		<div id="content" class="box">
 
-			<h1>Panel</h1>
+			<h1>Laporan</h1>
 
 			<!-- Headings -->
-			<h3 class="tit">Daftar User</h2>
-			<?php echo listUser(); ?>
+			<h2>Laporan User Grup</h2>
+			<p>Tampilkan laporan jumlah user untuk masing-masing group.</p>
+			<h2>Laporan CoA</h2>
+			<p>Tampilkan laporan Chart of Account.</p>
 
 		</div> <!-- /content -->
 

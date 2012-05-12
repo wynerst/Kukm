@@ -1,4 +1,69 @@
-<?xml version="1.0"?>
+<?php
+// required file
+require 'sysconfig.inc.php';
+require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
+include "nav_panel.php";
+
+if (isset($_POST['searchData'])) {
+	$kopnama = $_POST['koperasi'];
+	$lapperiod = $_POST['periode'];
+	if ($kopnama <>"" AND $lapperiod <>"") {
+		$search_limit = ' k.idkoperasi ='. $kopnama . ' AND p.idperiode = "'.$lapperiod.'"';
+		// get record
+		$sql_text = "SELECT p.periode, k.nama FROM periode as p ";
+		$sql_text .= " LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi ";
+		if (isset($search_limit)) {
+			$sql_text .= "WHERE ". $search_limit;
+		}
+		$q_koperasi = $dbs->query($sql_text);
+		$reckoperasi = $q_koperasi->fetch_assoc();
+	} else {
+		utility::jsAlert('Nama koperasi dan periode tidak boleh kosong.');
+	}
+}
+
+if (isset($_POST['saveGroup'])) {
+
+    $sql_op = new simbio_dbop($dbs);
+
+	if (isset($_POST['updatenid'])) {
+		$idgroup = $_POST['updatenid'];
+	}
+	$data['group'] = $_POST['group'];
+
+	if (isset($idgroup) AND $idgroup <> 0) {
+		$update = $sql_op->update('group', $data, 'idgroup ='.$idgroup);
+//		print_r($data);
+//		die();
+		if ($update) {
+			utility::jsAlert('Data Group berhasil diperbaiki.');
+		} else {
+			utility::jsAlert('Data Group GAGAL diperbaiki.');
+		}
+	} else {
+		$insert = $sql_op->insert('group', $data);
+		if ($insert) {
+			utility::jsAlert('Data Group berhasil disimpan.');
+		} else {
+			utility::jsAlert('Data Group GAGAL disimpan.');
+		}
+	}
+
+}
+
+if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
+	// get record
+	$idgroup = $_GET['nid'];
+	$sql_text = "SELECT * FROM `group` WHERE idgroup =". $idgroup;
+	$q_user = $dbs->query($sql_text);
+	$recNon = $q_user->fetch_assoc();
+}
+
+// start the output buffering for main content
+ob_start();
+
+session_start();
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -44,7 +109,7 @@
 
 		</p>
 
-		<p class="f-right">User: <strong><a href="#">Administrator</a></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong><a href="#" id="logout">Log out</a></strong></p>
+		<p class="f-right">User: <strong><a href="#"><?php echo isset($_SESSION['userName']) ? $_SESSION['userName'] : "None";?></a></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong><a href="index.php?login=" id="logout">Log out</a></strong></p>
 
 	</div> <!--  /tray -->
 
@@ -58,10 +123,10 @@
 		</ul>
 
 		<ul class="box">
-			<li><a href="frontpage.php"><span>Halaman Depan</span></a></li> <!-- Active -->
-			<li><a href="datacenter.php"><span>Data Center</span></a></li>
-			<li><a href="panel.php"><span>Panel</span></a></li>
-			<li id="menu-active"><a href="laporan.html"><span>Laporan</span></a></li>
+
+<?php
+echo menutop(3);
+?>
 		</ul>
 
 	</div> <!-- /header -->
@@ -81,15 +146,9 @@
 
 			</div> <!-- /padding -->
 
-			<ul class="box">
-				<li id="submenu-active"><a href="#">Laporan</a> <!-- Active -->
-					<ul>
-						<li><a href="laporan-usergrup.html">User Grup</a></li>
-						<li><a href="laporan-coa.html">Chart of Account</a></li>
-					</ul>
-				</li>
-			</ul>
-
+<?php
+echo navigation(1);
+?>
 		</div> <!-- /aside -->
 
 		<hr class="noscreen" />
@@ -97,13 +156,29 @@
 		<!-- Content (Right Column) -->
 		<div id="content" class="box">
 
-			<h1>Laporan</h1>
+			<h1>Panel</h1>
 
 			<!-- Headings -->
-			<h2>Laporan User Grup</h2>
-			<p>Tampilkan laporan jumlah user untuk masing-masing group.</p>
-			<h2>Laporan CoA</h2>
-			<p>Tampilkan laporan Chart of Account.</p>
+			<h3 class="tit"><?php echo isset($idgroup)? "Edit" : "Tambah"; ?> Group</h2>
+<form id='form_user' method=post>
+
+<table class="nostyle">
+  <tr>
+    <td>Nama group</td>
+    <td><input type="text" size="40" name="group" value="<?php echo isset($recNon['group']) ? $recNon['group'] : ""; ?>" class="input-text-02" /></td>
+  </tr>
+  <tr>
+	<td colspan="2" class="t-right"><input type="submit" name="saveGroup" class="input-submit" value="Submit" /></td>
+  </tr>
+</table>
+			</fieldset>
+
+			<?php
+if (isset($iduser)) {
+    echo '<input type="hidden" name="updatenid" value="'.$iduser.'"/>';
+}
+?>
+</form>
 
 		</div> <!-- /content -->
 

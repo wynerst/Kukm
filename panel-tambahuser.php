@@ -2,7 +2,6 @@
 // required file
 require 'sysconfig.inc.php';
 require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
-include "listdata.php";
 include "nav_panel.php";
 
 if (isset($_POST['searchData'])) {
