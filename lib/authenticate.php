@@ -16,10 +16,21 @@ global $dbs;
         $_SESSION['group']= $rec_user['group_idgroup'];
         $_SESSION['tipekoperasi']= $rec_user['jenis'];
         $_SESSION['email']= $rec_user['email'];
+        $_SESSION['access']= true;
         return true;
     }
     //} else {
         //return false;
     //}
+}
+
+function accessRight($modul="laporan")
+{
+global $dbs;
+
+    $sql = "SELECT * from user as u LEFT JOIN koperasi as k
+        ON u.koperasi_idkoperasi = k.idkoperasi
+        WHERE login = '' and password = ''";
+    $rs_user = $dbs->query($sql);
 }
 ?>

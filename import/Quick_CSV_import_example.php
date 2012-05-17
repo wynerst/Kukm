@@ -28,6 +28,7 @@ if(isset($_POST["Go"]) && ""!=$_POST["Go"]) //form was submitted
   $csv->import();
 }
 else
+
   $_POST["use_csv_header"] = 1;
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -67,34 +68,34 @@ else
       <tr>
       	<td>Source CSV file to import:</td>
       	<td rowspan="30" width="10px">&nbsp;</td>
-      	<td><input type="file" name="file_source" id="file_source" class="edt" value="<?=$file_source?>"></td>
+      	<td><input type="file" name="file_source" id="file_source" class="edt" value="<?php=$file_source?>"></td>
       </tr>
       <tr>
       	<td>Use CSV header:</td>
-      	<td><input type="checkbox" name="use_csv_header" id="use_csv_header" <?=(isset($_POST["use_csv_header"])?"checked":"")?>/></td>
+      	<td><input type="checkbox" name="use_csv_header" id="use_csv_header" <?php=(isset($_POST["use_csv_header"])?"checked":"")?>/></td>
       </tr>
       <tr>
       	<td>Separate char:</td>
-      	<td><input type="text" name="field_separate_char" id="field_separate_char" class="edt_30"  maxlength="1" value="<?=(""!=$_POST["field_separate_char"] ? htmlspecialchars($_POST["field_separate_char"]) : ",")?>"/></td>
+      	<td><input type="text" name="field_separate_char" id="field_separate_char" class="edt_30"  maxlength="1" value="<?php=(""!=$_POST["field_separate_char"] ? htmlspecialchars($_POST["field_separate_char"]) : ",")?>"/></td>
       </tr>
       <tr>
       	<td>Enclose char:</td>
-      	<td><input type="text" name="field_enclose_char" id="field_enclose_char" class="edt_30"  maxlength="1" value="<?=(""!=$_POST["field_enclose_char"] ? htmlspecialchars($_POST["field_enclose_char"]) : htmlspecialchars("\""))?>"/></td>
+      	<td><input type="text" name="field_enclose_char" id="field_enclose_char" class="edt_30"  maxlength="1" value="<?php=(""!=$_POST["field_enclose_char"] ? htmlspecialchars($_POST["field_enclose_char"]) : htmlspecialchars("\""))?>"/></td>
       </tr>
       <tr>
       	<td>Escape char:</td>
-      	<td><input type="text" name="field_escape_char" id="field_escape_char" class="edt_30"  maxlength="1" value="<?=(""!=$_POST["field_escape_char"] ? htmlspecialchars($_POST["field_escape_char"]) : "\\")?>"/></td>
+      	<td><input type="text" name="field_escape_char" id="field_escape_char" class="edt_30"  maxlength="1" value="<?php ?(""!=$_POST["field_escape_char"] ? htmlspecialchars($_POST["field_escape_char"]) : "\\")?>"/></td>
       </tr>
       <tr>
       	<td>Encoding:</td>
       	<td>
           <select name="encoding" id="encoding" class="edt">
-          <?
+          <?php
             if(!empty($arr_encodings))
               foreach($arr_encodings as $charset=>$description):
           ?>
-            <option value="<?=$charset?>"<?=($charset == $_POST["encoding"] ? "selected=\"selected\"" : "")?>><?=$description?></option>
-          <? endforeach;?>
+            <option value="<?php=$charset?>"<?php=($charset == $_POST["encoding"] ? "selected=\"selected\"" : "")?>><?php=$description?></option>
+          <?php endforeach;?>
           </select>
         </td>
       </tr>
@@ -106,6 +107,6 @@ else
       </tr>
     </table>
   </form>
-<?=(!empty($csv->error) ? "<hr/>Errors: ".$csv->error : "")?>
+<?php=(!empty($csv->error) ? "<hr/>Errors: ".$csv->error : "")?>
 </body>
 </html>

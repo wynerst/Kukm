@@ -18,7 +18,7 @@ if (isset($_POST['searchData'])) {
 		$q_koperasi = $dbs->query($sql_text);
 		$reckoperasi = $q_koperasi->fetch_assoc();
 	} else {
-		utility::jsAlert('Nama koperasi dan periode tidak boleh kosong.');
+		$message = 'Nama koperasi dan periode tidak boleh kosong.';
 	}
 }
 
@@ -35,7 +35,7 @@ if (isset($_POST['saveUser'])) {
 	$data['telp']=$_POST['telp'];
 	$data['email']=$_POST['email'];
 	$data['fax']=$_POST['fax'];
-    if (isset($iduser)) {
+    if (!isset($iduser)) {
         $data['login']=$_POST['login'];
         $data['group_idgroup']=$_POST['group_idgroup'];
         $data['validasi']=$_POST['validasi'];
@@ -47,16 +47,17 @@ if (isset($_POST['saveUser'])) {
 //		print_r($data);
 //		die();
 		if ($update) {
-			utility::jsAlert('Data User berhasil diperbaiki.');
+			$message = 'Data User berhasil diperbaiki.';
 		} else {
-			utility::jsAlert('Data User GAGAL diperbaiki.');
+			$message = 'Data User GAGAL diperbaiki.'.$update->error;
 		}
 	} else {
 		$insert = $sql_op->insert('user', $data);
 		if ($insert) {
-			utility::jsAlert('Data User berhasil disimpan.');
+			$message = 'Data User berhasil disimpan.';
 		} else {
-			utility::jsAlert('Data User GAGAL disimpan.');
+			$message = 'Data User GAGAL disimpan.';
+            //die($insert->error);
 		}
 	}
 
@@ -102,7 +103,11 @@ session_start();
 </head>
 
 <body>
-
+<?php
+if (isset($message) AND $message<>"") {
+    utility::jsAlert($message);
+}
+?>
 <div id="main">
 
 	<!-- Tray -->
@@ -188,7 +193,7 @@ echo navigation(1);
 	$sql_text = "SELECT idkoperasi, nama from koperasi ORDER BY nama";
 	$option = $dbs->query($sql_text);
 	echo '<td><select id="jenis" name="koperasi_idkoperasi" class="input-text-02">"';
-	echo '<option value="">--- Pilih Koperasi ---</option>';
+	echo '<option value="0">--- Pilih Koperasi ---</option>';
 	while ($choice = $option->fetch_assoc()) {
 		if ($choice['idkoperasi'] == $recNon['koperasi_idkoperasi']) {
 			echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
@@ -225,14 +230,22 @@ if (!isset($iduser)) {
   </tr>
   <tr>
     <td>Group</td>
-    <td><input type="text" size="40" name="group_idgroup" value="<?php echo isset($recNon['group_idgroup']) ? $recNon['group_idgroup'] : ""; ?>" class="input-text-02" /></td>
-  </tr>
-  <tr>
-    <td>Validasi</td>
-    <td><input type="text" size="40" name="validasi" value="<?php echo isset($recNon['validasi']) ? $recNon['validasi'] : ""; ?>" class="input-text-02" /></td>
-  </tr>
 
-<?php    
+<?php
+	$sql_text = "SELECT * from `group` ORDER BY `idgroup`";
+	$option = $dbs->query($sql_text);
+	echo '<td><select id="group" name="group_idgroup" class="input-text-02">"';
+	echo '<option value="">--- Pilih Group ---</option>';
+	while ($choice = $option->fetch_assoc()) {
+		if ($choice['idgroup'] == $recNon['group_idgroup']) {
+			echo '<option value="'.$choice['idgroup'].'" SELECTED >'.$choice['group'].'</option>';
+		} else {
+			echo '<option value="'.$choice['idgroup'].'">'.$choice['group'].'</option>';
+		}
+	}
+	unset ($choice);
+	echo '</select></td>';
+  
 }
 ?>
   <tr>
@@ -241,7 +254,7 @@ if (!isset($iduser)) {
 </table>
 			</fieldset>
 
-			<?php
+<?php
 if (isset($iduser)) {
     echo '<input type="hidden" name="updatenid" value="'.$iduser.'"/>';
 }
