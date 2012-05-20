@@ -16,8 +16,9 @@
      - escape char: character to escape special symbols like enclose char, back slash [\] is default
      - encoding: string value which represents MySQL encoding table to parse files with. It's strongly recomended to use known values, not manual typing! Use get_encodings() method (or "SHOW CHARACTER SET" query) to ask the server for the encoding tables list
    3. You can read "error" property to get the text of the error after import. If import has been finished successfully, this property is empty.
-*/
 
+   *MODIFIED for KUKM by Wardiyono @2012
+*/
 
 class Quick_CSV_import
 {
@@ -45,38 +46,45 @@ class Quick_CSV_import
   
   function import()
   {
-    if($this->table_name=="")
+    global $dbs;
+    if($this->table_name=="") {
       $this->table_name = "temp_".date("d_m_Y_H_i_s");
-    
-    $this->table_exists = false;
-    $this->create_import_table();
+      $this->table_exists = false;
+      $this->create_import_table();
+    }
     
     if(empty($this->arr_csv_columns))
       $this->get_csv_header_fields();
     
     /* change start. Added in 1.5 version */
-    if("" != $this->encoding && "default" != $this->encoding)
-      $this->set_encoding();
+//    if("" != $this->encoding && "default" != $this->encoding)
+//      $this->set_encoding();
     /* change end */
     
     if($this->table_exists)
     {
-      $sql = "LOAD DATA INFILE '".@mysql_escape_string($this->file_name).
+      $sql = "LOAD DATA INFILE '".$dbs->escape_string($this->file_name).
              "' INTO TABLE `".$this->table_name.
-             "` FIELDS TERMINATED BY '".@mysql_escape_string($this->field_separate_char).
-             "' OPTIONALLY ENCLOSED BY '".@mysql_escape_string($this->field_enclose_char).
-             "' ESCAPED BY '".@mysql_escape_string($this->field_escape_char).
+             "` FIELDS TERMINATED BY '".$dbs->escape_string($this->field_separate_char).
+             "' OPTIONALLY ENCLOSED BY '".$dbs->escape_string($this->field_enclose_char).
+             "' ESCAPED BY '".$dbs->escape_string($this->field_escape_char).
              "' ".
              ($this->use_csv_header ? " IGNORE 1 LINES " : "")
              ."(`".implode("`,`", $this->arr_csv_columns)."`)";
-      $res = @mysql_query($sql);
-      $this->error = mysql_error();
+      $res = $dbs->query($sql);
+      if($res) {
+        return true;
+      } else {
+        //$this->error = $res->errno;
+        return false;
+      }
     }
   }
   
   //returns array of CSV file columns
   function get_csv_header_fields()
   {
+    global $dbs;
     $this->arr_csv_columns = array();
     $fpointer = fopen($this->file_name, "r");
     if ($fpointer)
@@ -102,12 +110,13 @@ class Quick_CSV_import
       fclose($fpointer);
     }
     else
-      $this->error = "file cannot be opened: ".(""==$this->file_name ? "[empty]" : @mysql_escape_string($this->file_name));
+      $this->error = "file cannot be opened: ".(""==$this->file_name ? "[empty]" : $dbs->escape_string($this->file_name));
     return $this->arr_csv_columns;
   }
   
   function create_import_table()
   {
+    global $dbs;
     $sql = "CREATE TABLE IF NOT EXISTS ".$this->table_name." (";
     
     if(empty($this->arr_csv_columns))
@@ -120,37 +129,42 @@ class Quick_CSV_import
           $arr[] = "`".$this->arr_csv_columns[$i]."` TEXT";
       $sql .= implode(",", $arr);
       $sql .= ")";
-      $res = @mysql_query($sql);
-      $this->error = mysql_error();
-      $this->table_exists = ""==mysql_error();
+      $res = $dbs->query($sql);
+      if ($res->error) {
+        $this->error = $res->error;
+        $this->table_exists = false;
+      }
     }
   }
   
   /* change start. Added in 1.5 version */
   //returns recordset with all encoding tables names, supported by your database
-  function get_encodings()
+/*  function get_encodings()
   {
+    global $dbs;
     $rez = array();
     $sql = "SHOW CHARACTER SET";
-    $res = @mysql_query($sql);
-    if(mysql_num_rows($res) > 0)
+    $res = $dbs->query($sql);
+    if($res->affected_rows > 0)
     {
-      while ($row = mysql_fetch_assoc ($res))
+      while ($row = $res->fetch_assoc())
       {
         $rez[$row["Charset"]] = ("" != $row["Description"] ? $row["Description"] : $row["Charset"]); //some MySQL databases return empty Description field
       }
     }
     return $rez;
   }
+*/
   
   //defines the encoding of the server to parse to file
   function set_encoding($encoding="")
   {
+    global $dbs;
     if("" == $encoding)
       $encoding = $this->encoding;
     $sql = "SET SESSION character_set_database = " . $encoding; //'character_set_database' MySQL server variable is [also] to parse file with rigth encoding
-    $res = @mysql_query($sql);
-    return mysql_error();
+    $res = $dbs->query($sql);
+    return $res;
   }
   /* change end */
 

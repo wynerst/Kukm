@@ -100,3 +100,74 @@
 		width: 140px;
 		float: left;
 	}
+    
+    .alterCell {
+        font-family:"Calibri";
+        font-size: normal;
+        background-color: white;
+    }
+    .alterCell2 {
+        font-family:"Calibri";
+        font-size: normal;
+        background-color:#ddd;
+    }
+    .alterRow1 {
+        font-family:"Calibri";
+        font-size: normal;
+        background-color:turquoise;
+    }
+    .alterRow2 {
+        font-family:"Calibri";
+        font-size: normal;
+        background-color:pink;
+    }
+    .alterRow3 {
+        font-family:"Calibri";
+        font-size: normal;
+        background-color:light green;
+    }
+    .alterRow4 {
+        font-family:"Calibri";
+        font-size: normal;
+        background-color:green;
+    }
+    .alterRow5 {
+        font-family:"Calibri";
+        font-size: normal;
+        background-color:tosca;
+    }
+    .alterRow6 {
+        font-family:"Calibri";
+        font-size: normal;
+        background-color:cyan;
+    }
+    .alterRow7 {
+        font-family:"Calibri";
+        font-size: normal;
+        background-color:light blue;
+    }
+    .alterRow8 {
+        font-family:"Calibri";
+        font-size: normal;
+        background-color:blue;
+    }
+    .alterRow9 {
+        font-family:"Calibri";
+        font-size: normal;
+        background-color:yellow;
+    }
+    .alterRow10 {
+        font-family:"Calibri";
+        font-size: normal;
+        background-color:orange;
+    }
+    .alterRow11 {
+        font-family:"Calibri";
+        font-size: normal;
+        background-color:magenta;
+    }
+    .alterRow12 {
+        font-family:"Calibri";
+        font-size: normal;
+        background-color:red;
+    }

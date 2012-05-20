@@ -59,7 +59,6 @@ if (isset($_POST['logMeIn'])) {
 </head>
 
 <body>
-<html>
 <?php if (isset($messages)) { echo $messages; } ?>
 <div id="main">
 

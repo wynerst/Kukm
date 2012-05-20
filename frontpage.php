@@ -5,6 +5,7 @@ require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
 require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
 require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
 require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
+require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid-alt.inc.php';
 require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
 include "nav_datacenter.php";
 
@@ -121,7 +122,7 @@ if (isset($_GET['fp']) and $_GET['fp'] <> "") {
 			<ul class="box">
 			<li
  			<?php
-				($modul == "") ? $v='id="submenu-active"' : $v=''; echo $v;
+				(substr($modul,0,1)=="d") ? $v='id="submenu-active"' : $v=''; echo $v;
 			?>
 			><a href="frontpage.php">Laporan Harian</a>
 				<ul>

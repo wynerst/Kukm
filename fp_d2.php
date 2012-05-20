@@ -3,14 +3,14 @@
 $datagrid = new simbio_datagrid();
 
 // table spec
-$table_spec = '`koperasi` as k
+$table_spec = '`tipe_koperasi` as tk 
+RIGHT JOIN `koperasi` as k ON k.jenis = tk.idtipe_koperasi
 LEFT JOIN `non_coa` as n ON n.idkoperasi = k.idkoperasi 
 LEFT JOIN coa as c ON c.idkoperasi = k.idkoperasi
 LEFT JOIN shu as s ON s.idkoperasi = k.idkoperasi 
 LEFT JOIN periode as p ON n.idperiode = p.idperiode 
 LEFT JOIN periode as p2 ON c.idperiode = p2.idperiode
-LEFT JOIN periode as p3 ON s.idperiode = p3.idperiode 
-LEFT JOIN `tipe_koperasi` as tk ON k.jenis = tk.idtipe_koperasi';
+LEFT JOIN periode as p3 ON s.idperiode = p3.idperiode';
 
 $datagrid->setSQLColumn('k.idkoperasi, p.periode as \'Periode\'',
 	'tk.jenis as \'Tipe Koperasi\'',
@@ -31,12 +31,12 @@ $datagrid->sql_group_by = 'tk.jenis';
 
 // set table and table header attributes
 $datagrid->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';
-$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
+$datagrid->table_header_attr = 'style="font-family: Calibri; font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
 $datagrid->debug = true;
 $datagrid->invisible_fields = array(0,1);
 
 // put the result into variables
 $datagrid_result = $datagrid->createDataGrid($dbs, $table_spec, 10, false);
 
-$frontpage_content = "<h3>Laporan Harian Berdasar Jenis Koperasi</h3>\n<p>";
+$frontpage_content = "<h3>Laporan Harian Usaha Simpan Pinjam Koperasi Berdasar Jenis Koperasi</h3>\n<p>";
 $frontpage_content .= $datagrid_result . "*) dalam jutaan\n</p>";

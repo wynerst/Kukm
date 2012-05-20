@@ -22,7 +22,7 @@
  */
 
 
-class simbio_datagrid extends simbio_table
+class simbio_datagrid_alt extends simbio_table
 {
     /**
      * Private properties
@@ -246,7 +246,11 @@ class simbio_datagrid extends simbio_table
         // records
         while ($_data = $this->grid_real_q->fetch_row()) {
             $this->grid_result_rows[$_row] = $_data;
-            $_row_class = ($_row%2 == 0)?'alterCell':'alterCell2';
+            if ($class) {
+                $_row_class = 'alterRow'.$this->grid_result_rows[$_row][0];
+            } else {
+                $_row_class = ($_row%2 == 0)?'alterCell':'alterCell2';
+            }
 
             // modified content
             foreach ($this->modified_content as $_field_num => $_new_content) {
