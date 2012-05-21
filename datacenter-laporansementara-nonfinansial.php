@@ -15,9 +15,13 @@ if (isset($_POST['searchCoa'])) {
 			$sql_text .= "WHERE ". $search_limit;
 		}
 		$q_neraca = $dbs->query($sql_text);
-		$recNon = $q_neraca->fetch_assoc();
+        if ($q_neraca) {
+            $recNon = $q_neraca->fetch_assoc();
+        } else {
+            $message = 'Tidak ada data yang ditemukan.';
+        }
 	} else {
-		utility::jsAlert('Nama koperasi dan periode tidak boleh kosong.');
+		$message = 'Nama koperasi dan periode tidak boleh kosong.';
 	}
 }
 
@@ -53,7 +57,10 @@ session_start();
 </head>
 
 <body>
-
+<?php if (isset($message)) {
+    utility::jsAlert($message);
+}
+?>
 <div id="main">
 
 	<!-- Tray -->
@@ -140,7 +147,7 @@ echo navigation(3);
 					<tr>
 						<td>Periode:</td>
 <?php
-	$sql_text = "SELECT DISTINCT periode from coa_koperasi ORDER BY periode DESC";
+	$sql_text = "SELECT DISTINCT periode from periode ORDER BY periode DESC";
 	$option = $dbs->query($sql_text);
 	echo '<td><select id="periode" name="periode" class="input-text-2">"';
 	echo '<option value="">--- Periode pelaporan ---</option>';
@@ -151,7 +158,7 @@ echo navigation(3);
 ?>
 					</tr>
 					<tr>
-						<td colspan="2" disabled="disabled" class="t-right"><input name="searchCoa" type="submit" class="input-submit" value="Lihat Data" /></td>
+						<td colspan="2" class="t-right"><input name="searchCoa" type="submit" class="input-submit" value="Lihat Data" /></td>
 					</tr>
 				</table>
 				</form>
@@ -171,7 +178,7 @@ echo navigation(3);
 <table class="nostyle">
   <tr style="background: #999">
     <td style="width:5px;"><b>No.</b></td>
-    <td style="width:250px;"><b>Data non finansial</b></td>
+    <td style="width:250px;"><b>Data Pendukung Lain</b></td>
     <td></td>
   </tr>
   <tr>
@@ -198,39 +205,6 @@ echo navigation(3);
     <td>5</td>
     <td>Jumlah Calon Anggota/Anggota tidak tetap</td>
     <td><input type="text" size="40" name="calon_anggota" value="<?php echo isset($recNon['calon_anggota']) ? $recNon['calon_anggota'] : "0"; ?>" class="input-text" /></td>
-  </tr>
-  <tr style="background: #999">
-    <td style="width:5px;">&nbsp;</td>
-    <td style="width:250px;"><b>Data finansial lain</b></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>6</td>
-    <td>Akumulasi Transaksi Pinjaman (Neraca Lajur Mutasi Debet)</td>
-    <td><input type="text" size="40" name="akumulasi_pinjaman" value="<?php echo isset($recNon['akumulasi_pinjaman']) ? $recNon['akumulasi_pinjaman'] : "0"; ?>" class="input-text" /></td>
-  </tr>
-  <tr>
-    <td>7</td>
-    <td>Akumulasi Transaksi Simpanan (Neraca Lajur Mutasi Debet)</td>
-    <td><input type="text" size="40" name="akumulasi_simpanan" value="<?php echo isset($recNon['akumulasi_simpanan']) ? $recNon['akumulasi_simpanan'] : "0"; ?>" class="input-text" /></td>
-  </tr>
-  <tr>
-    <td>8</td>
-    <td>Jumlah Piutang Macet</td>
-    <td><input type="text" size="40" name="piutangmacet" value="<?php echo isset($recNon['piutangmacet']) ? $recNon['piutangmacet'] : "0"; ?>" class="input-text" /></td>
-  </tr>
-  <tr>
-    <td>9</td>
-    <td>Suku bunga pinjaman</td>
-    <td><input type="text" size="40" name="sb_pinjaman" value="<?php echo isset($recNon['sb_pinjaman']) ? $recNon['sb_pinjaman'] : "0"; ?>" class="input-text" /></td>
-  </tr>
-  <tr>
-    <td>10</td>
-    <td>Suku bunga simpanan</td>
-    <td><input type="text" size="40" name="sb_simpanan" value="<?php echo isset($recNon['sb_simpanan']) ? $recNon['sb_simpanan'] : "0"; ?>" class="input-text" /></td>
-  </tr>
-  <tr>
-	<td colspan="4" class="t-right"><input type="submit" name="saveNon" class="input-submit" value="Submit" /></td>
   </tr>
 </table>
 			</fieldset>

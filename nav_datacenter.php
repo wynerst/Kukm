@@ -37,7 +37,7 @@ function navigation($nav_active=0) {
 				</ul>
 			</li>';
 	} else {
-		$nav_menu .= '<a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-phu.php?list">Sisa Hasil Usaha KSP</a>
+		$nav_menu .= '<a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-phu.php?list">SHU Simpan Pinjam</a>
 				<ul>
 					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-phu.php">Entry Data</a></li>
 					<li><a href="'.KUKM_WEB_ROOT_DIR.'import/phu.php">Upload Data</a></li>
@@ -50,7 +50,7 @@ function navigation($nav_active=0) {
 				<ul>
 					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-nonfinansial.php">Entry Data</a></li>
 					<li><a href="'.KUKM_WEB_ROOT_DIR.'import/nonfinansial.php">Upload Data</a></li>
-					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-laporansementara-nonfinansial.php">Laporan Data Non Finansial</a></li>
+					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-laporansementara-nonfinansial.php">Laporan Data Pendukung Lain</a></li>
 				</ul>
 			</li>';
 	if ($nav_active == 4) { $nav_menu .='<li id="submenu-active">'; } else {$nav_menu .='<li>';}

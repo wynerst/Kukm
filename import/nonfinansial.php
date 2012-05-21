@@ -120,7 +120,7 @@ if(isset($_POST["Go"]) && ""!=$_POST["Go"]) //form was submitted
 
 			</div> <!-- /padding -->
 <?php
-echo navigation(1);
+echo navigation(3);
 ?>
 		</div> <!-- /aside -->
 

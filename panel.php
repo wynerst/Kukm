@@ -97,7 +97,7 @@ echo menutop(3);
 			</div> <!-- /padding -->
 
 <?php
-echo navigation(0);
+echo navigation(1);
 ?>
 
 		</div> <!-- /aside -->

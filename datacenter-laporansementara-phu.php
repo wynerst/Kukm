@@ -525,9 +525,11 @@ echo navigation(2);
  <td>SISA HASIL USAHA SETELAH PAJAK</td>
     <td><input type="text" size="40" name="s95" value="<?php isset($recShu['s95']) ? $v=$recShu['s95']: $v="0"; echo $v; ?>" class="input-text" /></td>
  </tr>
-					<tr>
-						<td colspan="4" class="t-right"><input type="submit" name="saveShu" class="input-submit" value="Simpan" /></td>
-					</tr>
+ <!--
+    <tr>
+        <td colspan="4" class="t-right"><input type="submit" name="saveShu" class="input-submit" value="Simpan" /></td>
+    </tr>
+-->
 				</table>
 			</fieldset>
 		</div> <!-- /content -->

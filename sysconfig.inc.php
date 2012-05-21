@@ -426,7 +426,7 @@ if (file_exists(SENAYAN_BASE_DIR.'sysconfig.local.inc.php')) {
 /* DATABASE RELATED */
 if (!defined('DB_HOST')) { define('DB_HOST', 'localhost'); }
 if (!defined('DB_PORT')) { define('DB_PORT', '3306'); }
-if (!defined('DB_NAME')) { define('DB_NAME', 'kukm'); }
+if (!defined('DB_NAME')) { define('DB_NAME', 'kukm_1'); }
 if (!defined('DB_USERNAME')) { define('DB_USERNAME', 'root'); }
 if (!defined('DB_PASSWORD')) { define('DB_PASSWORD', 'psenayan'); }
 // database connection
