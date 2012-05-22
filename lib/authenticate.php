@@ -11,6 +11,7 @@ global $dbs;
     //$numrec = $rs_user->affected_rows;
     //if ($numrec > 0) {
     while ($rec_user =$rs_user->fetch_assoc()) {
+        $_SESSION['userID']=$rec_user['iduser'];
         $_SESSION['userName']=$rec_user['nama'];
         $_SESSION['koperasi']= $rec_user['koperasi_idkoperasi'];
         $_SESSION['group']= $rec_user['group_idgroup'];

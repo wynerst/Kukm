@@ -10,10 +10,10 @@ if (isset($_POST['saveHarian'])) {
     $sql_op = new simbio_dbop($dbs);
 
 	if (isset($_POST['updatenid'])) {
-		$idcoa = $_POST['updatenid'];
+		$idday = $_POST['updatenid'];
 	}
 	$data['idkoperasi']=$_POST['idkoperasi'];
-	$data['idperiode']=$_POST['idperiode'];
+	$data['periode']=$_POST['periode'];
 	$data['h1']=$_POST['h1'];
 	$data['h2']=$_POST['h2'];
 	$data['h3']=$_POST['h3'];
@@ -23,36 +23,41 @@ if (isset($_POST['saveHarian'])) {
 	$data['h7']=$_POST['h7'];
 	$data['h8']=$_POST['h8'];
 	$data['h9']=$_POST['h9'];
-	$data['h10']=$_POST['h10'];
+	$data['h10']=(($_POST['h101']+(0.5*$_POST['h102'])+(0.75*$_POST['h103']))/$_POST['h2']);
+	$data['h101']=$_POST['h101'];
+	$data['h102']=$_POST['h102'];
+	$data['h103']=$_POST['h103'];
 	$data['iduser']=$_POST['iduser'];
 	
 	if (isset($idday) AND $idday <> 0) {
-		$update = $sql_op->update('harian', $data, 'idday ='.$idcoa);
+		$update = $sql_op->update('harian', $data, 'idday ='.$idday);
 		if ($update) {
-			utility::jsAlert('Data Harian berhasil diperbaiki.');
+			$message='Data Harian berhasil diperbaiki.';
 		} else {
-			utility::jsAlert('Data Harian GAGAL diperbaiki.');
+			$message=$sql_op->error.' Data Harian GAGAL diperbaiki.';
 		}
 	} else {
 		$insert = $sql_op->insert('harian', $data);
 		if ($insert) {
-			utility::jsAlert('Data Harian berhasil disimpan.');
+			$message='Data Harian berhasil disimpan.';
 		} else {
-			utility::jsAlert($sql_op->error.'Data Harian GAGAL disimpan.');
+			$message=$sql_op->error.' Data Harian GAGAL disimpan.';
 		}
-
 	}
-
 }
 
 if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
 	// get record
-	$idcoa = $_GET['nid'];
+	$idday = $_GET['nid'];
 	$sql_text = "SELECT h.*, k.nama FROM harian as h
-		LEFT JOIN koperasi as k ON h.idkoperasi = h.idkoperasi
-		WHERE h.idday =". $idcoa;
+		LEFT JOIN koperasi as k ON h.idkoperasi = k.idkoperasi
+		WHERE h.idday =". $idday;
 	$q_harian = $dbs->query($sql_text);
-	$recHarian = $q_neraca->fetch_assoc();
+    if ($q_harian) {
+        $recHarian = $q_harian->fetch_assoc();
+    } else {
+        $message = "Data tidak ditemukan.";
+    }
 }
 
 // start the output buffering for main content
@@ -88,7 +93,11 @@ session_start();
 </head>
 
 <body>
-
+<?php
+    if (isset($message)) {
+        utility::jsAlert($message);
+    }
+?>
 <div id="main">
 
 	<!-- Tray -->
@@ -156,7 +165,11 @@ echo navigation(5);
 			<?php
 			if (isset($_GET['list'])) {
 				echo "<fieldset>\n<legend>Data Harian Tersedia</legend>";
-				echo listHarian();
+                if (isset($_GET['kid'])) {
+                    echo listHarian($_GET['kid']);
+                } else {
+                    echo listHarian();
+                }
 				echo '<form action="datacenter-harian.php" method="link"><table class="nostyle">';
 				echo '<div style="text-align:right";><input type="submit" class="input-submit" value="Data Baru" /></div></form>';
 				echo "</fieldset>\n";
@@ -180,7 +193,7 @@ echo navigation(5);
 	echo '<td><select id="jenis" name="idkoperasi" class="input-text-2">"';
 	echo '<option value="">--- Pilih nama ---</option>';
 	while ($choice = $option->fetch_assoc()) {
-		if ($choice['idkoperasi'] == $recNeraca['idkoperasi']) {
+		if ($choice['idkoperasi'] == $recHarian['idkoperasi']) {
 			echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
 		} else {
 			echo '<option value="'.$choice['idkoperasi'].'">'.$choice['nama'].'</option>';
@@ -210,47 +223,47 @@ echo navigation(5);
   <tr>
     <td>1</td>
     <td>Simpanan</td>
-    <td><input type="text" size="40" name="s1" value="<?php echo isset($recHarian['s1']) ? $recHarian['s1'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h1" value="<?php echo isset($recHarian['h1']) ? $recHarian['h1'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>2</td>
     <td>Pinjaman</td>
-    <td><input type="text" size="40" name="s2" value="<?php echo isset($recHarian['s2']) ? $recHarian['s2'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h2" value="<?php echo isset($recHarian['h2']) ? $recHarian['h2'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>3</td>
     <td>Modal dalam</td>
-    <td><input type="text" size="40" name="s3" value="<?php echo isset($recHarian['s3']) ? $recHarian['s3'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h3" value="<?php echo isset($recHarian['h3']) ? $recHarian['h3'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>4</td>
     <td>Modal luar</td>
-    <td><input type="text" size="40" name="s4" value="<?php echo isset($recHarian['s4']) ? $recHarian['s4'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h4" value="<?php echo isset($recHarian['h4']) ? $recHarian['h4'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>5</td>
     <td>Volume Usaha</td>
-    <td><input type="text" size="40" name="s5" value="<?php echo isset($recHarian['s5']) ? $recHarian['s5'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h5" value="<?php echo isset($recHarian['h5']) ? $recHarian['h5'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>6</td>
     <td>Asset</td>
-    <td><input type="text" size="40" name="s6" value="<?php echo isset($recHarian['s6']) ? $recHarian['s6'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h6" value="<?php echo isset($recHarian['h6']) ? $recHarian['h6'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>7</td>
     <td>SHU</td>
-    <td><input type="text" size="40" name="s7" value="<?php echo isset($recHarian['s7']) ? $recHarian['s7'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h7" value="<?php echo isset($recHarian['h7']) ? $recHarian['h7'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>8</td>
     <td>Suku Bunga simpanan</td>
-    <td><input type="text" size="40" name="s8" value="<?php echo isset($recHarian['s8']) ? $recHarian['s8'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h8" value="<?php echo isset($recHarian['h8']) ? $recHarian['h8'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>9</td>
     <td>Suku bunga pinjaman</td>
-    <td><input type="text" size="40" name="s9" value="<?php echo isset($recHarian['s9']) ? $recHarian['s9'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h9" value="<?php echo isset($recHarian['h9']) ? $recHarian['h9'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr style="background: #999">
     <td style="width:5px;">10</td>
@@ -260,17 +273,17 @@ echo navigation(5);
   <tr>
     <td>&nbsp;</td>
     <td>Pinjaman Kurang Lancar/PKL</td>
-    <td><input type="text" size="40" name="s10" value="<?php echo isset($recHarian['s101']) ? $recHarian['s101'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h102" value="<?php echo isset($recHarian['h102']) ? $recHarian['h102'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
     <td>Pinjaman Diragukan</td>
-    <td><input type="text" size="40" name="s10" value="<?php echo isset($recHarian['s102']) ? $recHarian['s102'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h103" value="<?php echo isset($recHarian['h103']) ? $recHarian['h103'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
     <td>Pinjaman Macet</td>
-    <td><input type="text" size="40" name="s10" value="<?php echo isset($recHarian['s103']) ? $recHarian['s103'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h101" value="<?php echo isset($recHarian['h101']) ? $recHarian['h101'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
 	<td colspan="4" class="t-right"><input type="submit" name="saveHarian" class="input-submit" value="Submit" /></td>
@@ -281,6 +294,7 @@ echo navigation(5);
 if (isset($idday)) {
     echo '<input type="hidden" name="updatenid" value="'.$idday.'"/>';
 }
+    echo '<input type="hidden" name="iduser" value="'.$_SESSION['userID'].'"/>';
 ?>
 </form>
 		</div> <!-- /content -->

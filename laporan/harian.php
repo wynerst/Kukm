@@ -1,7 +1,7 @@
 <?php
 // required file
 require '../sysconfig.inc.php';
-include "../nav_panel2.php";
+include "../nav_panel.php";
 if (isset($_POST['searchCoa'])) {
 	$kopnama = $_POST['koperasi'];
 	$lapperiod = $_POST['periode'];
@@ -21,11 +21,16 @@ if (isset($_POST['searchCoa'])) {
 }
 
 $table = "";
-
 // get koperasi name
 $sql1 = "SELECT DISTINCT idkoperasi, nama FROM koperasi WHERE idkoperasi <> 62";
-$sql2 = "SELECT MONTH(periode) as bulan, count(idnon_coa) as jumlah FROM harian";
-$rs_koperasi = $dbs->query($sql1);
+$sql2 = "SELECT MONTH(periode) as bulan, count(idday) as jumlah FROM harian";
+
+if (isset($_GET['nid']) AND int($_GET['nid']) == 0) {
+    $rs_koperasi = $dbs->query($sql1. " WHERE idkoperasi = ".$_GET['nid']);
+} else {
+    $rs_koperasi = $dbs->query($sql1);
+}
+
 while ($rec_koperasi = $rs_koperasi->fetch_assoc()) {
     $lap_month = array('January'=>0,'February'=>0,'March'=>0,'April'=>0,'May'=>0,'June'=>0,'July'=>0,'August'=>0,'September'=>0,'October'=>0,'November'=>0,'December'=>0);
     $sqllaporan = $sql2. " WHERE idkoperasi=".$rec_koperasi['idkoperasi']. " AND YEAR(periode)=YEAR(now()) GROUP BY MONTH(periode) ORDER BY MONTH(periode)";
@@ -72,6 +77,7 @@ while ($rec_koperasi = $rs_koperasi->fetch_assoc()) {
                     break;
             }
         }
+        $table .="<TD>".$rec_koperasi['nama']."</TD>\n";
         $table .="<TD>". $lap_month['January'] ."</TD>\n";
         $table .="<TD>". $lap_month['February'] ."</TD>\n";
         $table .="<TD>". $lap_month['March']. "</TD>\n";

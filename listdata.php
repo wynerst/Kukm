@@ -69,15 +69,22 @@ function listKoperasi() {
 
 }
 
-function listHarian() {
+function listHarian($idlap) {
 	global $dbs;
 	$datagrid = new simbio_datagrid();
-	$table_spec = 'koperasi as k LEFT JOIN tipe_koperasi as t ON k.jenis = t.idtipe_koperasi';
-	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-harian.php?nid=\',k.idkoperasi,\'">Edit</a>\') as \'&nbsp;\'',
-		'CONCAT(\'<a href="datacenter_harian.php">Hapus</a>\') as \'&nbsp;\'',
-		'k.nama AS \'Koperasi\'', 'k.sandilembaga AS \'Sandi Lembaga\'',
-		't.jenis AS \'Tipe Koperasi\'');
+	$table_spec = 'harian as h LEFT JOIN koperasi as k ON h.idkoperasi = k.idkoperasi LEFT JOIN tipe_koperasi as t ON k.jenis = t.idtipe_koperasi';
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
+    if ($idlap <> 0) {
+        $datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-harian.php?nid=\',h.idday,\'">Edit</a>\') as \'&nbsp;\'',
+            'k.nama AS \'Koperasi\'', 'k.sandilembaga AS \'Sandi Lembaga\'',
+            't.jenis AS \'Tipe Koperasi\'', 'h.periode AS \'Periode Lap\'');
+        $datagrid->setSQLcriteria('h.idkoperasi =' . $idlap);
+    } else {
+        $datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-harian.php?kid=\',k.idkoperasi,\'&list">Tampilkan</a>\') as \'&nbsp;\'',
+            'k.nama AS \'Koperasi\'', 'k.sandilembaga AS \'Sandi Lembaga\'',
+            't.jenis AS \'Tipe Koperasi\'', 'count(h.idday) AS \'Jumlah Laporan\'');
+        $datagrid->sql_group_by = "h.idkoperasi";
+    }
 	$datagrid->debug = true;
 
 	// put the result into variables
