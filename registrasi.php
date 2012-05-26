@@ -43,11 +43,12 @@ if (isset($_POST['saveKoperasi'])) {
             $insert = $sql_op->insert('koperasi', $data);
             if ($insert) {
                 $lastid = $sql_op->insert_id;
-                utility::jsAlert('Data Koperasi berhasil disimpan.');
+                $alert utility::jsAlert('Data Koperasi berhasil disimpan.');
                 $udata['koperasi_idkoperasi'] = $lastid;
                 $udata['group_idgroup'] = 0;
                 $insert = $sql_op->insert('user', $udata);
                 utility::jsAlert('Registrasi user berhasil dilakukan. Hasil verifikasi akan dikirim melalui email ('.$udata['email'].')');
+//                utility::jsRedirect('Registrasi user berhasil dilakukan. Hasil verifikasi akan dikirim melalui email ('.$udata['email'].')','index.php');
             } else {
                 utility::jsAlert($sql_op->error.'Data Koperasi GAGAL disimpan.');
             }

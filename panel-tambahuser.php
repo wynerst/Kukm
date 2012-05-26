@@ -234,11 +234,11 @@ echo navigation(1);
     <td><input type="text" size="40" name="fax" value="<?php echo isset($recNon['fax']) ? $recNon['fax'] : ""; ?>" class="input-text-02" /></td>
   </tr>
   <tr>
-    <td>Passowrd</td>
+    <td>Password</td>
     <td><input type="password" size="40" name="password" value="" class="input-text-02" pattern="^.{8}.*$" /> * minimal 8 karakter</td>
   </tr>
   <tr>
-    <td>Konfirmasi Passowrd</td>
+    <td>Konfirmasi Password</td>
     <td><input type="password" size="40" name="new_confirm" value="" class="input-text-02" pattern="^.{8}.*$" /></td>
   </tr>
 <?php

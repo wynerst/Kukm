@@ -78,9 +78,9 @@ function listKoperasi() {
 	$datagrid = new simbio_datagrid();
 	$table_spec = 'koperasi as k LEFT JOIN tipe_koperasi as t ON k.jenis = t.idtipe_koperasi';
 	$datagrid->setSQLColumn('CONCAT(\'<a href="panel-tambahlembaga.php?nid=\',k.idkoperasi,\'">Edit</a>\') as \'&nbsp;\'',
-		'CONCAT(\'<a href="panel-tambahlembaga.php">Hapus</a>\') as \'&nbsp;\'',
 		'k.nama AS \'Koperasi\'', 'k.sandilembaga AS \'Sandi Lembaga\'',
 		't.jenis AS \'Tipe Koperasi\'');
+// 'CONCAT(\'<a href="panel-tambahlembaga.php">Hapus</a>\') as \'&nbsp;\'',        
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
 	$datagrid->debug = true;
 
@@ -140,6 +140,28 @@ function listUser() {
 	$datagrid_result = $datagrid->createDataGrid($dbs, $table_spec, 50, false);
 	return $datagrid_result;
 
+}
+
+function userKoperasi($kid) {
+	global $dbs;
+    if (!$kid) {
+        return "";
+    } else {
+        $datagrid = new simbio_datagrid();
+        $table_spec = 'user as u LEFT JOIN koperasi as k ON u.koperasi_idkoperasi = k.idkoperasi
+          LEFT JOIN tipe_koperasi as t ON k.jenis = t.idtipe_koperasi
+          LEFT JOIN `group` as g ON g.idgroup = u.group_idgroup';
+        $datagrid->setSQLColumn('CONCAT(\'<a href="panel-daftaruser.php?nid=\',u.iduser,\'">Edit</a>\') as \'&nbsp;\'',
+            'u.nama AS \'Nama\'', 'k.nama AS \'Koperasi\'',
+            't.jenis AS \'Tipe Koperasi\'', 'g.group AS \'Kelompok user\'');
+        $datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
+        $datagrid->setSQLcriteria("u.koperasi_idkoperasi = ".$kid);
+        $datagrid->debug = true;
+
+        // put the result into variables
+        $datagrid_result = $datagrid->createDataGrid($dbs, $table_spec, 50, false);
+        return $datagrid_result;
+    }
 }
 
 function listGroup() {

@@ -3,14 +3,20 @@ function navigation($nav_active=0) {
 	$nav_menu = '<ul class="box">';
 	if ($nav_active == 1) { $nav_menu .='<li id="submenu-active">'; } else {$nav_menu .='<li>';}
 	$nav_menu .='<a href="'.KUKM_WEB_ROOT_DIR.'panel.php">Panel</a>
-					<ul>
-						<li><a href="'.KUKM_WEB_ROOT_DIR.'panel-tambahlembaga.php">Daftar Lembaga Baru</a></li>
-						<li><a href="'.KUKM_WEB_ROOT_DIR.'panel-tambahuser.php">Tambah User Baru</a></li>
-						<li><a href="'.KUKM_WEB_ROOT_DIR.'panel-tambahgroup.php">Buat Grup Baru</a></li>
-						<li><a href="'.KUKM_WEB_ROOT_DIR.'panel-daftarlembaga.php">Daftar Lembaga</a></li>
-						<li><a href="'.KUKM_WEB_ROOT_DIR.'panel-daftaruser.php">Daftar User</a></li>
-						<li><a href="'.KUKM_WEB_ROOT_DIR.'panel-daftargroup.php">Daftar Grup</a></li>
-					</ul>
+					<ul>';
+    if ($_SESSION['group'] == 1) {
+        $nav_menu .='<li><a href="'.KUKM_WEB_ROOT_DIR.'panel-tambahlembaga.php">Daftar Lembaga Baru</a></li>
+        <li><a href="'.KUKM_WEB_ROOT_DIR.'panel-tambahuser.php">Tambah User Baru</a></li>
+        <li><a href="'.KUKM_WEB_ROOT_DIR.'panel-tambahgroup.php">Buat Grup Baru</a></li>
+        <li><a href="'.KUKM_WEB_ROOT_DIR.'panel-daftarlembaga.php">Daftar Lembaga</a></li>
+        <li><a href="'.KUKM_WEB_ROOT_DIR.'panel-daftaruser.php">Daftar User</a></li>
+        <li><a href="'.KUKM_WEB_ROOT_DIR.'panel-daftargroup.php">Daftar Grup</a></li>';
+    } else {
+        $nav_menu .='<li><a href="'.KUKM_WEB_ROOT_DIR.'panel-tambahuser.php">Tambah User Baru</a></li>
+        <li><a href="'.KUKM_WEB_ROOT_DIR.'panel-daftarlembaga.php">Daftar Lembaga</a></li>
+        <li><a href="'.KUKM_WEB_ROOT_DIR.'panel-daftaruser.php">Daftar User</a></li>';
+    }
+	$nav_menu .='</ul>
 			</li>';
 	if ($nav_active == 2) { $nav_menu .='<li id="submenu-active">'; } else {$nav_menu .='<li>';}
 	$nav_menu .='<a href="'.KUKM_WEB_ROOT_DIR.'panel.php">Administrasi</a>

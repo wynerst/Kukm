@@ -42,6 +42,19 @@ class utility
         echo '</script>'."\n";
     }
 
+    public static function jsRedirect($str_message, $urlid)
+    {
+        if (!$str_message OR $urlid) {
+            return;
+        }
+
+        // replace newline with javascripts newline
+        $str_message = str_replace("\n", '\n', $str_message);
+        echo '<script type="text/javascript">'."\n";
+        echo 'alert("'.addslashes($str_message).'")'."\n";
+        echo 'location.href = "'.$urlid.'";</script>';
+        echo '</script>'."\n";
+    }
 
     /**
      * Static Method to load application settings from database

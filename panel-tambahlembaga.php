@@ -2,10 +2,8 @@
 // required file
 require 'sysconfig.inc.php';
 require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
 require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
+include "listdata.php";
 include 'nav_panel.php';
 
 if (isset($_POST['saveKoperasi'])) {
@@ -65,6 +63,12 @@ if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
 ob_start();
 
 session_start();
+
+if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
+    echo '<script type="text/javascript">alert(\'Anda tidak berhak mengakses laman!\');';
+    echo 'location.href = \'index.php\';</script>';
+    die();
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -176,69 +180,31 @@ echo navigation(1);
 					<tr>
 						<td>Provinsi:</td>
 						<td><select id="propinsi" name="propinsi" class="input-text-02">
-						<option value=""> - Pilih propinsi - </option>
-						<option value="Sumatera Utara">Sumatera Utara</option>
-						<option value="Sumatera Barat">Sumatera Barat</option>
-						<option value="Riau">Riau</option>
-						<option value="Jambi">Jambi</option>
-						<option value="Sumatera Selatan">Sumatera Selatan</option>
-						<option value="Bengkulu">Bengkulu</option>
-						<option value="Lampung">Lampung</option>
-						<option value="Kep. Bangka Belitung">Kep. Bangka Belitung</option>
-						<option value="Kep. Riau">Kep. Riau</option>
-						<option value="DKI Jakarta">DKI Jakarta</option>
-						<option value="Jawa Barat">Jawa Barat</option>
-						<option value="Jawa Tengah">Jawa Tengah</option>
-						<option value="Banten">Banten</option>
-						<option value="Jawa Timur">Jawa Timur</option>
-						<option value="Yogyakarta">Yogyakarta</option>
-						<option value="Bali">Bali</option>
-						<option value="Nusa Tenggara Barat">Nusa Tenggara Barat</option>
-						<option value="Nusa Tenggara Timur">Nusa Tenggara Timur</option>
-						<option value="Kalimantan Barat">Kalimantan Barat</option>
-						<option value="Kalimantan Tengah">Kalimantan Tengah</option>
-						<option value="Kalimantan Selatan">Kalimantan Selatan</option>
-						<option value="Kalimantan Timur">Kalimantan Timur</option>
-						<option value="Sulawesi Utara">Sulawesi Utara</option>
-						<option value="Sulawesi Tengah">Sulawesi Tengah</option>
-						<option value="Sulawesi Selatan">Sulawesi Selatan</option>
-						<option value="Sulawesi Tenggara">Sulawesi Tenggara</option>
-						<option value="Gorontalo">Gorontalo</option>
-						<option value="Sulawesi Barat">Sulawesi Barat</option>
-						<option value="Maluku">Maluku</option>
-						<option value="Maluku Utara">Maluku Utara</option>
-						<option value="Papua">Papua</option>
-						<option value="Papua Barat">Papua Barat</option>
-						</select>&nbsp;<input type="text" name="propinsi" class="input-text-02" value="<?php isset($recKop['propinsi']) ? $v=$recKop['propinsi']: $v=""; echo $v; ?>" disabled="disabled"/></td>
+<?php
+	$sql_text = "SELECT propinsi FROM propinsi ORDER by propinsi";
+	$rsSelect = $dbs->query($sql_text);
+	echo '<option value=""> - Pilih Propinsi</option>';
+	while ($recSel = $rsSelect->fetch_assoc()) {
+		if (isset($recKop['propinsi']) and $recKop['propinsi'] == $recSel['propinsi']) {
+			echo '<option value="'.$recSel['propinsi'].'" SELECTED >'.$recSel['propinsi'].'</option>';
+		} else {
+			echo '<option value="'.$recSel['propinsi'].'">'.$recSel['propinsi'].'</option>';
+		}
+	}
+?>
+
 					</tr>
 					<tr>
 						<td>Kabupaten/Kota:</td>
-						<td><select id="kabupaten" name="kabupaten" class="input-text-02" disabled="disabled">
-						<option value="Jakarta Selatan">Jakarta Selatan</option>
-						<option value="Jakarta Timur">Jakarta Timur</option>
-						<option value="Jakarta Utara">Jakarta Utara</option>
-						<option value="Jakarta Barat">Jakarta Barat</option>
-						<option value="Jember">Jember</option>
-						<option value="Ambarawa">Ambarawa</option>
-						<option value="Tangerang">Tangerang</option>
-						</select>&nbsp;<input type="text" name="kabupaten" class="input-text-02" value="<?php isset($recKop['kabupaten']) ? $v=$recKop['kabupaten']: $v=""; echo $v; ?>" /></td>
+						<td><input type="text" name="kabupaten" class="input-text-02" value="<?php isset($recKop['kabupaten']) ? $v=$recKop['kabupaten']: $v=""; echo $v; ?>" /></td>
 					</tr>
 					<tr>
 						<td>Kecamatan:</td>
-						<td><select id="kecamatan" name="kecamatan" class="input-text-02" disabled="disabled">
-						<option value="Kebayoran Baru">Kebayoran Baru</option>
-						<option value="Cilandak">Cilandak</option>
-						<option value="Pasar Minggu">Pasar Minggu</option>
-						<option value="Winong">Winong</option>
-						</select>&nbsp;<input type="text" name="kecamatan" class="input-text-02" value="<?php isset($recKop['kecamatan']) ? $v=$recKop['kecamatan']: $v=""; echo $v; ?>" /></td>
+						<td><input type="text" name="kecamatan" class="input-text-02" value="<?php isset($recKop['kecamatan']) ? $v=$recKop['kecamatan']: $v=""; echo $v; ?>" /></td>
 					</tr>
 					<tr>
 						<td>Kelurahan:</td>
-						<td><select id="kelurahan" name="kelurahan" class="input-text-02" disabled="disabled">
-						<option value="Kramat Pela">Kramat Pela</option>
-						<option value="Melawai">Melawai</option>
-						<option value="Senayan">Senayan</option>
-						</select>&nbsp;<input type="text" name="kelurahan" class="input-text-02" value="<?php isset($recKop['kelurahan']) ? $v=$recKop['kelurahan']: $v=""; echo $v; ?>" /></td>
+						<td><input type="text" name="kelurahan" class="input-text-02" value="<?php isset($recKop['kelurahan']) ? $v=$recKop['kelurahan']: $v=""; echo $v; ?>" /></td>
 					</tr>
 					<tr>
 						<td>Kodepos:</td>
@@ -306,26 +272,11 @@ echo navigation(1);
 			</fieldset>
 			<fieldset>
 			<table class="nostyle">
-					<legend>Penanggung Jawab</legend>
-					<tr>
-						<td style="width:200px;">Nama Penanggung Jawab:</td>
-						<td><input type="text" size="40" name="" class="input-text" disabled="disabled" /></td>
-					</tr>
-					<tr>
-						<td>Divisi/Bagian:</td>
-						<td><input type="text" size="40" name="" class="input-text" disabled="disabled"/></td>
-					</tr>
-					<tr>
-						<td>Nomor Telepon:</td>
-						<td><input type="text" size="5" name="" class="input-text" disabled="disabled"/> - <input type="text" size="20" name="" class="input-text" disabled="disabled"/></td>
-					</tr>
-					<tr>
-						<td>Nomor Fax:</td>
-						<td><input type="text" size="5" name="" class="input-text" disabled="disabled"/> - <input type="text" size="20" name="" class="input-text" disabled="disabled"/></td>
-					</tr>
-					<tr>
-						<td colspan="2" class="t-right"><input type="submit" name="saveKoperasi" class="input-submit" value="Submit" /></td>
-					</tr>
+					<legend>Administrator</legend>
+                    <tr>
+                    <td colspan="2">
+                    <?php echo userKoperasi($idkoperasi); ?>
+                    </td>
 			</table>
 			</fieldset>
 <?php
