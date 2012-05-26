@@ -40,6 +40,15 @@ if(isset($_POST["Go"]) && ""!=$_POST["Go"]) //form was submitted
 //  $_POST["use_csv_header"] = 1;
 //}
 
+// start the output buffering for main content
+ob_start();
+
+session_start();
+if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
+    echo '<script type="text/javascript">alert(\'Anda tidak berhak mengakses laman!\');';
+    echo 'location.href = \'index.php\';</script>';
+    die();
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -143,11 +152,29 @@ echo navigation(3);
 					</tr>
 					<tr>
 						<td>Nama Koperasi:</td>
-						<td><input type="text" size="15" name="" class="input-text" value="KSP NASARI" disabled="disabled" /></td>
+<?php
+	$sql_text = "SELECT idkoperasi, nama from koperasi ORDER BY nama";
+	$option = $dbs->query($sql_text);
+    if ($_SESSION['group'] == 1) {
+    	echo '<td><select id="jenis" name="koperasi" class="input-text-02">';
+    } else {
+    	echo '<td><select id="jenis" name="koperasi" class="input-text-02" disabled>';
+    }
+	echo '<option value="0">--- Pilih Koperasi ---</option>';
+	while ($choice = $option->fetch_assoc()) {
+		if ($choice['idkoperasi'] == $_SESSION['koperasi']) {
+			echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
+		} else {
+			echo '<option value="'.$choice['idkoperasi'].'">'.$choice['nama'].'</option>';
+		}
+	}
+	unset ($choice);
+	echo '</select></td>';
+?>
 					</tr>
 					<tr>
 						<td>Waktu Data:</td>
-						<td><input type="text" size="15" name="" class="input-text" value="2006-12-30" disabled="disabled" /></td>
+						<td><input type="text" size="15" name="" class="input-text" value="" disabled="disabled" /></td>
 					</tr>
 					<tr>
 						<td>Delimiter:</td>

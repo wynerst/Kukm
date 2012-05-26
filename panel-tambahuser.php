@@ -6,20 +6,26 @@ include "nav_panel.php";
 
 if (isset($_POST['searchData'])) {
 	$kopnama = $_POST['koperasi'];
-	$lapperiod = $_POST['periode'];
-	if ($kopnama <>"" AND $lapperiod <>"") {
-		$search_limit = ' k.idkoperasi ='. $kopnama . ' AND p.idperiode = "'.$lapperiod.'"';
+    $nama = $_POST['nama'];
+    $search_limit = "";
+	if ($kopnama <>"") {
+		$search_limit = ' k.idkoperasi ='. $kopnama ;
+    }
+    if ($nama <>"") {
+        if ($search_limit <>"") {
+            $search_limit .= ' AND (u.nama = "%'. $nama .'%" OR u.login = "%'. $nama . '%")';
+        } else {
+            $search_limit =' u.nama = "%'. $nama .'%" OR u.login = "%'. $nama . '%"';
+        }
+    }
 		// get record
-		$sql_text = "SELECT p.periode, k.nama FROM periode as p ";
-		$sql_text .= " LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi ";
+		$sql_text = "SELECT u.*, k.nama FROM user as u ";
+		$sql_text .= " LEFT JOIN koperasi as k ON u.idkoperasi = k.idkoperasi ";
 		if (isset($search_limit)) {
 			$sql_text .= "WHERE ". $search_limit;
 		}
 		$q_koperasi = $dbs->query($sql_text);
 		$reckoperasi = $q_koperasi->fetch_assoc();
-	} else {
-		$message = 'Nama koperasi dan periode tidak boleh kosong.';
-	}
 }
 
 if (isset($_POST['saveUser'])) {
@@ -39,7 +45,9 @@ if (isset($_POST['saveUser'])) {
         $data['login']=$_POST['login'];
         $data['group_idgroup']=$_POST['group_idgroup'];
         $data['validasi']=$_POST['validasi'];
-        $data['password']=$_POST['password'];
+        if ($_POST['password'] <> "") {
+            $data['password']=$_POST['password'];
+        }
     }
 
 	if (isset($iduser) AND $iduser <> 0) {
@@ -49,14 +57,14 @@ if (isset($_POST['saveUser'])) {
 		if ($update) {
 			$message = 'Data User berhasil diperbaiki.';
 		} else {
-			$message = 'Data User GAGAL diperbaiki.'.$update->error;
+			$message = 'Data User GAGAL diperbaiki. '.$update->error;
 		}
 	} else {
 		$insert = $sql_op->insert('user', $data);
 		if ($insert) {
 			$message = 'Data User berhasil disimpan.';
 		} else {
-			$message = 'Data User GAGAL disimpan.';
+			$message = 'Data User GAGAL disimpan. '.$insert->error;
             //die($insert->error);
 		}
 	}
@@ -192,10 +200,14 @@ echo navigation(1);
 <?php
 	$sql_text = "SELECT idkoperasi, nama from koperasi ORDER BY nama";
 	$option = $dbs->query($sql_text);
-	echo '<td><select id="jenis" name="koperasi_idkoperasi" class="input-text-02">"';
+    if ($_SESSION['group'] == 1) {
+    	echo '<td><select id="jenis" name="koperasi_idkoperasi" class="input-text-02">';
+    } else {
+    	echo '<td><select id="jenis" name="koperasi_idkoperasi" class="input-text-02" disabled>';
+    }
 	echo '<option value="0">--- Pilih Koperasi ---</option>';
 	while ($choice = $option->fetch_assoc()) {
-		if ($choice['idkoperasi'] == $recNon['koperasi_idkoperasi']) {
+		if ($choice['idkoperasi'] == $recNon['koperasi_idkoperasi'] OR $choice['idkoperasi'] == $_SESSION['koperasi']) {
 			echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
 		} else {
 			echo '<option value="'.$choice['idkoperasi'].'">'.$choice['nama'].'</option>';
@@ -221,13 +233,17 @@ echo navigation(1);
     <td>Fax</td>
     <td><input type="text" size="40" name="fax" value="<?php echo isset($recNon['fax']) ? $recNon['fax'] : ""; ?>" class="input-text-02" /></td>
   </tr>
-<?php
-if (!isset($iduser)) {
-?>
   <tr>
     <td>Passowrd</td>
-    <td><input type="password" size="40" name="password" value="<?php echo isset($recNon['password']) ? $recNon['password'] : ""; ?>" class="input-text-02" /></td>
+    <td><input type="password" size="40" name="password" value="" class="input-text-02" pattern="^.{8}.*$" /> * minimal 8 karakter</td>
   </tr>
+  <tr>
+    <td>Konfirmasi Passowrd</td>
+    <td><input type="password" size="40" name="new_confirm" value="" class="input-text-02" pattern="^.{8}.*$" /></td>
+  </tr>
+<?php
+if ($_SESSION['group'] == 1) {
+?>
   <tr>
     <td>Group</td>
 
@@ -248,6 +264,7 @@ if (!isset($iduser)) {
   
 }
 ?>
+  </tr>
   <tr>
 	<td colspan="2" class="t-right"><input type="submit" name="saveUser" class="input-submit" value="Submit" /></td>
   </tr>

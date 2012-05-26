@@ -115,6 +115,12 @@ if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
 ob_start();
 
 session_start();
+
+if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
+    echo '<script type="text/javascript">alert(\'Anda tidak berhak mengakses laman!\');';
+    echo 'location.href = \'index.php\';</script>';
+    die();
+}
 ?>
 
 <?xml version="1.0"?>
@@ -227,7 +233,7 @@ echo navigation(1);
 			<?php
 			if (isset($_GET['list'])) {
 				echo "<fieldset>\n<legend>Data Neraca Tersedia</legend>";
-				echo listNeraca("syariah");
+				echo listNeraca();
 				echo '<form action="datacenter-entrydata.php" method="link"><table class="nostyle">';
 				echo '<div style="text-align:right";><input type="submit" class="input-submit" value="Data Baru" /></div></form>';
 				echo "</fieldset>\n";
@@ -248,10 +254,14 @@ echo navigation(1);
 <?php
 	$sql_text = "SELECT idkoperasi, nama from koperasi WHERE (jenis = 3 or jenis = 5) ORDER BY nama";
 	$option = $dbs->query($sql_text);
-	echo '<td><select id="jenis" name="idkoperasi" class="input-text-2">"';
-	echo '<option value="">--- Pilih nama ---</option>';
+    if ($_SESSION['group'] == 1) {
+    	echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02">';
+    } else {
+    	echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02" disabled>';
+    }
+	echo '<option value="0">--- Pilih nama ---</option>';
 	while ($choice = $option->fetch_assoc()) {
-		if ($choice['idkoperasi'] == $recNeraca['idkoperasi']) {
+		if ($choice['idkoperasi'] == $recNeraca['idkoperasi'] OR $choice['idkoperasi'] == $_SESSION['koperasi']) {
 			echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
 		} else {
 			echo '<option value="'.$choice['idkoperasi'].'">'.$choice['nama'].'</option>';

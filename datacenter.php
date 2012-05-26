@@ -61,7 +61,19 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 
 		</p>
 
-		<p class="f-right">User: <strong><a href="#"><?php echo isset($_SESSION['userName']) ? $_SESSION['userName'] : "None";?></a></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong><a href="index.php?login=" id="logout">Log out</a></strong></p>
+		<p class="f-right">
+        <?php
+            if ($_SESSION['group'] == 1) {
+                $register = $dbs->query("SELECT COUNT(*) FROM user WHERE group_idgroup = 0");
+                $rec_reg = $register->fetch_row();
+                echo 'Ada <font color="red">'.$rec_reg[0].'</font> user baru&nbsp;&nbsp;';
+            }
+        ?>
+        User: <strong><a href="#">
+        <?php echo isset($_SESSION['userName']) ? $_SESSION['userName'] : "None";
+        ?>
+        </a>
+        </strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong><a href="index.php?login=" id="logout">Log out</a></strong></p>
 
 	</div> <!--  /tray -->
 

@@ -26,7 +26,7 @@ if (isset($_POST['logMeIn'])) {
             $messages.= 'location.href = \'datacenter.php\';';
             $messages.= '</script>';
         } else {
-            $messages= '<script type="text/javascript">alert(\'Username dan Password tidak cocok!\');</script>';
+            $messages= '<script type="text/javascript">alert(\'Anda tidak berhak masuk. Username dan Password tidak cocok!\');</script>';
         }
 	}
 }

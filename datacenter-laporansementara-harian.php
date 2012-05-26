@@ -134,10 +134,14 @@ echo navigation(5);
 <?php
 	$sql_text = "SELECT idkoperasi, nama from koperasi ORDER BY nama";
 	$option = $dbs->query($sql_text);
-	echo '<td><select id="jenis" name="koperasi" class="input-text-2">"';
-	echo '<option value="">--- Pilih nama ---</option>';
+    if ($_SESSION['group'] == 1) {
+    	echo '<td><select id="jenis" name="koperasi" class="input-text-02">';
+    } else {
+    	echo '<td><select id="jenis" name="koperasi_idkoperasi" class="input-text-02" disabled>';
+    }
+    echo '<option value="0">--- Pilih nama ---</option>';
 	while ($choice = $option->fetch_assoc()) {
-		if (isset($kopnama) and $kopnama == $choice['idkoperasi']) {
+		if (isset($kopnama) and $kopnama == $choice['idkoperasi'] OR $choice['idkoperasi'] == $_SESSION['koperasi']) {
 			echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
 		} else {
 		echo '<option value="'.$choice['idkoperasi'].'">'.$choice['nama'].'</option>';

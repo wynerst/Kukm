@@ -34,23 +34,30 @@ if (isset($_POST['saveKoperasi'])) {
 	$udata['telp'] = $_POST['utelp'];
 	$udata['fax'] = $_POST['ufax'];
 	$udata['email'] = $_POST['uemail'];
+	$udata['login'] = $_POST['uemail'];
 	$udata['nama'] = $_POST['unama'];
-
-	if ($data['nama'] <> "" AND $data['pimpinan'] <> "" AND $data['email'] <> "" AND $udata['nama'] <> "" AND $udata['email']) {
-		$insert = $sql_op->insert('koperasi', $data);
-		if ($insert) {
-			$lastid = $sql_op->insert_id;
-			utility::jsAlert('Data Koperasi berhasil disimpan.');
-			$udata['koperasi_idkoperasi'] = $lastid;
-			$udata['group_idgroup'] = -1;
-			$insert = $sql_op->insert('user', $udata);
-			utility::jsAlert('Registrasi user berhasil dilakukan./nHasil verifikasi akan dikirim melalui email ('.$udata['email'].')');		
-		} else {
-			utility::jsAlert($sql_op->error.'Data Koperasi GAGAL disimpan.');
-		}
-	} else {
-		$error ='Lengkapi Data Koperasi dan Penanggung Jawab dengan benar!';
-	}
+    
+    if ($_POST['password'] <> "" AND $_POST['new_confirm'] <> "" AND $_POST['password'] == $_POST['new_confirm']) {
+        $udata['password'] = $_POST['passoword'];
+        if ($data['nama'] <> "" AND $data['pimpinan'] <> "" AND $data['email'] <> "" AND $udata['nama'] <> "" AND $udata['email']) {
+            $insert = $sql_op->insert('koperasi', $data);
+            if ($insert) {
+                $lastid = $sql_op->insert_id;
+                utility::jsAlert('Data Koperasi berhasil disimpan.');
+                $udata['koperasi_idkoperasi'] = $lastid;
+                $udata['group_idgroup'] = 0;
+                $insert = $sql_op->insert('user', $udata);
+                utility::jsAlert('Registrasi user berhasil dilakukan. Hasil verifikasi akan dikirim melalui email ('.$udata['email'].')');
+            } else {
+                utility::jsAlert($sql_op->error.'Data Koperasi GAGAL disimpan.');
+            }
+        } else {
+            $error ='Lengkapi Data Koperasi dan Penanggung Jawab dengan benar!';
+        }
+    } else {
+        $error = 'Data password tidak sama.';
+    }
+    
 }
 
 // start the output buffering for main content
@@ -275,9 +282,9 @@ session_start();
 			</fieldset>
 			<fieldset>
 			<table class="nostyle">
-					<legend>Penanggung Jawab</legend>
+					<legend>Administrator Koperasi</legend>
 					<tr>
-						<td style="width:200px;">Nama Penanggung Jawab:</td>
+						<td style="width:200px;">Nama Admin:</td>
 						<td><input type="text" size="40" name="unama" class="input-text-02"  /></td>
 					</tr>
 					<tr>
@@ -294,8 +301,16 @@ session_start();
 					</tr>
 					<tr>
 						<td>Email:</td>
-						<td><input type="text" size="20" name="uemail" class="input-text-02" /></td>
+						<td><input type="text" size="20" name="uemail" class="input-text-02" /> * email ini akan digunakan sebagai login anda</td>
 					</tr>
+                    <tr>
+                        <td>Passowrd</td>
+                        <td><input type="password" size="40" name="password" value="" class="input-text-02" pattern="^.{8}.*$" /> * minimal 8 karakter</td>
+                    </tr>
+                    <tr>
+                       <td>Konfirmasi Passowrd</td>
+                       <td><input type="password" size="40" name="new_confirm" value="" class="input-text-02" pattern="^.{8}.*$" /></td>
+                    </tr>
 					<tr>
 						<td colspan="2" class="t-right"><input type="submit" name="saveKoperasi" class="input-submit" value="Simpan" /></td>
 					</tr>
