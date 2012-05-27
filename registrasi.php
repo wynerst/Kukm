@@ -43,7 +43,7 @@ if (isset($_POST['saveKoperasi'])) {
             $insert = $sql_op->insert('koperasi', $data);
             if ($insert) {
                 $lastid = $sql_op->insert_id;
-                $alert utility::jsAlert('Data Koperasi berhasil disimpan.');
+                utility::jsAlert('Data Koperasi berhasil disimpan.');
                 $udata['koperasi_idkoperasi'] = $lastid;
                 $udata['group_idgroup'] = 0;
                 $insert = $sql_op->insert('user', $udata);
@@ -56,7 +56,7 @@ if (isset($_POST['saveKoperasi'])) {
             $error ='Lengkapi Data Koperasi dan Penanggung Jawab dengan benar!';
         }
     } else {
-        $error = 'Data password tidak sama.';
+        $error = 'Data password tidak boleh kosong dan harus serupa.';
     }
     
 }

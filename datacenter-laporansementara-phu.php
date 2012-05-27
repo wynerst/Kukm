@@ -25,6 +25,11 @@ if (isset($_POST['searchShu'])) {
 ob_start();
 
 session_start();
+if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
+    echo '<script type="text/javascript">alert(\'Anda tidak berhak mengakses laman!\');';
+    echo 'location.href = \'index.php\';</script>';
+    die();
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -127,10 +132,14 @@ echo navigation(2);
 <?php
 	$sql_text = "SELECT idkoperasi, nama from koperasi ORDER BY nama";
 	$option = $dbs->query($sql_text);
-	echo '<td><select id="jenis" name="idkoperasi" class="input-text-2">"';
-	echo '<option value="">--- Pilih nama ---</option>';
+    if ($_SESSION['group'] == 1) {
+    	echo '<td><select id="jenis" name="idkoperasi" class="input-text-02">';
+    } else {
+    	echo '<td><select id="jenis" name="idkoperasi" class="input-text-02" disabled>';
+    }
+	echo '<option value="0">--- Pilih nama ---</option>';
 	while ($choice = $option->fetch_assoc()) {
-		if (isset($kopnama) and $kopnama == $choice['idkoperasi']) {
+		if (isset($kopnama) and $kopnama == $choice['idkoperasi'] OR $choice['idkoperasi'] == $_SESSION['koperasi']) {
 			echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
 		} else {
 		echo '<option value="'.$choice['idkoperasi'].'">'.$choice['nama'].'</option>';
