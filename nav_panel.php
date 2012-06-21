@@ -21,9 +21,10 @@ function navigation($nav_active=0) {
 	if ($nav_active == 2) { $nav_menu .='<li id="submenu-active">'; } else {$nav_menu .='<li>';}
 	$nav_menu .='<a href="'.KUKM_WEB_ROOT_DIR.'panel.php">Administrasi</a>
 					<ul>
-						<li><a href="'.KUKM_WEB_ROOT_DIR.'laporan/harian.php">Stat. Laporan Harian</a></li>
-<!--						<li><a href="'.KUKM_WEB_ROOT_DIR.'laporan/bulanan.php">Stat. Laporan Bulanan</a></li>
-						<li><a href="'.KUKM_WEB_ROOT_DIR.'laporan/tahunan.php">Stat. Laporan Tahunan</a></li>-->
+<!--						<li><a href="'.KUKM_WEB_ROOT_DIR.'laporan/harian.php">Stat. Laporan Harian</a></li>
+-->
+						<li><a href="'.KUKM_WEB_ROOT_DIR.'laporan/bulanan.php">Stat. Laporan Bulanan</a></li>
+						<li><a href="'.KUKM_WEB_ROOT_DIR.'laporan/tahunan.php">Stat. Laporan Tahunan</a></li>
 					</ul>
 			</li>';
 	return $nav_menu;

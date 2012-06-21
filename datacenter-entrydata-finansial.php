@@ -157,7 +157,7 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 			</div> <!-- /padding -->
 
 <?php
-echo navigation(5);
+echo navigation(3);
 ?>
 
 
@@ -168,10 +168,10 @@ echo navigation(5);
 		<!-- Content (Right Column) -->
 		<div id="content" class="box">
 
-			<h1>DATA HARIAN KOPERASI</h1>
+			<h1>Data Pendukung Finansial Lain</h1>
 			<?php
 			if (isset($_GET['list'])) {
-				echo "<fieldset>\n<legend>Data Harian Tersedia</legend>";
+				echo "<fieldset>\n<legend>Data Pendukung Finansial Tersedia</legend>";
                 if (isset($_GET['kid'])) {
                     echo listHarian($_GET['kid']);
                 } else {
@@ -216,9 +216,24 @@ echo navigation(5);
 					</tr>
 					<tr>
 						<td>Periode:</td>
-	<td>
-	<input type="text" id="periode" name="periode" class="input-text-2" value="<?php isset($recHarian['periode']) ? $v=$recHarian['periode']: $v="0000-00-00"; echo $v; ?>" />
-	</td>
+<?php
+	$sql_text = "SELECT DISTINCT substring(dateposting,1,10) as idperiode from coa";
+    if ($_SESSION['group'] == 2) {
+        $sql_text .= " WHERE idkoperasi=".$_SESSION['koperasi'];
+    }
+    $sql_text .= " ORDER BY dateposting DESC";
+	$option = $dbs->query($sql_text);
+	echo '<td><select id="periode" name="periode" class="input-text-2">"';
+	echo '<option value="">--- Periode pelaporan ---</option>';
+	while ($choice = $option->fetch_assoc()) {
+		if (isset($recHarian['periode']) and  $recHarian['periode'] == $choice['idperiode']) {
+			echo '<option value="'.$choice['idperiode'].'" SELECTED >'.$choice['idperiode'].'</option>';
+		} else {
+			echo '<option value="'.$choice['idperiode'].'">'.$choice['idperiode'].'</option>';
+		}
+	}
+	echo '</select></td>';
+?>
 					</tr>
 				</table>
 			</fieldset>
@@ -228,7 +243,7 @@ echo navigation(5);
 <table class="nostyle">
   <tr style="background: #999">
     <td style="width:5px;"><b>No.</b></td>
-    <td style="width:250px;"><b>Data harian koperasi</b></td>
+    <td style="width:250px;"><b>Data pendukung finansial koperasi</b></td>
     <td></td>
   </tr>
   <tr>

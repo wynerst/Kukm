@@ -162,7 +162,13 @@ echo navigation(1);
 		<div id="content" class="box">
 
 			<h1>Panel</h1>
-
+<?php
+if ($recKop['idkoperasi'] == $_SESSION['koperasi'] OR $_SESSION['group'] == 1){
+    $show = true;
+} else {
+    $show = false;
+}
+?>
 			<!-- Headings -->
 			<h3 class="tit">Daftar Lembaga Baru</h2>
 			<fieldset>
@@ -171,17 +177,18 @@ echo navigation(1);
 				<table class="nostyle">
 					<tr>
 						<td style="width:200px;">Nama Lembaga:</td>
-    <td><input type="text" size="40" name="nama" value="<?php isset($recKop['nama']) ? $v=$recKop['nama']: $v=""; echo $v; ?>" class="input-text-02" /></td>
+    <td><input type="text" size="40" name="nama" value="<?php isset($recKop['nama']) ? $v=$recKop['nama']: $v=""; echo $v; ?>" class="input-text-02" <?php echo $show ? '' : 'disabled' ; ?>/></td>
 					</tr>
 					<tr>
 						<td>Alamat:</td>
-    <td><textarea style="width:100%;" rows="2" name="alamat"><?php isset($recKop['alamat']) ? $v=$recKop['alamat']: $v=""; echo $v; ?></textarea></td>
+    <td><textarea style="width:100%;" rows="2" name="alamat" <?php echo $show ? '>' : ' disabled >'; isset($recKop['alamat']) ? $v=$recKop['alamat']: $v=""; echo $v; ?></textarea></td>
 					</tr>
 					<tr>
 						<td>Provinsi:</td>
-						<td><select id="propinsi" name="propinsi" class="input-text-02">
+						<td><select id="propinsi" name="propinsi" class="input-text-02" 
 <?php
-	$sql_text = "SELECT propinsi FROM propinsi ORDER by propinsi";
+    echo $show ? '>' : ' disabled >' ;
+    $sql_text = "SELECT propinsi FROM propinsi ORDER by propinsi";
 	$rsSelect = $dbs->query($sql_text);
 	echo '<option value=""> - Pilih Propinsi</option>';
 	while ($recSel = $rsSelect->fetch_assoc()) {
@@ -196,39 +203,39 @@ echo navigation(1);
 					</tr>
 					<tr>
 						<td>Kabupaten/Kota:</td>
-						<td><input type="text" name="kabupaten" class="input-text-02" value="<?php isset($recKop['kabupaten']) ? $v=$recKop['kabupaten']: $v=""; echo $v; ?>" /></td>
+						<td><input type="text" name="kabupaten" class="input-text-02" value="<?php isset($recKop['kabupaten']) ? $v=$recKop['kabupaten']: $v=""; echo $v.'"'; echo $show ? '' : ' disabled'; ?> /></td>
 					</tr>
 					<tr>
 						<td>Kecamatan:</td>
-						<td><input type="text" name="kecamatan" class="input-text-02" value="<?php isset($recKop['kecamatan']) ? $v=$recKop['kecamatan']: $v=""; echo $v; ?>" /></td>
+						<td><input type="text" name="kecamatan" class="input-text-02" value="<?php isset($recKop['kecamatan']) ? $v=$recKop['kecamatan']: $v=""; echo $v.'"'; echo $show ? '' : ' disabled';  ?> /></td>
 					</tr>
 					<tr>
 						<td>Kelurahan:</td>
-						<td><input type="text" name="kelurahan" class="input-text-02" value="<?php isset($recKop['kelurahan']) ? $v=$recKop['kelurahan']: $v=""; echo $v; ?>" /></td>
+						<td><input type="text" name="kelurahan" class="input-text-02" value="<?php isset($recKop['kelurahan']) ? $v=$recKop['kelurahan']: $v=""; echo $v.'"'; echo $show ? '' : ' disabled';  ?> /></td>
 					</tr>
 					<tr>
 						<td>Kodepos:</td>
-    <td><input type="text" size="40" name="kodepos" value="<?php isset($recKop['kodepos']) ? $v=$recKop['kodepos']: $v=""; echo $v; ?>" class="input-text-02" /></td>
+    <td><input type="text" size="40" name="kodepos" value="<?php isset($recKop['kodepos']) ? $v=$recKop['kodepos']: $v=""; echo $v; ?>" class="input-text-02" <?php echo $show ? '' : 'disabled' ; ?>/></td>
 					</tr>
 					<tr>
 						<td>Nama Pimpinan/Ketua:</td>
-    <td><input type="text" size="40" name="pimpinan" value="<?php isset($recKop['pimpinan']) ? $v=$recKop['pimpinan']: $v=""; echo $v; ?>" class="input-text-02" /></td>
+    <td><input type="text" size="40" name="pimpinan" value="<?php isset($recKop['pimpinan']) ? $v=$recKop['pimpinan']: $v=""; echo $v; ?>" class="input-text-02" <?php echo $show ? '' : 'disabled' ; ?>/></td>
 					</tr>
 					<tr>
 						<td>Nomor Telepon:</td>
-    <td><input type="text" size="20" name="telp" value="<?php isset($recKop['telp']) ? $v=$recKop['telp']: $v=""; echo $v; ?>" class="input-text-02" /></td>
+    <td><input type="text" size="20" name="telp" value="<?php isset($recKop['telp']) ? $v=$recKop['telp']: $v=""; echo $v; ?>" class="input-text-02" <?php echo $show ? '' : 'disabled' ; ?>/></td>
 					</tr>
 					<tr>
 						<td>Nomor Fax:</td>
-    <td><input type="text" size="20" name="fax" value="<?php isset($recKop['fax']) ? $v=$recKop['fax']: $v=""; echo $v; ?>" class="input-text-02" /></td>
+    <td><input type="text" size="20" name="fax" value="<?php isset($recKop['fax']) ? $v=$recKop['fax']: $v=""; echo $v; ?>" class="input-text-02" <?php echo $show ? '' : 'disabled' ; ?>/></td>
 					</tr>
 					<tr>
 						<td>Nomor Telex:</td>
-    <td><input type="text" size="20" name="telex" value="<?php isset($recKop['telex']) ? $v=$recKop['telex']: $v=""; echo $v; ?>" class="input-text-02" /></td>
+    <td><input type="text" size="20" name="telex" value="<?php isset($recKop['telex']) ? $v=$recKop['telex']: $v=""; echo $v; ?>" class="input-text-02" <?php echo $show ? '' : 'disabled' ; ?>/></td>
 					</tr>
 					<tr>
 						<td>Alamat Email:</td>
-    <td><input type="text" size="40" name="email" value="<?php isset($recKop['email']) ? $v=$recKop['email']: $v=""; echo $v; ?>" class="input-text-02" /></td>
+    <td><input type="text" size="40" name="email" value="<?php isset($recKop['email']) ? $v=$recKop['email']: $v=""; echo $v; ?>" class="input-text-02" <?php echo $show ? '' : 'disabled' ; ?>/></td>
 					</tr>
 			</table>
 			</fieldset>
@@ -237,25 +244,26 @@ echo navigation(1);
 					<legend>Informasi Lembaga</legend>
 					<tr>
 						<td style="width:200px;">Sandi Lembaga:</td>
-    <td><input type="text" size="40" name="sandilembaga" value="<?php isset($recKop['sandilembaga']) ? $v=$recKop['sandilembaga']: $v=""; echo $v; ?>" class="input-text-02" /></td>
+    <td><input type="text" size="40" name="sandilembaga" value="<?php isset($recKop['sandilembaga']) ? $v=$recKop['sandilembaga']: $v=""; echo $v; ?>" class="input-text-02" <?php echo $show ? '' : 'disabled' ; ?>/></td>
 					</tr>
 					<tr>
 					<td>Nomor Badan Hukum:</td>
-    <td><input type="text" size="40" name="dasar_hukum" value="<?php isset($recKop['dasar_hukum']) ? $v=$recKop['dasar_hukum']: $v=""; echo $v; ?>" class="input-text-02" /></td>
+    <td><input type="text" size="40" name="dasar_hukum" value="<?php isset($recKop['dasar_hukum']) ? $v=$recKop['dasar_hukum']: $v=""; echo $v; ?>" class="input-text-02" <?php echo $show ? '' : 'disabled' ; ?>/></td>
 					</tr>
 					<tr>
 						<td>Tanggal Badan Hukum:</td>
     <td><input type="text" size="40" name="tgl_berdiri" value="<?php isset($recKop['tgl_berdiri']) ? $v=$recKop['tgl_berdiri']: $v=date('Y-m-d');
-; echo $v; ?>" class="input-text-02" /></td>
+; echo $v; ?>" class="input-text-02" <?php echo $show ? '' : 'disabled' ; ?>/></td>
 					</tr>
 					<tr>
 						<td>Grup Level:</td>
-    <td><input type="text" size="40" name="grouplevel" value="<?php isset($recKop['grouplevel']) ? $v=$recKop['grouplevel']: $v=""; echo $v; ?>" class="input-text-02" /></td>
+    <td><input type="text" size="40" name="grouplevel" value="<?php isset($recKop['grouplevel']) ? $v=$recKop['grouplevel']: $v=""; echo $v; ?>" class="input-text-02" <?php echo $show ? '' : 'disabled' ; ?>/></td>
 					</tr>
 					<tr>
 						<td>Jenis Lembaga:</td>
-						<td><select id="jenis" name="jenis" class="input-text-02">
+						<td><select id="jenis" name="jenis" class="input-text-02" 
 <?php
+    echo $show ? '>' : ' disabled >' ;
 	$sql_text = "SELECT idtipe_koperasi, jenis FROM tipe_koperasi ORDER by idtipe_koperasi";
 	$rsSelect = $dbs->query($sql_text);
 	while ($recSel = $rsSelect->fetch_assoc()) {
@@ -275,7 +283,7 @@ echo navigation(1);
 					<legend>Administrator</legend>
                     <tr>
                     <td colspan="2">
-                    <?php echo userKoperasi($idkoperasi); ?>
+                    <?php if ($show) { echo userKoperasi($idkoperasi); } ?>
                     </td>
 			</table>
 			</fieldset>

@@ -12,19 +12,8 @@ if (isset($_POST['saveNeraca'])) {
 	if (isset($_POST['updatenid'])) {
 		$idcoa = $_POST['updatenid'];
 	}
-	$date['month']=$_POST['month'];
-	$date['tahun']=$_POST['tahun'];
-    if (isset($_POST['month'])) {
-        $date['time'] = $date['tahun']."-".$date['month']."-01";
-        $testdate = $dbs->query("SELECT LAST_DAY('".$date['time']."')");
-        $resultdate = $testdate->fetch_row();
-        $data['dateposting'] = $resultdate[0];
-    } else {
-        $data['dateposting'] = $date['tahun']."-12-31";
-        $data['tahunan'] = 1;
-    }
 	$data['idkoperasi']=$_POST['idkoperasi'];
-//	$data['idperiode']=$_POST['idperiode'];
+	$data['idperiode']=$_POST['idperiode'];
 	$data['c1']=$_POST['c1'];
 	$data['c11']=$_POST['c11'];
 	$data['c1110']=$_POST['c1110'];
@@ -86,7 +75,7 @@ if (isset($_POST['saveNeraca'])) {
 	$data['c3162']=$_POST['c3162'];
 	$data['c3170']=$_POST['c3170'];
 	$data['c3180']=$_POST['c3180'];
-
+	
 	if (isset($idcoa) AND $idcoa <> 0) {
 		$update = $sql_op->update('coa', $data, 'idcoa ='.$idcoa);
 		if ($update) {
@@ -149,15 +138,7 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 	<script type="text/javascript">
 	$(document).ready(function(){
 		$(".tabs > ul").tabs();
-        $("#enable").click(function() {
-               if ($(this).is(':checked')) {
-                    $('input:radio').attr("disabled", false);
-               } else if ($(this).not(':checked')) {
-                    $('input:radio').attr("disabled", true);
-               }
-        });
-    }); 
-
+	});
 	</script>
 	<title>Kementerian KUKM - JKUK</title>
 </head>
@@ -229,7 +210,6 @@ echo navigation(1);
 
 			<h1>Neraca</h1>
 			<?php
-//            include('lib/getyear.php');
 			if (isset($_GET['list'])) {
 				echo "<fieldset>\n<legend>Data Neraca Tersedia</legend>";
                 echo listNeraca();
@@ -254,21 +234,17 @@ echo navigation(1);
 	$sql_text = "SELECT idkoperasi, nama from koperasi ORDER BY nama";
 	$option = $dbs->query($sql_text);
     if ($_SESSION['group'] == 1) {
-        echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02">';
+    	echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02">';
     } else {
-        echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02" disabled>';
+    	echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02" disabled>';
     }
-    echo '<option value="0">--- Pilih nama ---</option>';
+	echo '<option value="0">--- Pilih nama ---</option>';
 	while ($choice = $option->fetch_assoc()) {
-        if ($_SESSION['group'] == 1 AND $choice['idkoperasi'] == $recNeraca['idkoperasi']) {
-            echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
-        } else {
-            if ($_SESSION['group'] <> 1 AND $choice['idkoperasi'] == $_SESSION['koperasi']) {
-                echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
-            } else {
-                echo '<option value="'.$choice['idkoperasi'].'">'.$choice['nama'].'</option>';
-            }
-        }
+		if ($choice['idkoperasi'] == $recNeraca['idkoperasi'] OR $choice['idkoperasi'] == $_SESSION['koperasi']) {
+			echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
+		} else {
+			echo '<option value="'.$choice['idkoperasi'].'">'.$choice['nama'].'</option>';
+		}
 	}
 	unset ($choice);
 	echo '</select></td>';
@@ -276,33 +252,20 @@ echo navigation(1);
 					</tr>
 					<tr>
 						<td>Periode:</td>
-                        <td><input id="enable" name="enable" type="checkbox" value="1" checked="" />&nbsp;Bulanan<br />
 <?php
-    for ($i=0; $i<12; $i++) {
-        echo '<input type="radio" name="month" id="m1" value="'. sprintf("%02d",$i+1).'" ';
-        if (isset($recNeraca['dateposting'])) {
-            $m = -1+substr($recNeraca['dateposting'],5,2);
-            if ($i == $m) {
-                echo ' checked';
-            }
-        }
-        echo '/ > '.$sysconf['months'][$i].'&nbsp;&nbsp;';
-    }
-    $t = date("Y");
-    echo '<select id="year" name="tahun">';
-    for ($i=$t; $i>$t-5; $i--) {
-        echo '<option value="'.$i.'"';
-        if (isset($recNeraca['dateposting'])) {
-            $y = 0+substr($recNeraca['dateposting'],0,4);
-            if ($i == $y) {
-                echo ' selected';
-            }
-        }
-        echo ' >'.$i.'</option>';
-    }
-    echo '</select>';
+	$sql_text = "SELECT idperiode, periode from periode ORDER BY finaldate DESC";
+	$option = $dbs->query($sql_text);
+	echo '<td><select id="periode" name="idperiode" class="input-text-2">"';
+	echo '<option value="">--- Periode pelaporan ---</option>';
+	while ($choice = $option->fetch_assoc()) {
+		if ($choice['idperiode'] == $recNeraca['idperiode']) {
+			echo '<option value="'.$choice['idperiode'].'" SELECTED >'.$choice['periode'].'</option>';
+		} else {
+			echo '<option value="'.$choice['idperiode'].'">'.$choice['periode'].'</option>';
+		}
+	}
+	echo '</select></td>';
 ?>
-                      </td>
 					</tr>
 				</table>
 			</fieldset>

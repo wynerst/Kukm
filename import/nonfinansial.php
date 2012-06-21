@@ -143,7 +143,7 @@ echo navigation(3);
 			<!-- Form -->
 			<h3 class="tit">Upload Data</h3>
 			<fieldset>
-				<legend>Informasi Upload Data</legend>
+				<legend>Informasi Upload Data Pendukung Lain</legend>
                 <form method="post" enctype="multipart/form-data">
                 <table class="nostyle">
 					<tr>
@@ -189,7 +189,64 @@ echo navigation(3);
 						<td><input type="file" id="datafile" name="datafile" size="40" value="<?php echo isset($_POST['datafile']) ? $_POST['datafile'] : ""; ?>"></td>
 					</tr>
 					<tr>
-						<td colspan="2" class="t-right"><input type="submit" name="Go" class="input-submit" value="Submit" onclick=" var s = document.getElementById('datafile'); if(null != s && '' == s.value) {alert('Pilih berkas CSV untuk diunggah.'); s.focus(); return false;}"></td>
+						<td colspan="2" class="t-right"><input type="submit" name="Go" class="input-submit" value="Submit" onclick=" var s = document.getElementById('datafile'); if(null != s && '' == s.value) {alert('Pilih berkas CSV data pendukung lain untuk diunggah.'); s.focus(); return false;}"></td>
+					</tr>
+				</table>
+                <input type="hidden" name="use_csv_header" value=1>
+                <input type="hidden" name="field_enclose_char" value="&quot;">
+                <input type="hidden" name="field_escape_char" value="\">
+                <input type="hidden" name="encoding" value="default">
+      </tr>
+                </form>
+			</fieldset>
+			<fieldset>
+				<legend>Informasi Upload Data Pendukung Finansial</legend>
+                <form method="post" enctype="multipart/form-data">
+                <table class="nostyle">
+					<tr>
+						<td style="width:180px;">Sandi Koperasi:</td>
+						<td><input type="text" size="9" name="" class="input-text" value="020100001" disabled="disabled" /> - <input type="text" size="3" name="" class="input-text" value="001" disabled="disabled" /></td>
+					</tr>
+					<tr>
+						<td>Nama Koperasi:</td>
+<?php
+	$sql_text = "SELECT idkoperasi, nama from koperasi ORDER BY nama";
+	$option = $dbs->query($sql_text);
+    if ($_SESSION['group'] == 1) {
+    	echo '<td><select id="jenis" name="fkoperasi" class="input-text-02">';
+    } else {
+    	echo '<td><select id="jenis" name="koperasi" class="input-text-02" disabled>';
+    }
+	echo '<option value="0">--- Pilih Koperasi ---</option>';
+	while ($choice = $option->fetch_assoc()) {
+		if ($choice['idkoperasi'] == $_SESSION['koperasi']) {
+			echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
+		} else {
+			echo '<option value="'.$choice['idkoperasi'].'">'.$choice['nama'].'</option>';
+		}
+	}
+	unset ($choice);
+	echo '</select></td>';
+?>
+					</tr>
+					<tr>
+						<td>Waktu Data:</td>
+						<td><input type="text" size="15" name="" class="input-text" value="" disabled="disabled" /></td>
+					</tr>
+					<tr>
+						<td>Delimiter:</td>
+						<td><select id="delimiter" name="ffield_separate_char" class="input-text">
+							<option value=",">, (koma)</option>
+							<option value=";">; (titik koma)</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>File yang akan di-upload:</td>
+						<td><input type="file" id="datafilefin" name="datafilefin" size="40" value="<?php echo isset($_POST['datafile']) ? $_POST['datafile'] : ""; ?>"></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="t-right"><input type="submit" name="GoFinansial" class="input-submit" value="Submit" onclick=" var s = document.getElementById('datafilefin'); if(null != s && '' == s.value) {alert('Pilih berkas CSV data pendukung finansial untuk diunggah.'); s.focus(); return false;}"></td>
 					</tr>
 				</table>
                 <input type="hidden" name="use_csv_header" value=1>

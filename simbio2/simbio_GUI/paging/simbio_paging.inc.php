@@ -35,7 +35,7 @@ class simbio_paging
      * @param   string  $str_target_frame
      * @return  string
      */
-    public static function paging($int_all_recs_num, $int_recs_each_page, $int_pages_each_set = 10, $str_fragment = '', $str_target_frame = '_self')
+    public static function paging($int_all_recs_num, $int_recs_each_page, $int_pages_each_set = 15, $str_fragment = '', $str_target_frame = '_self')
     {
         // check for wrong arguments
         if ($int_recs_each_page > $int_all_recs_num) {

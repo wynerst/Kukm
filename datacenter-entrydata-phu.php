@@ -12,9 +12,20 @@ if (isset($_POST['saveShu'])) {
 	if (isset($_POST['updatenid'])) {
 		$idshu = $_POST['updatenid'];
 	}
+	$date['month']=$_POST['month'];
+	$date['tahun']=$_POST['tahun'];
+    if (isset($_POST['month'])) {
+        $date['time'] = $date['tahun']."-".$date['month']."-01";
+        $testdate = $dbs->query("SELECT LAST_DAY('".$date['time']."')");
+        $resultdate = $testdate->fetch_row();
+        $data['dateposting'] = $resultdate[0];
+    } else {
+        $data['dateposting'] = $date['tahun']."-12-31";
+        $data['tahunan'] = 1;
+    }
 
 	$data['idkoperasi'] = $_POST['idkoperasi'];
-	$data['idperiode'] = $_POST['idperiode'];
+//	$data['idperiode'] = $_POST['idperiode'];
 	$data['s1'] = $_POST['s1'];
 	$data['s11'] = $_POST['s11'];
 	$data['s1101'] = $_POST['s1101'];
@@ -138,6 +149,13 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 	<script type="text/javascript">
 	$(document).ready(function(){
 		$(".tabs > ul").tabs();
+        $("#enable").click(function() {
+               if ($(this).is(':checked')) {
+                    $('input:radio').attr("disabled", false);
+               } else if ($(this).not(':checked')) {
+                    $('input:radio').attr("disabled", true);
+               }
+        });
 	});
 	</script>
 	<title>Kementerian KUKM - JKUK</title>
@@ -234,17 +252,21 @@ echo navigation(2);
 	$sql_text = "SELECT idkoperasi, nama from koperasi ORDER BY nama";
 	$option = $dbs->query($sql_text);
     if ($_SESSION['group'] == 1) {
-    	echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02">';
+        echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02">';
     } else {
-    	echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02" disabled>';
+        echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02" disabled>';
     }
-	echo '<option value="0">--- Pilih nama ---</option>';
+    echo '<option value="0">--- Pilih nama ---</option>';
 	while ($choice = $option->fetch_assoc()) {
-		if ($choice['idkoperasi'] == $recShu['idkoperasi'] OR $choice['idkoperasi'] == $_SESSION['koperasi']) {
-			echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
-		} else {
-			echo '<option value="'.$choice['idkoperasi'].'">'.$choice['nama'].'</option>';
-		}
+        if ($_SESSION['group'] == 1 AND $choice['idkoperasi'] == $recShu['idkoperasi']) {
+            echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
+        } else {
+            if ($_SESSION['group'] <> 1 AND $choice['idkoperasi'] == $_SESSION['koperasi']) {
+                echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
+            } else {
+                echo '<option value="'.$choice['idkoperasi'].'">'.$choice['nama'].'</option>';
+            }
+        }
 	}
 	unset ($choice);
 	echo '</select></td>';
@@ -252,20 +274,34 @@ echo navigation(2);
 					</tr>
 					<tr>
 						<td>Periode:</td>
+                        <td><input id="enable" name="enable" type="checkbox" value="1" checked="" />&nbsp;Bulanan<br />
 <?php
-	$sql_text = "SELECT idperiode, periode from periode ORDER BY finaldate DESC";
-	$option = $dbs->query($sql_text);
-	echo '<td><select id="periode" name="idperiode" class="input-text-2">"';
-	echo '<option value="">--- Periode pelaporan ---</option>';
-	while ($choice = $option->fetch_assoc()) {
-		if ($choice['idperiode'] == $recShu['idperiode']) {
-			echo '<option value="'.$choice['idperiode'].'" SELECTED >'.$choice['periode'].'</option>';
-		} else {
-			echo '<option value="'.$choice['idperiode'].'">'.$choice['periode'].'</option>';
-		}
-	}
-	echo '</select></td>';
+    for ($i=0; $i<12; $i++) {
+        echo '<input type="radio" name="month" id="m1" value="'. sprintf("%02d",$i+1).'" ';
+        if (isset($recShu['dateposting'])) {
+            $m = -1+substr($recShu['dateposting'],5,2);
+            if ($i == $m) {
+                echo ' checked';
+            }
+        }
+        echo '/ > '.$sysconf['months'][$i].'&nbsp;&nbsp;';
+    }
+    $t = date("Y");
+    echo '<select id="year" name="tahun">';
+    for ($i=$t; $i>$t-5; $i--) {
+        echo '<option value="'.$i.'"';
+        if (isset($recShu['dateposting'])) {
+            $y = 0+substr($recShu['dateposting'],0,4);
+            if ($i == $y) {
+                echo ' SELECTED';
+            }
+        }
+        echo ' >'.$i.' - '.$y.'</option>';
+    }
+    echo '</select>';
 ?>
+                        </td>
+                    </tr>
 				</table>
 			</fieldset>
 

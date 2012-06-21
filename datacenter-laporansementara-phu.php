@@ -151,18 +151,23 @@ echo navigation(2);
 					<tr>
 						<td>Periode:</td>
 <?php
-	$sql_text = "SELECT idperiode, periode from periode ORDER BY finaldate DESC";
+	$sql_text = "SELECT DISTINCT substring(dateposting,1,10) as idperiode from coa";
+    if ($_SESSION['group'] == 2) {
+        $sql_text .= " WHERE idkoperasi=".$_SESSION['koperasi'];
+    }
+    $sql_text .= " ORDER BY dateposting DESC";
 	$option = $dbs->query($sql_text);
 	echo '<td><select id="periode" name="idperiode" class="input-text-2">"';
 	echo '<option value="">--- Periode pelaporan ---</option>';
 	while ($choice = $option->fetch_assoc()) {
 		if (isset($lapperiod) and  $lapperiod == $choice['idperiode']) {
-			echo '<option value="'.$choice['idperiode'].'" SELECTED >'.$choice['periode'].'</option>';
+			echo '<option value="'.$choice['idperiode'].'" SELECTED >'.$choice['idperiode'].'</option>';
 		} else {
-			echo '<option value="'.$choice['idperiode'].'">'.$choice['periode'].'</option>';
+			echo '<option value="'.$choice['idperiode'].'">'.$choice['idperiode'].'</option>';
 		}
 	}
 	echo '</select></td>';
+
 ?>
 					</tr>
 					<tr>

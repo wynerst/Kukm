@@ -5,72 +5,66 @@ require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
 include "listdata.php";
 include "nav_datacenter.php";
 
-if (isset($_POST['saveHarian'])) {
+if (isset($_POST['saveNon'])) {
 
     $sql_op = new simbio_dbop($dbs);
 
 	if (isset($_POST['updatenid'])) {
-		$idday = $_POST['updatenid'];
+		$idncoa = $_POST['updatenid'];
 	}
-	$data['idkoperasi']=$_POST['idkoperasi'];
-	$data['periode']=$_POST['periode'];
-	$data['h1']=$_POST['h1'];
-	$data['h2']=$_POST['h2'];
-	$data['h3']=$_POST['h3'];
-	$data['h4']=$_POST['h4'];
-	$data['h5']=$_POST['h5'];
-	$data['h6']=$_POST['h6'];
-	$data['h7']=$_POST['h7'];
-	$data['h8']=$_POST['h8'];
-	$data['h9']=$_POST['h9'];
-	$data['h10']=(($_POST['h101']+(0.5*$_POST['h102'])+(0.75*$_POST['h103']))/$_POST['h2']);
-	$data['h101']=$_POST['h101'];
-	$data['h102']=$_POST['h102'];
-	$data['h103']=$_POST['h103'];
-	$data['iduser']=$_POST['iduser'];
-	
-	if (isset($idday) AND $idday <> 0) {
-		$update = $sql_op->update('harian', $data, 'idday ='.$idday);
+	$data['idkoperasi'] = $_POST['idkoperasi'];
+	$data['idperiode'] = $_POST['idperiode'];
+	$data['piutangmacet']=$_POST['piutangmacet'];
+	$data['akumulasi_pinjaman']=$_POST['akumulasi_pinjaman'];
+	$data['akumulasi_simpanan']=$_POST['akumulasi_simpanan'];
+	$data['pengurus']=$_POST['pengurus'];
+	$data['pengawas']=$_POST['pengawas'];
+	$data['karyawan']=$_POST['karyawan'];
+	$data['anggota']=$_POST['anggota'];
+	$data['calon_anggota']=$_POST['calon_anggota'];
+	$data['sb_simpanan']=$_POST['sb_simpanan'];
+	$data['sb_pinjaman']=$_POST['sb_pinjaman'];
+
+	if (isset($idncoa) AND $idncoa <> 0) {
+		$update = $sql_op->update('non_coa', $data, 'idnon_coa ='.$idncoa);
+//		print_r($data);
+//		die();
 		if ($update) {
-			$message='Data Harian berhasil diperbaiki.';
+			utility::jsAlert('Data Non-Neraca berhasil diperbaiki.');
 		} else {
-			$message=$sql_op->error.' Data Harian GAGAL diperbaiki.';
+			utility::jsAlert('Data Non-Neraca GAGAL diperbaiki.');
 		}
 	} else {
-		$insert = $sql_op->insert('harian', $data);
+		$insert = $sql_op->insert('non_coa', $data);
 		if ($insert) {
-			$message='Data Harian berhasil disimpan.';
+			utility::jsAlert('Data Non-Neraca berhasil disimpan.');
 		} else {
-			$message=$sql_op->error.' Data Harian GAGAL disimpan.';
+			utility::jsAlert('Data Non-Neraca GAGAL disimpan.');
 		}
 	}
+
 }
 
 if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
 	// get record
-	$idday = $_GET['nid'];
-	$sql_text = "SELECT h.*, k.nama FROM harian as h
-		LEFT JOIN koperasi as k ON h.idkoperasi = k.idkoperasi
-		WHERE h.idday =". $idday;
-	$q_harian = $dbs->query($sql_text);
-    if ($q_harian) {
-        $recHarian = $q_harian->fetch_assoc();
-    } else {
-        $message = "Data tidak ditemukan.";
-    }
+	$idncoa = $_GET['nid'];
+	$sql_text = "SELECT n.*, p.*, k.* FROM non_coa as n
+		LEFT JOIN periode as p ON n.idperiode = p.idperiode
+		LEFT JOIN koperasi as k ON n.idkoperasi = k.idkoperasi
+		WHERE n.idnon_coa =". $idncoa;
+	$q_ncoa = $dbs->query($sql_text);
+	$recNon = $q_ncoa->fetch_assoc();
 }
 
 // start the output buffering for main content
 ob_start();
 
 session_start();
-
 if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
     echo '<script type="text/javascript">alert(\'Anda tidak berhak mengakses laman!\');';
     echo 'location.href = \'index.php\';</script>';
     die();
 }
-
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -100,11 +94,7 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 </head>
 
 <body>
-<?php
-    if (isset($message)) {
-        utility::jsAlert($message);
-    }
-?>
+
 <div id="main">
 
 	<!-- Tray -->
@@ -155,11 +145,9 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 				<p id="logo"><a href="#"><img src="tmp/logo.gif" alt="Our logo" title="Visit Site" /></a></p>
 
 			</div> <!-- /padding -->
-
 <?php
-echo navigation(5);
+echo navigation(3);
 ?>
-
 
 		</div> <!-- /aside -->
 
@@ -168,16 +156,18 @@ echo navigation(5);
 		<!-- Content (Right Column) -->
 		<div id="content" class="box">
 
-			<h1>DATA HARIAN KOPERASI</h1>
+			<h1>Data Pendukung Lain</h1>
 			<?php
 			if (isset($_GET['list'])) {
-				echo "<fieldset>\n<legend>Data Harian Tersedia</legend>";
-                if (isset($_GET['kid'])) {
-                    echo listHarian($_GET['kid']);
-                } else {
-                    echo listHarian();
-                }
-				echo '<form action="datacenter-harian.php" method="link"><table class="nostyle">';
+				echo "<fieldset>\n<legend>Data Pendukung Finansial</legend>";
+				echo listFinansial();
+				echo '<form action="datacenter-entrydata-finansial.php" method="link"><table class="nostyle">';
+				echo '<div style="text-align:right";><input type="submit" class="input-submit" value="Data Finansial Baru" /></div></form>';
+				echo "</fieldset>\n";
+
+				echo "<fieldset>\n<legend>Data Pendukung Lain</legend>";
+				echo listNonNeraca();
+				echo '<form action="datacenter-entrydata-pendukung.php" method="link"><table class="nostyle">';
 				echo '<div style="text-align:right";><input type="submit" class="input-submit" value="Data Baru" /></div></form>';
 				echo "</fieldset>\n";
 				//echo listNonNeraca()."<br />";
@@ -187,7 +177,7 @@ echo navigation(5);
 			?>
 
 			<!-- Form -->
-			<form id=neracaForm method=post>
+			<form id=nonForm method=post>
 			<h3 class="tit">Entry Data</h3>
 			<fieldset>
 				<legend>Informasi Entry Data</legend>
@@ -198,13 +188,13 @@ echo navigation(5);
 	$sql_text = "SELECT idkoperasi, nama from koperasi ORDER BY nama";
 	$option = $dbs->query($sql_text);
     if ($_SESSION['group'] == 1) {
-    	echo '<td><select id="jenis" name="idkoperasi" class="input-text-02">';
+    	echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02">';
     } else {
-    	echo '<td><select id="jenis" name="idkoperasi" class="input-text-02" disabled>';
+    	echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02" disabled>';
     }
 	echo '<option value="0">--- Pilih nama ---</option>';
 	while ($choice = $option->fetch_assoc()) {
-		if ($choice['idkoperasi'] == $recHarian['idkoperasi'] OR $choice['idkoperasi'] == $_SESSION['koperasi']) {
+		if ($choice['idkoperasi'] == $recNeraca['idkoperasi'] OR $choice['idkoperasi'] == $_SESSION['koperasi']) {
 			echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
 		} else {
 			echo '<option value="'.$choice['idkoperasi'].'">'.$choice['nama'].'</option>';
@@ -216,9 +206,20 @@ echo navigation(5);
 					</tr>
 					<tr>
 						<td>Periode:</td>
-	<td>
-	<input type="text" id="periode" name="periode" class="input-text-2" value="<?php isset($recHarian['periode']) ? $v=$recHarian['periode']: $v="0000-00-00"; echo $v; ?>" />
-	</td>
+<?php
+	$sql_text = "SELECT idperiode, periode from periode ORDER BY finaldate DESC";
+	$option = $dbs->query($sql_text);
+	echo '<td><select id="periode" name="idperiode" class="input-text-2">"';
+	echo '<option value="">--- Periode pelaporan ---</option>';
+	while ($choice = $option->fetch_assoc()) {
+		if ($choice['idperiode'] == $recNon['idperiode']) {
+			echo '<option value="'.$choice['idperiode'].'" SELECTED >'.$choice['periode'].'</option>';
+		} else {
+			echo '<option value="'.$choice['idperiode'].'">'.$choice['periode'].'</option>';
+		}
+	}
+	echo '</select></td>';
+?>
 					</tr>
 				</table>
 			</fieldset>
@@ -228,84 +229,44 @@ echo navigation(5);
 <table class="nostyle">
   <tr style="background: #999">
     <td style="width:5px;"><b>No.</b></td>
-    <td style="width:250px;"><b>Data harian koperasi</b></td>
+    <td style="width:250px;"><b>Data Pendukung Non Finansial</b></td>
     <td></td>
   </tr>
   <tr>
     <td>1</td>
-    <td>Akumulasi Transaksi Simpanan (Neraca Lajur Mutasi Pasiva)</td>
-    <td><input type="text" size="40" name="h1" value="<?php echo isset($recHarian['h1']) ? $recHarian['h1'] : "0"; ?>" class="input-text" /></td>
+    <td>Jumlah Penasehat/Pengawas</td>
+    <td><input type="text" size="40" name="pengawas" value="<?php echo isset($recNon['pengawas']) ? $recNon['pengawas'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>2</td>
-    <td>Akumulasi Transaksi Pinjaman (Neraca Lajur Mutasi Aktiva)</td>
-    <td><input type="text" size="40" name="h2" value="<?php echo isset($recHarian['h2']) ? $recHarian['h2'] : "0"; ?>" class="input-text" /></td>
+    <td>Jumlah Pengurus</td>
+    <td><input type="text" size="40" name="pengurus" value="<?php echo isset($recNon['pengurus']) ? $recNon['pengurus'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>3</td>
-    <td>Modal dalam</td>
-    <td><input type="text" size="40" name="h3" value="<?php echo isset($recHarian['h3']) ? $recHarian['h3'] : "0"; ?>" class="input-text" /></td>
+    <td>Jumlah Karyawan</td>
+    <td><input type="text" size="40" name="karyawan" value="<?php echo isset($recNon['karyawan']) ? $recNon['karyawan'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>4</td>
-    <td>Modal luar</td>
-    <td><input type="text" size="40" name="h4" value="<?php echo isset($recHarian['h4']) ? $recHarian['h4'] : "0"; ?>" class="input-text" /></td>
+    <td>Jumlah Anggota</td>
+    <td><input type="text" size="40" name="anggota" value="<?php echo isset($recNon['anggota']) ? $recNon['anggota'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>5</td>
-    <td>Volume Usaha</td>
-    <td><input type="text" size="40" name="h5" value="<?php echo isset($recHarian['h5']) ? $recHarian['h5'] : "0"; ?>" class="input-text" /></td>
+    <td>Jumlah Calon Anggota/Anggota tidak tetap</td>
+    <td><input type="text" size="40" name="calon_anggota" value="<?php echo isset($recNon['calon_anggota']) ? $recNon['calon_anggota'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
-    <td>6</td>
-    <td>Asset</td>
-    <td><input type="text" size="40" name="h6" value="<?php echo isset($recHarian['h6']) ? $recHarian['h6'] : "0"; ?>" class="input-text" /></td>
-  </tr>
-  <tr>
-    <td>7</td>
-    <td>SHU</td>
-    <td><input type="text" size="40" name="h7" value="<?php echo isset($recHarian['h7']) ? $recHarian['h7'] : "0"; ?>" class="input-text" /></td>
-  </tr>
-  <tr>
-    <td>8</td>
-    <td>Suku Bunga simpanan</td>
-    <td><input type="text" size="40" name="h8" value="<?php echo isset($recHarian['h8']) ? $recHarian['h8'] : "0"; ?>" class="input-text" /></td>
-  </tr>
-  <tr>
-    <td>9</td>
-    <td>Suku bunga pinjaman</td>
-    <td><input type="text" size="40" name="h9" value="<?php echo isset($recHarian['h9']) ? $recHarian['h9'] : "0"; ?>" class="input-text" /></td>
-  </tr>
-  <tr style="background: #999">
-    <td style="width:5px;">10</td>
-    <td style="width:250px;"><b>NPL/Non Performing Loan</b></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>Pinjaman Kurang Lancar/PKL</td>
-    <td><input type="text" size="40" name="h102" value="<?php echo isset($recHarian['h102']) ? $recHarian['h102'] : "0"; ?>" class="input-text" /></td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>Pinjaman Diragukan</td>
-    <td><input type="text" size="40" name="h103" value="<?php echo isset($recHarian['h103']) ? $recHarian['h103'] : "0"; ?>" class="input-text" /></td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>Pinjaman Macet</td>
-    <td><input type="text" size="40" name="h101" value="<?php echo isset($recHarian['h101']) ? $recHarian['h101'] : "0"; ?>" class="input-text" /></td>
-  </tr>
-  <tr>
-	<td colspan="4" class="t-right"><input type="submit" name="saveHarian" class="input-submit" value="Submit" /></td>
+	<td colspan="4" class="t-right"><input type="submit" name="saveNon" class="input-submit" value="Submit" /></td>
   </tr>
 </table>
 			</fieldset>
-<?php
-if (isset($idday)) {
-    echo '<input type="hidden" name="updatenid" value="'.$idday.'"/>';
+
+			<?php
+if (isset($idncoa)) {
+    echo '<input type="hidden" name="updatenid" value="'.$idncoa.'"/>';
 }
-    echo '<input type="hidden" name="iduser" value="'.$_SESSION['userID'].'"/>';
 ?>
 </form>
 		</div> <!-- /content -->

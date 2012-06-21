@@ -22,7 +22,7 @@
  */
 
 
-class simbio_datagrid_alt extends simbio_table
+class simbio_datagrid extends simbio_table
 {
     /**
      * Private properties
@@ -246,13 +246,7 @@ class simbio_datagrid_alt extends simbio_table
         // records
         while ($_data = $this->grid_real_q->fetch_row()) {
             $this->grid_result_rows[$_row] = $_data;
-            if ($class) {
-                $val = ($this->grid_result_rows[$_row][0]<=12)?$this->grid_result_rows[$_row][0] : 12;
-                $val = ($val == 0)? 1 : $val;
-                $_row_class = 'alterRow'.$val;
-            } else {
-                $_row_class = ($_row%2 == 0)?'alterCell':'alterCell2';
-            }
+            $_row_class = ($_row%2 == 0)?'alterCell':'alterCell2';
 
             // modified content
             foreach ($this->modified_content as $_field_num => $_new_content) {
@@ -355,11 +349,6 @@ class simbio_datagrid_alt extends simbio_table
         if ($this->num_rows > $int_num2show && !$this->disable_paging) {
             $_paging = simbio_paging::paging($this->num_rows, $int_num2show, 5);
         }
-        
-        if (isset($_GET['page']) AND $_GET['page'] > 1) {
-            $_page = (integer)$_GET['page'];
-        } else {$_page = 1;}
-
         // iframe
         $_iframe = '';
         // setting form target
@@ -397,7 +386,7 @@ class simbio_datagrid_alt extends simbio_table
             if (!isset($_SERVER['QUERY_STRING'])) {
                 $_SERVER['QUERY_STRING'] = '';
             }
-            $_buffer .= $_button_grp.$this->printTable($_page, $int_num2show).$_button_grp
+            $_buffer .= $_button_grp.$this->printTable().$_button_grp
                 .'<input type="hidden" name="itemAction" value="true" />'
                 .'<input type="hidden" name="lastQueryStr" value="'.$_SERVER['QUERY_STRING'].'" />'."\n"
                 .'</form>'."\n"
@@ -410,7 +399,7 @@ class simbio_datagrid_alt extends simbio_table
                     .'<tr><td align="right">'.$_paging."\n".'</td></tr></table>';
             }
 
-            $_buffer .= $_button_grp.$this->printTable($_page, $int_num2show).$_button_grp;
+            $_buffer .= $_button_grp.$this->printTable().$_button_grp;
         }
 
         return $_buffer;

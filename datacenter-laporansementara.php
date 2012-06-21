@@ -7,9 +7,9 @@ if (isset($_POST['searchCoa'])) {
 	$kopnama = $_POST['koperasi'];
 	$lapperiod = $_POST['periode'];
 	if ($kopnama <>"" AND $lapperiod <>"") {
-		$search_limit = ' k.idkoperasi ='. $kopnama . ' AND p.idperiode = "'.$lapperiod.'"';
+		$search_limit = ' k.idkoperasi ='. $kopnama . ' AND c.dateposting like "'.$lapperiod.'%"';
 		// get record
-		$sql_text = "SELECT c.*, p.periode, k.nama FROM coa as c LEFT JOIN periode as p ON c.idperiode = p.idperiode ";
+		$sql_text = "SELECT c.*, k.nama FROM coa as c";
 		$sql_text .= " LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi ";
 		if (isset($search_limit)) {
 			$sql_text .= "WHERE ". $search_limit;
@@ -17,7 +17,7 @@ if (isset($_POST['searchCoa'])) {
 		$q_neraca = $dbs->query($sql_text);
 		$recNeraca = $q_neraca->fetch_assoc();
 	} else {
-		utility::jsAlert('Nama koperasi dan periode tidak boleh kosong.');
+		$error = 'Nama koperasi dan periode tidak boleh kosong.';
 	}
 }
 
@@ -53,7 +53,11 @@ session_start();
 </head>
 
 <body>
-
+<?php
+if (isset($error)) {
+    utility::jsAlert($error);
+}
+?>
 <div id="main">
 
 	<!-- Tray -->
@@ -128,9 +132,10 @@ echo navigation(1);
 	$sql_text = "SELECT idkoperasi, nama from koperasi ORDER BY nama";
 	$option = $dbs->query($sql_text);
     if ($_SESSION['group'] == 1) {
-    	echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02">';
+    	echo '<td><select id="idkoperasi" name="koperasi" class="input-text-02">';
     } else {
-    	echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02" disabled>';
+    	echo '<td><input type="hidden" name="koperasi" value="'.$_SESSION['koperasi'].'">';
+        echo '<select id="idkoperasi" name="koperasi" class="input-text-02" disabled>';
     }
 	echo '<option value="0">--- Pilih nama ---</option>';
 	while ($choice = $option->fetch_assoc()) {
@@ -146,22 +151,27 @@ echo navigation(1);
 					<tr>
 						<td>Periode:</td>
 <?php
-	$sql_text = "SELECT idperiode, periode from periode ORDER BY finaldate DESC";
+	$sql_text = "SELECT DISTINCT substring(dateposting,1,10) as idperiode from coa";
+    if ($_SESSION['group'] == 2) {
+        $sql_text .= " WHERE idkoperasi=".$_SESSION['koperasi'];
+    }
+    $sql_text .= " ORDER BY dateposting DESC";
 	$option = $dbs->query($sql_text);
 	echo '<td><select id="periode" name="periode" class="input-text-2">"';
 	echo '<option value="">--- Periode pelaporan ---</option>';
 	while ($choice = $option->fetch_assoc()) {
 		if (isset($lapperiod) and  $lapperiod == $choice['idperiode']) {
-			echo '<option value="'.$choice['idperiode'].'" SELECTED >'.$choice['periode'].'</option>';
+			echo '<option value="'.$choice['idperiode'].'" SELECTED >'.$choice['idperiode'].'</option>';
 		} else {
-			echo '<option value="'.$choice['idperiode'].'">'.$choice['periode'].'</option>';
+			echo '<option value="'.$choice['idperiode'].'">'.$choice['idperiode'].'</option>';
 		}
 	}
 	echo '</select></td>';
 ?>
 					</tr>
 					<tr>
-						<td colspan="2" disabled="disabled" class="t-right"><input name="searchCoa" type="submit" class="input-submit" value="Lihat Data" /></td>
+						<td colspan="2" disabled="disabled" class="t-right">
+                        <input name="searchCoa" type="submit" class="input-submit" value="Lihat Data" /></td>
 					</tr>
 				</table>
 				</form>

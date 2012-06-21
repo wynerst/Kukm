@@ -1,31 +1,14 @@
 <?php
 // required file
 require 'sysconfig.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
-require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid-alt.inc.php';
-require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
-include "nav_datacenter.php";
+include "listdata.php";
+include "nav_panel.php";
 
 // start the output buffering for main content
 ob_start();
 
 session_start();
-
-if (isset($_GET['fp']) and $_GET['fp'] <> "") {
-	$modul = $_GET['fp'];
-	//die("fp_".$modul.".php");
-	include "fp_".$modul.".php";
-} else {
-	$modul = "";
-	//die("fp_d1.php");
-	include "fp_d1.php";
-}
-
 ?>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -39,31 +22,16 @@ if (isset($_GET['fp']) and $_GET['fp'] <> "") {
 	<!--[if lte IE 6]><link rel="stylesheet" media="screen,projection" type="text/css" href="css/main-ie6.css" /><![endif]--> <!-- MSIE6 -->
 	<link rel="stylesheet" media="screen,projection" type="text/css" href="css/style.css" /> <!-- GRAPHIC THEME -->
 	<link rel="stylesheet" media="screen,projection" type="text/css" href="css/mystyle.css" /> <!-- WRITE YOUR CSS CODE HERE -->
-	<link rel="stylesheet" media="screen,projection" type="text/css" href="css/bootstrap.css" /> <!-- RESET -->
-	<link rel="stylesheet" media="screen,projection" type="text/css" href="css/bootstrap.min.css" /> <!-- RESET -->
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/switcher.js"></script>
 	<script type="text/javascript" src="js/toggle.js"></script>
 	<script type="text/javascript" src="js/ui.core.js"></script>
 	<script type="text/javascript" src="js/ui.tabs.js"></script>
-	<script type="text/javascript" src="js/bootstrap.js"></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function(){
 		$(".tabs > ul").tabs();
 	});
 	</script>
-	<script type="text/javascript" src="js/easySlider1.7.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function(){	
-			$("#slider").easySlider({
-				auto: true, 
-				continuous: true
-			});
-		});	
-	</script>
-	
-
 	<title>Kementerian KUKM - JKUK</title>
 </head>
 
@@ -86,7 +54,7 @@ if (isset($_GET['fp']) and $_GET['fp'] <> "") {
 
 		</p>
 
-		<p class="f-right">User: <strong><a href="#"><?php echo isset($_SESSION['userName']) ? $_SESSION['userName'] : "None";?></a></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong><a href="index.php?login" id="logout">Log out</a></strong></p>
+		<p class="f-right">User: <strong><a href="#"><?php echo isset($_SESSION['userName']) ? $_SESSION['userName'] : "None";?></a></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong><a href="index.php?login=" id="logout">Log out</a></strong></p>
 
 	</div> <!--  /tray -->
 
@@ -100,9 +68,11 @@ if (isset($_GET['fp']) and $_GET['fp'] <> "") {
 		</ul>
 
 		<ul class="box">
-		<?php echo menutop(4); ?>
-		</ul>
 
+<?php
+echo menutop(3);
+?>
+    </ul>
 	</div> <!-- /header -->
 
 	<hr class="noscreen" />
@@ -119,44 +89,10 @@ if (isset($_GET['fp']) and $_GET['fp'] <> "") {
 				<p id="logo"><a href="#"><img src="tmp/logo.gif" alt="Our logo" title="Visit Site" /></a></p>
 
 			</div> <!-- /padding -->
-			<ul class="box">
-<!--
-			<li
- 			<?php
-				// (substr($modul,0,1)=="d") ? $v='id="submenu-active"' : $v=''; echo $v;
-			?>
-			><a href="frontpage.php">Laporan Harian</a>
-				<ul>
-					<li><a href="frontpage.php?fp=d2">Kategori Jenis Koperasi</a></li>
-					<li><a href="frontpage.php?fp=d3">Propinsi</a></li>
-					<li><a href="frontpage.php?fp=d4">Grafik</a></li>
-				</ul>
-			</li>
--->
-			<li
-			<?php
-				(substr($modul,0,1)=="m") ? $v='id="submenu-active"' : $v=''; echo $v;
-			?>
-			><a href="frontpage.php?fp=d1">Laporan Bulanan</a>
-				<ul>
-					<li><a href="frontpage.php?fp=m2">Kategori Jenis Koperasi</a></li>
-					<li><a href="frontpage.php?fp=m3">Propinsi</a></li>
-					<li><a href="frontpage.php?fp=m4">Grafik</a></li>
-				</ul>
-			</li>
-			<li
-			<?php
-				(substr($modul,0,1)=="y") ? $v='id="submenu-active"' : $v=''; echo $v;
-			?>
-			><a href="frontpage.php?fp=y1">Laporan Tahunan</a>
-				<ul>
-					<li><a href="frontpage.php?fp=y2">Kategori Jenis Koperasi</a></li>
-					<li><a href="frontpage.php?fp=y3">Propinsi</a></li>
-					<li><a href="frontpage.php?fp=y4">Grafik</a></li>
-				</ul>
-			</li>
-			</ul>
 
+<?php
+echo navigation(1);
+?>
 		</div> <!-- /aside -->
 
 		<hr class="noscreen" />
@@ -164,13 +100,12 @@ if (isset($_GET['fp']) and $_GET['fp'] <> "") {
 		<!-- Content (Right Column) -->
 		<div id="content" class="box">
 
-			<h1>Dashboard</h1>
-			
-			<?php
-			
-			echo $frontpage_content;
-			?>
-			
+			<h1>Panel</h1>
+
+			<!-- Headings -->
+			<h3 class="tit">Daftar User</h2>
+			<?php echo listUser(); ?>
+
 		</div> <!-- /content -->
 
 	</div> <!-- /cols -->
@@ -180,7 +115,7 @@ if (isset($_GET['fp']) and $_GET['fp'] <> "") {
 	<!-- Footer -->
 	<div id="footer" class="box">
 
-		<p class="f-left">&copy; 2009 <a href="#">PT. Artistika Prasetia</a>, All Rights Reserved &reg;</p>
+		<p class="f-left">&copy; 2012 <a href="#">PT. Artistika Prasetia</a>, All Rights Reserved &reg;</p>
 
 		<p class="f-right">Templates by <a href="http://www.adminizio.com/">Adminizio</a></p>
 
@@ -190,8 +125,3 @@ if (isset($_GET['fp']) and $_GET['fp'] <> "") {
 
 </body>
 </html>
-<?php
-// main content grab
-$main_content = ob_get_clean();
-
-echo $main_content;

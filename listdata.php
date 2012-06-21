@@ -45,6 +45,10 @@ function listNonNeraca() {
 
 }
 
+function listFinasial() {
+    global $dbs;
+}
+
 function listShu() {
 	global $dbs;
 	$datagrid = new simbio_datagrid();

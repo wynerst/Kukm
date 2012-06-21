@@ -175,37 +175,6 @@ $sysconf['mysqldump'] = '/usr/bin/mysqldump';
 $sysconf['temp_dir'] = '/tmp';
 $sysconf['backup_dir'] = FILES_UPLOAD_DIR.'backup'.DIRECTORY_SEPARATOR;
 
-/* FILE DOWNLOAD */
-$sysconf['allow_file_download'] = false;
-
-/* BARCODE config */
-// encoding selection
-$barcodes_encoding['EAN'] = array('UPC', '12-digit EAN');
-$barcodes_encoding['ISBN'] = array('ISBN', 'isbn numbers (still EAN-13)');
-$barcodes_encoding['39'] = array('39', 'code 39');
-$barcodes_encoding['128'] = array('128', 'code 128');
-$barcodes_encoding['128C'] = array('128C', 'code 128 (compact form for digits)');
-$barcodes_encoding['128B'] = array('128B', 'code 128, full printable ascii');
-$barcodes_encoding['I25'] = array('I25', 'interleaved 2 of 5');
-$barcodes_encoding['128RAW'] = array('128RAW', 'Raw code 128');
-$barcodes_encoding['CBR'] = array('CBR', 'Codabars');
-$barcodes_encoding['MSI'] = array('MSI', 'MSI');
-$barcodes_encoding['PLS'] = array('PLS', 'Plesseys');
-$barcodes_encoding['93'] = array('93', 'code 93');
-$sysconf['barcode_encoding'] = $barcodes_encoding['128B'];
-
-/* QUICK RETURN */
-$sysconf['quick_return'] = true;
-
-/* LOAN LIMIT OVERRIDE */
-$sysconf['loan_limit_override'] = false;
-
-/* LOAN DATE CHANGE IN CIRCULATION */
-$sysconf['allow_loan_date_change'] = false;
-
-/* CIRCULATION RELATED */
-$sysconf['circulation_receipt'] = false;
-
 /* NOTIFICATION RELATED */
 $sysconf['transaction_finished_notification'] = false;
 $sysconf['bibliography_update_notification'] = true;
@@ -262,16 +231,19 @@ $sysconf['mimetype']['png'] = 'image/png';
 $sysconf['mimetype']['flv'] = 'video/x-flv';
 $sysconf['mimetype']['mp4'] = 'video/mp4';
 
-/* PRICE CURRENCIES SETTING */
-$sysconf['currencies'] = array( array('0', 'NONE'), 'Rupiah', 'USD', 'Euro', 'DM', 'Pounds', 'Yen', 'Won', 'Yuan', 'Sing-D', 'Bath', 'Ruppee');
+/* MONTH NAME */
+$sysconf['months'] = array('Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des');
+
+/* MONTH NAME */
+$sysconf['idKukm'] = 62;
 
 /* RESERVE PERIODE (In Days) */
 $sysconf['reserve_expire_periode'] = 7;
 
 /* CONTENT */
-$sysconf['library_name'] = 'Senayan';
-$sysconf['library_subname'] = 'Open Source Library Management System';
-$sysconf['page_footer'] = ' <strong>SENAYAN Library Automation System (SLiMS)</strong> - SLiMS Developer Community - Released Under GNU GPL License';
+$sysconf['library_name'] = 'KUKM';
+$sysconf['library_subname'] = 'Monitoring Jasa Keuangan Koperasi dan Syarian';
+$sysconf['page_footer'] = ' <strong>Departemen Keuangan dan Koperasi</strong>';
 
 /* HTTPS Setting */
 $sysconf['https_enable'] = false;
@@ -400,14 +372,9 @@ $sysconf['mail']['auth_enable'] = true; // enable SMTP authentication
 $sysconf['mail']['auth_username'] = 'admin'; // SMTP account username
 $sysconf['mail']['auth_password'] = 'admin'; // SMTP account password
 $sysconf['mail']['from'] = 'admin@localhost';
-$sysconf['mail']['from_name'] = 'SLiMS Administrator';
+$sysconf['mail']['from_name'] = 'KUKM Administrator';
 $sysconf['mail']['reply_to'] = &$sysconf['mail']['from'];
 $sysconf['mail']['reply_to_name'] = &$sysconf['mail']['from_name'];
-
-/**
- * Maximum biblio mark for member
- */
-$sysconf['max_biblio_mark'] = 20;
 
 // Thumbnail Generator
 $sysconf['tg']['relative_url'] = '../../';

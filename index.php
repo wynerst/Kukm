@@ -3,6 +3,7 @@
 require 'sysconfig.inc.php';
 require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
 require 'lib/authenticate.php';
+//require 'lib/logs.php';
 
 // start the output buffering for main content
 ob_start();
@@ -20,12 +21,14 @@ if (isset($_POST['logMeIn'])) {
         $messages= '<script type="text/javascript">alert(\'Lengkapi Username dan Password dengan benar!\');</script>';
     } else {
         if (authenticate($username, $password)) {
+            // recLogs("Login success", "Login");
             $messages= '<script type="text/javascript">';
             $messages.= 'alert(\'Selamat datang di KUKM, '.$_SESSION['userName'].'\');';
             #echo 'location.href = \'admin/index.php\';';
             $messages.= 'location.href = \'datacenter.php\';';
             $messages.= '</script>';
         } else {
+            //recLogs("Login failed", "Login");
             $messages= '<script type="text/javascript">alert(\'Anda tidak berhak masuk. Username dan Password tidak cocok!\');</script>';
         }
 	}
@@ -135,9 +138,11 @@ if (isset($_POST['logMeIn'])) {
 					<tr>
 						<td class="t-right" colspan= "2"><input name="logMeIn" type="submit" class="input-submit" value="Login" /></td>
 					</tr>
+<!--
 					<tr>
 						<td class="t-right" colspan= "2">Belum terdaftar? <a href="registrasi.php">KLIK DISINI </a> untuk Registrasi</td>
 					</tr>
+-->
 </table></form>
 			</fieldset></p>
 				

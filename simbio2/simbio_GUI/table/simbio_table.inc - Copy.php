@@ -209,7 +209,7 @@ class simbio_table
      *
      * @return string
      */
-    public function printTable($page, $row)
+    public function printTable()
     {
         $_buffer = '<table '.$this->table_attr.'>'."\n";
 
@@ -228,12 +228,6 @@ class simbio_table
                 }
                 // print out the row objects
                 $_buffer .= '<tr '.( isset($this->row_attr[$_row_idx])?$this->row_attr[$_row_idx]:'' ).'>';
-                if ($_record_row > 0) {
-                    $_no = ($_record_row + (($page - 1)* $row));
-                    $_buffer .= '<td>'. $_no .'.</td>';
-                } else {
-                    $_buffer .= '<td>&nbsp;</td>';
-                }
                 foreach ($_row->fields as $_field_idx => $_field) {
                     if (isset($this->cell_attr[$_row_idx][$_field_idx])) {
                         $_field->attr = $this->cell_attr[$_row_idx][$_field_idx];

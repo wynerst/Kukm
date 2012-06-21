@@ -1,7 +1,8 @@
 <?php
 function navigation($nav_active=0) {
 	$nav_menu = '<ul class="box">';
-	if ($nav_active == 5) { $nav_menu .='<li id="submenu-active">'; } else {$nav_menu .='<li>';}
+
+/**	if ($nav_active == 5) { $nav_menu .='<li id="submenu-active">'; } else {$nav_menu .='<li>';}
 	$nav_menu .='<a href="'.KUKM_WEB_ROOT_DIR.'datacenter-harian.php?list">Data Harian</a>
 				<ul>
 					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-harian.php">Entry Data</a></li>
@@ -9,7 +10,9 @@ function navigation($nav_active=0) {
 					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-laporansementara-harian.php">Laporan Harian Sementara</a></li>
 				</ul>
 			</li>';
-	if ($nav_active == 1) { $nav_menu .='<li id="submenu-active">'; } else {$nav_menu .='<li>';}
+**/
+
+            if ($nav_active == 1) { $nav_menu .='<li id="submenu-active">'; } else {$nav_menu .='<li>';}
 	if (isset($_SESSION['tipekoperasi']) AND ($_SESSION['tipekoperasi'] == 3 OR $_SESSION['tipekoperasi'] == 5)) {
 		$nav_menu .='<a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrysyariah.php?list">Neraca</a>
 				<ul>
@@ -46,9 +49,10 @@ function navigation($nav_active=0) {
 			</li>';
 	}
 	if ($nav_active == 3) { $nav_menu .='<li id="submenu-active">'; } else {$nav_menu .='<li>';}
-	$nav_menu .= '<a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-nonfinansial.php?list">Data Pendukung Lain</a>
+	$nav_menu .= '<a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-pendukung.php?list">Data Pendukung Lain</a>
 				<ul>
-					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-nonfinansial.php">Entry Data</a></li>
+					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-finansial.php">Entry Data Finansial</a></li>
+					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-pendukung.php">Entry Data Pendukung  Lain</a></li>
 					<li><a href="'.KUKM_WEB_ROOT_DIR.'import/nonfinansial.php">Upload Data</a></li>
 					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-laporansementara-nonfinansial.php">Laporan Data Pendukung Lain</a></li>
 				</ul>
