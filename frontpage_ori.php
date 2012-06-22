@@ -218,7 +218,7 @@ $jeniskop_result = $jeniskop->createDataGrid($dbs, $table_spec, 10, false);
 	<!-- Footer -->
 	<div id="footer" class="box">
 
-		<p class="f-left">&copy; 2009 <a href="#">PT. Artistika Prasetia</a>, All Rights Reserved &reg;</p>
+		<p class="f-left">&copy; 2009 <a href="#">Kementerian Koperasi dan UKM</a>, All Rights Reserved &reg;</p>
 
 		<p class="f-right">Templates by <a href="http://www.adminizio.com/">Adminizio</a></p>
 

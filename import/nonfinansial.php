@@ -266,7 +266,7 @@ echo navigation(3);
 	<!-- Footer -->
 	<div id="footer" class="box">
 
-		<p class="f-left">&copy; 2012 <a href="#">PT. Artistika Prasetia</a>, All Rights Reserved &reg;</p>
+		<p class="f-left">&copy; 2012 <a href="#">Kementerian Koperasi dan UKM</a>, All Rights Reserved &reg;</p>
 
 		<p class="f-right">Templates by <a href="http://www.adminizio.com/">Adminizio</a></p>
 
