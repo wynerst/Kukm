@@ -296,7 +296,7 @@ echo navigation(2);
                 echo ' SELECTED';
             }
         }
-        echo ' >'.$i.' - '.$y.'</option>';
+        echo ' >'.$i.'</option>';
     }
     echo '</select>';
 ?>

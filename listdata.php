@@ -12,6 +12,7 @@ function listNeraca() {
 	$datagrid = new simbio_datagrid();
 	$table_spec = 'coa as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi LEFT JOIN periode as p ON c.idperiode = p.idperiode';
 	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata.php?nid=\',c.idcoa,\'">Edit</a>\') as \'&nbsp;\'',
+		'CONCAT(\'<a href="datacenter-delete.php?nid=\',c.idcoa,\'">Hapus</a>\') as \'&nbsp;\'',
 		'k.nama AS \'Koperasi\'', 'p.periode AS \'Periode Laporan\'');
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
 	$datagrid->debug = true;
