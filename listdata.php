@@ -35,7 +35,8 @@ function listNonNeraca() {
 	global $dbs;
 	$datagrid = new simbio_datagrid();
 	$table_spec = 'non_coa as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi LEFT JOIN periode as p ON c.idperiode = p.idperiode';
-	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata-nonfinansial.php?nid=\',c.idnon_coa,\'">Edit</a>\') as \'&nbsp;\'',
+	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata-pendukung.php?nid=\',c.idnon_coa,\'">Edit</a>\') as \'&nbsp;\'',
+		'CONCAT(\'<a href="datacenter-delete.php?oid=\',c.idnon_coa,\'">Hapus</a>\') as \'&nbsp;\'',
 		'k.nama AS \'Koperasi\'', 'p.periode AS \'Periode Laporan\'');
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
 	$datagrid->debug = true;
@@ -48,6 +49,24 @@ function listNonNeraca() {
 
 function listFinasial() {
     global $dbs;
+    $koperasi = $_SESSION['koperasi'];
+    $group = $_SESSION['group'];
+	$datagrid = new simbio_datagrid();
+	$table_spec = 'harian as h LEFT JOIN koperasi as k ON h.idkoperasi = k.idkoperasi LEFT JOIN tipe_koperasi as t ON k.jenis = t.idtipe_koperasi';
+	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
+    $datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata-finansial.php?nid=\',h.idday,\'">Edit</a>\') as \'&nbsp;\'',
+		'CONCAT(\'<a href="datacenter-delete.php?fid=\',h.idday,\'">Hapus</a>\') as \'&nbsp;\'',
+        'k.nama AS \'Koperasi\'', 'k.sandilembaga AS \'Sandi Lembaga\'',
+        't.jenis AS \'Tipe Koperasi\'', 'h.periode AS \'Periode Lap\'');
+    if ($group ==2 ) {
+        $datagrid->setSQLcriteria("h.idkoperasi = ".$koperasi);
+    }
+	$datagrid->debug = true;
+
+	// put the result into variables
+	$datagrid_result = $datagrid->createDataGrid($dbs, $table_spec, 50, false);
+	return $datagrid_result;
+
 }
 
 function listShu() {

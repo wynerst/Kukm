@@ -56,6 +56,7 @@ if (isset($_POST['logMeIn'])) {
 	<script type="text/javascript">
 	$(document).ready(function(){
 		$(".tabs > ul").tabs();
+		$("#userName").focus();
 	});
 	</script>
 	<title>Kementerian KUKM - JKUK</title>
@@ -129,7 +130,7 @@ if (isset($_POST['logMeIn'])) {
 				<form method="post"><table width="100%" class="nostyle">
 					<tr>
 						<td style="width:120px;">Username:</td>
-						<td><input type="text" size="15" name="userName" class="input-text-02" /></td>
+						<td><input type="text" size="15" id="userName" name="userName" class="input-text-02" /></td>
 					</tr>
 					<tr>
 						<td>Password:</td>

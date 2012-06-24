@@ -172,13 +172,18 @@ echo navigation(3);
             <?php
             if (isset($_GET['list'])) {
                 echo "<fieldset>\n<legend>Data Pendukung Finansial Tersedia</legend>";
-                if (isset($_GET['kid'])) {
-                    echo listHarian($_GET['kid']);
-                } else {
-                    echo listHarian();
-                }
-                echo '<form action="datacenter-harian.php" method="link"><table class="nostyle">';
+                //echo listHarian();
+                echo listFinasial();
+				echo '<div id="menu" class="box">';
+				echo '<ul class="box f-right">';
+				echo '	<li><a href="datacenter-entrydata-pendukung.php?list"><span><strong>Data Pendukung Lain</strong></span></a></li>';
+				echo '	<li><a href="datacenter-entrydata-finansial.php"><span><strong>Data Baru</strong></span></a></li>';
+				echo '</ul>';
+				echo '</div>';
+/**
+                echo '<form action="datacenter-entrydata-finansial.php" method="link"><table class="nostyle">';
                 echo '<div style="text-align:right";><input type="submit" class="input-submit" value="Data Baru" /></div></form>';
+**/
                 echo "</fieldset>\n";
                 //echo listNonNeraca()."<br />";
                 $main_content = ob_get_clean();

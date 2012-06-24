@@ -126,10 +126,10 @@ echo navigation(5);
 		<!-- Content (Right Column) -->
 		<div id="content" disabled="disabled" class="box">
 
-			<h1>Data Harian</h1>
+			<h1>Data Pendukung Finansial</h1>
 
 			<!-- Form -->
-			<h3 disabled="disabled" class="tit">Laporan Harian Sementara</h3>
+			<h3 disabled="disabled" class="tit">Laporan Data Pendukung Finansial Sementara</h3>
 			<fieldset>
 				<legend>Pilih Data</legend>
 				<form id=searchPost method=post>
@@ -157,7 +157,16 @@ echo navigation(5);
 					</tr>
 					<tr>
 						<td>Periode:</td>
-                        <td><input type="text" name="periode" size="40" class="input-text02" /></td>
+<?php
+	$sql_text = "SELECT DISTINCT periode from harian ORDER BY periode DESC";
+	$option = $dbs->query($sql_text);
+	echo '<td><select id="periode" name="periode" class="input-text-2">"';
+	echo '<option value="">--- Periode pelaporan ---</option>';
+	while ($choice = $option->fetch_assoc()) {
+		echo '<option value="'.$choice['periode'].'">'.$choice['periode'].'</option>';
+	}
+	echo '</select></td>';
+?>
 					</tr>
 					<tr>
 						<td colspan="2" class="t-right"><input name="searchHarian" type="submit" class="input-submit" value="Lihat Data" /></td>
@@ -180,53 +189,53 @@ echo navigation(5);
 <table class="nostyle">
   <tr style="background: #999">
     <td style="width:5px;"><b>No.</b></td>
-    <td style="width:250px;"><b>Data harian koperasi</b></td>
+    <td style="width:250px;"><b>Data Pendukung Finansial koperasi</b></td>
     <td></td>
   </tr>
   <tr>
     <td>1</td>
     <td>Simpanan</td>
-    <td><input type="text" size="40" name="s1" value="<?php echo isset($recHarian['s1']) ? $recHarian['s1'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="s1" value="<?php echo isset($recHarian['s1']) ? $recHarian['s1'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
   <tr>
     <td>2</td>
     <td>Pinjaman</td>
-    <td><input type="text" size="40" name="s2" value="<?php echo isset($recHarian['s2']) ? $recHarian['s2'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="s2" value="<?php echo isset($recHarian['s2']) ? $recHarian['s2'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
   <tr>
     <td>3</td>
     <td>Modal dalam</td>
-    <td><input type="text" size="40" name="s3" value="<?php echo isset($recHarian['s3']) ? $recHarian['s3'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="s3" value="<?php echo isset($recHarian['s3']) ? $recHarian['s3'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
   <tr>
     <td>4</td>
     <td>Modal luar</td>
-    <td><input type="text" size="40" name="s4" value="<?php echo isset($recHarian['s4']) ? $recHarian['s4'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="s4" value="<?php echo isset($recHarian['s4']) ? $recHarian['s4'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
   <tr>
     <td>5</td>
     <td>Volume Usaha</td>
-    <td><input type="text" size="40" name="s5" value="<?php echo isset($recHarian['s5']) ? $recHarian['s5'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="s5" value="<?php echo isset($recHarian['s5']) ? $recHarian['s5'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
   <tr>
     <td>6</td>
     <td>Asset</td>
-    <td><input type="text" size="40" name="s6" value="<?php echo isset($recHarian['s6']) ? $recHarian['s6'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="s6" value="<?php echo isset($recHarian['s6']) ? $recHarian['s6'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
   <tr>
     <td>7</td>
     <td>SHU</td>
-    <td><input type="text" size="40" name="s7" value="<?php echo isset($recHarian['s7']) ? $recHarian['s7'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="s7" value="<?php echo isset($recHarian['s7']) ? $recHarian['s7'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
   <tr>
     <td>8</td>
     <td>Suku Bunga simpanan</td>
-    <td><input type="text" size="40" name="s8" value="<?php echo isset($recHarian['s8']) ? $recHarian['s8'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="s8" value="<?php echo isset($recHarian['s8']) ? $recHarian['s8'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
   <tr>
     <td>9</td>
     <td>Suku bunga pinjaman</td>
-    <td><input type="text" size="40" name="s9" value="<?php echo isset($recHarian['s9']) ? $recHarian['s9'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="s9" value="<?php echo isset($recHarian['s9']) ? $recHarian['s9'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
   <tr style="background: #999">
     <td style="width:5px;">10</td>
@@ -236,24 +245,24 @@ echo navigation(5);
   <tr>
     <td>&nbsp;</td>
     <td>Pinjaman Kurang Lancar/PKL</td>
-    <td><input type="text" size="40" name="s10" value="<?php echo isset($recHarian['s101']) ? $recHarian['s101'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="s10" value="<?php echo isset($recHarian['s101']) ? $recHarian['s101'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
     <td>Pinjaman Diragukan</td>
-    <td><input type="text" size="40" name="s10" value="<?php echo isset($recHarian['s102']) ? $recHarian['s102'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="s10" value="<?php echo isset($recHarian['s102']) ? $recHarian['s102'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
     <td>Pinjaman Macet</td>
-    <td><input type="text" size="40" name="s10" value="<?php echo isset($recHarian['s103']) ? $recHarian['s103'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="s10" value="<?php echo isset($recHarian['s103']) ? $recHarian['s103'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
 <?php
     if (isset($recHarian['s2']) AND $recHarian['s2'] > 0) {
         $npl = ($recHarian['s103'] + (0.75*$recHarian['s102']) + (0.5*$recHarian['s101']) ) / $recHarian['s2'];
         if ($npl > 0) {
             $npl = $npl * 100;
-            echo '<npltr><td>&nbsp;</td><td>NPL</td><td><input type="text" size="40" name="s10" value="'.$npl.'%" class="input-text" /></td></tr>';
+            echo '<npltr><td>&nbsp;</td><td>NPL</td><td><input type="text" size="40" name="s10" value="'.$npl.'%" class="input-text" disabled /></td></tr>';
         }
     }
 ?>

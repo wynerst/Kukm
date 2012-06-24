@@ -54,7 +54,8 @@ function navigation($nav_active=0) {
 					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-finansial.php">Entry Data Finansial</a></li>
 					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-pendukung.php">Entry Data Pendukung  Lain</a></li>
 					<li><a href="'.KUKM_WEB_ROOT_DIR.'import/nonfinansial.php">Upload Data</a></li>
-					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-laporansementara-nonfinansial.php">Laporan Data Pendukung Lain</a></li>
+					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-laporansementara-harian.php">Lap. Pedukung Finansial Lain</a></li>
+					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-laporansementara-nonfinansial.php">Lap. Data Pendukung Lain</a></li>
 				</ul>
 			</li>';
 	if ($nav_active == 4) { $nav_menu .='<li id="submenu-active">'; } else {$nav_menu .='<li>';}

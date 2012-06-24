@@ -65,6 +65,57 @@ if (isset($_GET['pid']) AND $_GET['pid'] > 0) {
         $messages.= '</script>';
     }
 }// -> End delete SHU/PHU
+
+// check if financial data id exist and delete it
+if (isset($_GET['fid']) AND $_GET['fid'] > 0) {
+
+    $nid=$_GET['fid'];
+    $idkoperasi=$_SESSION['koperasi'];
+    if ($_SESSION['group']== 1) {
+    	$delete = $sql_op->delete('harian', 'idday ='.$nid);
+    } else {
+        $delete = $sql_op->delete('harian', 'idday ='.$nid. ' AND idkoperasi ='.$idkoperasi);
+    }
+
+    if ($delete) {
+        // recLogs("Delete success", "Finansial lain");
+        $messages= '<script type="text/javascript">';
+        $messages.= 'alert(\'Data Finansial Pendukung BERHASIL dihapus.\');';
+        $messages.= 'location.href = \'datacenter-entrydata-finansial.php?list\';';
+        $messages.= '</script>';
+    } else {
+        //recLogs("Delete failed", "Finansial lain");
+        $messages= '<script type="text/javascript">alert(\'Data tidak berhasil dihapus atau anda tidak berhak menghapus data dimasksud!\');';
+        $messages.= 'location.href = \'datacenter-entrydata-finansial.php?list\';';
+        $messages.= '</script>';
+    }
+}// -> End delete data finansial pendukung
+
+// check if non_coa id exist and delete it
+if (isset($_GET['oid']) AND $_GET['oid'] > 0) {
+
+    $pid=$_GET['oid'];
+    $idkoperasi=$_SESSION['koperasi'];
+    if ($_SESSION['group']== 1) {
+    	$delete = $sql_op->delete('non_coa', 'idnon_coa ='.$pid);
+    } else {
+        $delete = $sql_op->delete('non_coa', 'idnon_coa ='.$pid. ' AND idkoperasi ='.$idkoperasi);
+    }
+
+    if ($delete) {
+        // recLogs("Delete success", "PHU/SHU");
+        $messages= '<script type="text/javascript">';
+        $messages.= 'alert(\'Data Pendukung Lain BERHASIL dihapus.\');';
+        $messages.= 'location.href = \'datacenter-entrydata-pendukung.php?list\';';
+        $messages.= '</script>';
+    } else {
+        //recLogs("Delete failed", "PHU/SHU");
+        $messages= '<script type="text/javascript">alert(\'Data tidak berhasil dihapus atau anda tidak berhak menghapus data dimasksud!\');';
+        $messages.= 'location.href = \'datacenter-entrydata-pendukung.php?list\';';
+        $messages.= '</script>';
+    }
+}// -> End delete SHU/PHU
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

@@ -160,7 +160,7 @@ echo navigation(3);
 					<tr>
 						<td>Periode:</td>
 <?php
-	$sql_text = "SELECT DISTINCT periode from periode ORDER BY periode DESC";
+	$sql_text = "SELECT DISTINCT periode from non_coa ORDER BY periode DESC";
 	$option = $dbs->query($sql_text);
 	echo '<td><select id="periode" name="periode" class="input-text-2">"';
 	echo '<option value="">--- Periode pelaporan ---</option>';
@@ -197,27 +197,27 @@ echo navigation(3);
   <tr>
     <td>1</td>
     <td>Jumlah Penasehat/Pengawas</td>
-    <td><input type="text" size="40" name="pengawas" value="<?php echo isset($recNon['pengurus']) ? $recNon['pengurus'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="pengawas" value="<?php echo isset($recNon['pengurus']) ? $recNon['pengurus'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
   <tr>
     <td>2</td>
     <td>Jumlah Pengurus</td>
-    <td><input type="text" size="40" name="pengurus" value="<?php echo isset($recNon['pengurus']) ? $recNon['pengurus'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="pengurus" value="<?php echo isset($recNon['pengurus']) ? $recNon['pengurus'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
   <tr>
     <td>3</td>
     <td>Jumlah Karyawan</td>
-    <td><input type="text" size="40" name="karyawan" value="<?php echo isset($recNon['karyawan']) ? $recNon['karyawan'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="karyawan" value="<?php echo isset($recNon['karyawan']) ? $recNon['karyawan'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
   <tr>
     <td>4</td>
     <td>Jumlah Anggota</td>
-    <td><input type="text" size="40" name="anggota" value="<?php echo isset($recNon['anggota']) ? $recNon['anggota'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="anggota" value="<?php echo isset($recNon['anggota']) ? $recNon['anggota'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
   <tr>
     <td>5</td>
     <td>Jumlah Calon Anggota/Anggota tidak tetap</td>
-    <td><input type="text" size="40" name="calon_anggota" value="<?php echo isset($recNon['calon_anggota']) ? $recNon['calon_anggota'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="calon_anggota" value="<?php echo isset($recNon['calon_anggota']) ? $recNon['calon_anggota'] : "0"; ?>" class="input-text" disabled /></td>
   </tr>
 </table>
 			</fieldset>
