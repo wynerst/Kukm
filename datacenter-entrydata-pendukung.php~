@@ -14,17 +14,16 @@ if (isset($_POST['saveNon'])) {
     }
     $data['idkoperasi'] = $_POST['idkoperasi'];
     $data['periode'] = $_POST['periode'];
-//    $data['piutangmacet']=$_POST['piutangmacet'];
-//    $data['akumulasi_pinjaman']=$_POST['akumulasi_pinjaman'];
-//    $data['akumulasi_simpanan']=$_POST['akumulasi_simpanan'];
+    $data['piutangmacet']=$_POST['piutangmacet'];
+    $data['akumulasi_pinjaman']=$_POST['akumulasi_pinjaman'];
+    $data['akumulasi_simpanan']=$_POST['akumulasi_simpanan'];
     $data['pengurus']=$_POST['pengurus'];
     $data['pengawas']=$_POST['pengawas'];
     $data['karyawan']=$_POST['karyawan'];
     $data['anggota']=$_POST['anggota'];
     $data['calon_anggota']=$_POST['calon_anggota'];
-//    $data['iduser']=$_POST['iduser'];
-//    $data['sb_simpanan']=$_POST['sb_simpanan'];
-//    $data['sb_pinjaman']=$_POST['sb_pinjaman'];
+    $data['sb_simpanan']=$_POST['sb_simpanan'];
+    $data['sb_pinjaman']=$_POST['sb_pinjaman'];
 
     if (isset($idncoa) AND $idncoa <> 0) {
         $update = $sql_op->update('non_coa', $data, 'idnon_coa ='.$idncoa);
@@ -270,7 +269,6 @@ echo navigation(3);
 if (isset($idncoa)) {
     echo '<input type="hidden" name="updatenid" value="'.$idncoa.'"/>';
 }
-echo '<input type="hidden" name="iduser" value="'.$_SESSION['userID'].'"/>';
 ?>
 </form>
         </div> <!-- /content -->
