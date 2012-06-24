@@ -93,7 +93,7 @@ define('LANGUAGES_BASE_DIR', LIB_DIR.'lang'.DIRECTORY_SEPARATOR);
 
 // senayan web doc root dir
 /* Custom base URL */
-define('KUKM_WEB_ROOT_DIR', "/kukm/");
+define('KUKM_WEB_ROOT_DIR', "/dev/kukm/");
 $sysconf['baseurl'] = '';
 $temp_senayan_web_root_dir = preg_replace('@admin.*@i', '', dirname($_SERVER['PHP_SELF']));
 define('SENAYAN_WEB_ROOT_DIR', $sysconf['baseurl'].$temp_senayan_web_root_dir.(preg_match('@\/$@i', $temp_senayan_web_root_dir)?'':'/'));
@@ -338,12 +338,12 @@ $sysconf['index']['sphinx_opts'] = array(
     'host' => '127.0.0.1',
     'port' => 9312,
     'index' => 'slims', // name of index in sphinx.conf
-	'mode' => null, 'timeout' => 0, 'filter' => '@last_update desc',
-	'filtervals' => array(), 'groupby' => null, 'groupsort' => null,
-	'sortby' => null, 'sortexpr' => null, 'distinct' => 'biblio_id',
-	'select' => null, 'limit' => 20,
+    'mode' => null, 'timeout' => 0, 'filter' => '@last_update desc',
+    'filtervals' => array(), 'groupby' => null, 'groupsort' => null,
+    'sortby' => null, 'sortexpr' => null, 'distinct' => 'biblio_id',
+    'select' => null, 'limit' => 20,
     'max_limit' => 100000, // must be less or same with max_matches in sphinx.conf
-	'ranker' => null);
+    'ranker' => null);
 
 /**
  * Captcha Settings
@@ -393,9 +393,9 @@ if (file_exists(SENAYAN_BASE_DIR.'sysconfig.local.inc.php')) {
 /* DATABASE RELATED */
 if (!defined('DB_HOST')) { define('DB_HOST', 'localhost'); }
 if (!defined('DB_PORT')) { define('DB_PORT', '3306'); }
-if (!defined('DB_NAME')) { define('DB_NAME', 'kukm_1'); }
-if (!defined('DB_USERNAME')) { define('DB_USERNAME', 'root'); }
-if (!defined('DB_PASSWORD')) { define('DB_PASSWORD', 'psenayan'); }
+if (!defined('DB_NAME')) { define('DB_NAME', 'kukm'); }
+if (!defined('DB_USERNAME')) { define('DB_USERNAME', 'operator'); }
+if (!defined('DB_PASSWORD')) { define('DB_PASSWORD', '123456789'); }
 // database connection
 // we prefer to use mysqli extensions if its available
 if (extension_loaded('mysqli')) {

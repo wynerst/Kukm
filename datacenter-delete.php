@@ -41,6 +41,30 @@ if (isset($_GET['nid']) AND $_GET['nid'] > 0) {
     }
 }// -> End delete neraca
 
+// check if shu/phu id exist and delete it
+if (isset($_GET['pid']) AND $_GET['pid'] > 0) {
+
+    $pid=$_GET['pid'];
+    $idkoperasi=$_SESSION['koperasi'];
+    if ($_SESSION['group']== 1) {
+    	$delete = $sql_op->delete('shu', 'idshu ='.$pid);
+    } else {
+        $delete = $sql_op->delete('shu', 'idshu ='.$pid. ' AND idkoperasi ='.$idkoperasi);
+    }
+
+    if ($delete) {
+        // recLogs("Delete success", "PHU/SHU");
+        $messages= '<script type="text/javascript">';
+        $messages.= 'alert(\'Data PHU/SHU BERHASIL dihapus.\');';
+        $messages.= 'location.href = \'datacenter-entrydata-phu.php?list\';';
+        $messages.= '</script>';
+    } else {
+        //recLogs("Delete failed", "PHU/SHU");
+        $messages= '<script type="text/javascript">alert(\'Data tidak berhasil dihapus atau anda tidak berhak menghapus data dimasksud!\');';
+        $messages.= 'location.href = \'datacenter-entrydata-phu.php?list\';';
+        $messages.= '</script>';
+    }
+}// -> End delete SHU/PHU
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -152,7 +176,7 @@ echo navigation(1);
 	<!-- Footer -->
 	<div id="footer" class="box">
 
-		<p class="f-left">&copy; 2012 <a href="#">Kementerian Koperasi dan UKM</a>, All Rights Reserved &reg;</p>
+		<p class="f-left">&copy; 2012 <a href="#">Departemen Koperasi dan UKM</a>, All Rights Reserved &reg;</p>
 
 		<p class="f-right">Templates by <a href="http://www.adminizio.com/">Adminizio</a></p>
 

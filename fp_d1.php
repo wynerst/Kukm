@@ -10,8 +10,25 @@ LEFT JOIN harian as h ON h.idkoperasi = k.idkoperasi
 LEFT JOIN `non_coa` as n ON n.idkoperasi = k.idkoperasi 
 LEFT JOIN `tipe_koperasi` as tk ON k.jenis = tk.idtipe_koperasi';
 
+/**
 $datagrid->setSQLColumn(
     'TIMESTAMPDIFF(MONTH,c.dateposting,curdate()), k.idkoperasi, c.dateposting as \'Periode\'',
+	'k.nama as \'Koperasi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\'',
+	'format((c.c2110+c.c2210+c.c3110+c.c3120),2) AS \'Simpanan&nbsp;*)\'',
+	'format(c.c1140,2) AS \'Pinjaman&nbsp;*)\'',
+	'format((c.c3110+c.c3120),2) AS \'Modal Dalam&nbsp;*)\'',
+	'format((c.c3130+c.c3140),2) AS \'Modal Luar&nbsp;*)\'',
+	'format(n.vol_usaha,2) AS \'Volume Usaha&nbsp;*)\'',
+	'format((c.c11+c.c12+c.c13+c.c14),2) AS \'Asset&nbsp;*)\'',
+	'format((c.c3170+c.c3180),2) AS \'SHU&nbsp;*)\'',
+	'format(n.sb_simpanan,2) AS \'Suku Bunga Simpanan (%)\'',
+	'format(n.sb_pinjaman,2) AS \'Suku Bunga Pinjaman (%)\'',
+	'format((n.piutangmacet/n.akumulasi_pinjaman),2) AS \'NPL (%)\'');
+$datagrid->sql_group_by = 'c.idkoperasi, YEAR(c.dateposting)';
+**/
+
+$datagrid->setSQLColumn(
+    'MIN(TIMESTAMPDIFF(MONTH,c.dateposting,curdate())), k.idkoperasi, c.dateposting as \'Periode\'',
 	'k.nama as \'Koperasi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\'',
 	'format((c.c2110+c.c2210+c.c3110+c.c3120),2) AS \'Simpanan&nbsp;*)\'',
 	'format(c.c1140,2) AS \'Pinjaman&nbsp;*)\'',
@@ -26,7 +43,7 @@ $datagrid->setSQLColumn(
 
 $datagrid->setSQLorder(' c.dateposting DESC, c.createdate DESC, k.nama ASC');
 //$datagrid->setSQLcriteria('YEAR(p.finaldate) = 2010 or YEAR(p2.finaldate) = 2010 or YEAR(p3.finaldate) = 2010');
-$datagrid->sql_group_by = 'c.idkoperasi, YEAR(c.dateposting)';
+$datagrid->sql_group_by = 'c.idkoperasi';
 
 // set table and table header attributes
 $datagrid->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';

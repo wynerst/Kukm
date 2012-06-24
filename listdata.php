@@ -13,7 +13,7 @@ function listNeraca() {
 	$table_spec = 'coa as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi LEFT JOIN periode as p ON c.idperiode = p.idperiode';
 	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata.php?nid=\',c.idcoa,\'">Edit</a>\') as \'&nbsp;\'',
 		'CONCAT(\'<a href="datacenter-delete.php?nid=\',c.idcoa,\'">Hapus</a>\') as \'&nbsp;\'',
-		'k.nama AS \'Koperasi\'', 'p.periode AS \'Periode Laporan\'');
+		'k.nama AS \'Koperasi\'', 'DATE(c.dateposting) AS \'Periode Laporan\'');
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
 	$datagrid->debug = true;
 	if ($group == 1 or $group == 3) {
@@ -59,7 +59,8 @@ function listShu() {
     $jenis = $_SESSION['tipekoperasi'];
 	$table_spec = 'shu as s LEFT JOIN koperasi as k ON s.idkoperasi = k.idkoperasi LEFT JOIN periode as p ON s.idperiode = p.idperiode';
 	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata-phu.php?nid=\',s.idshu,\'">Edit</a>\') as \'&nbsp;\'',
-		'k.nama AS \'Koperasi\'', 'p.periode AS \'Periode Laporan\'');
+		'CONCAT(\'<a href="datacenter-delete.php?pid=\',s.idshu,\'">Hapus</a>\') as \'&nbsp;\'',
+		'k.nama AS \'Koperasi\'', 'DATE(s.dateposting) AS \'Periode Laporan\'');
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
 	if ($group == 1 or $group == 3) {
         $criteria = "";

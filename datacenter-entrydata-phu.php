@@ -228,7 +228,7 @@ echo navigation(2);
 			<h1>Perhitungan Hasil Usaha</h1>
 			<?php
 			if (isset($_GET['list'])) {
-				echo "<fieldset>\n<legend>Data Neraca Tersedia</legend>";
+				echo "<fieldset>\n<legend>Data PHU/SHU Tersedia</legend>";
 				echo listShu();
 				echo '<form action="datacenter-entrydata.php" method="link"><table class="nostyle">';
 				echo '<div style="text-align:right";><input type="submit" class="input-submit" value="Data Baru" /></div></form>';
@@ -674,7 +674,7 @@ echo navigation(2);
 	<!-- Footer -->
 	<div id="footer" class="box">
 
-		<p class="f-left">&copy; 2012 <a href="#">Kementerian Koperasi dan UKM</a>, All Rights Reserved &reg;</p>
+		<p class="f-left">&copy; 2012 <a href="#">PT. Artistika Prasetia</a>, All Rights Reserved &reg;</p>
 
 		<p class="f-right">Templates by <a href="http://www.adminizio.com/">Adminizio</a></p>
 

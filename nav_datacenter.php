@@ -49,7 +49,7 @@ function navigation($nav_active=0) {
 			</li>';
 	}
 	if ($nav_active == 3) { $nav_menu .='<li id="submenu-active">'; } else {$nav_menu .='<li>';}
-	$nav_menu .= '<a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-pendukung.php?list">Data Pendukung Lain</a>
+	$nav_menu .= '<a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-finansial.php?list">Data Pendukung Lain</a>
 				<ul>
 					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-finansial.php">Entry Data Finansial</a></li>
 					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-pendukung.php">Entry Data Pendukung  Lain</a></li>

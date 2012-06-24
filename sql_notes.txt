@@ -22,3 +22,15 @@ LEFT JOIN `non_coa` as n ON n.idkoperasi = k.idkoperasi
 LEFT JOIN `tipe_koperasi` as tk ON k.jenis = tk.idtipe_koperasi
 GROUP BY c.idkoperasi, YEAR(c.dateposting)
 ORDER BY  c.dateposting DESC, c.createdate DESC, k.nama ASC
+
+SELECT k.*, max(l.data_1)
+from koperasi as k 
+left join laporan as l on l.idkoperasi = k.idkoperasi
+left join profil as p on p.idkoperasi=k.idkoperasi
+group by k.idkoperasi
+
+select min(timestampdiff(MONTH,`c`.`dateposting`,curdate())) AS `Usia`,`k`.`idkoperasi` AS `idkoperasi`,`c`.`dateposting` AS `Periode`,`k`.`nama` AS `Koperasi`,format((((`c`.`c2110` + `c`.`c2210`) + `c`.`c3110`) + `c`.`c3120`),2) AS `Simpanan`,format(`c`.`c1140`,2) AS `Pinjaman`,format((`c`.`c3110` + `c`.`c3120`),2) AS `Modal Dalam`,format((`c`.`c3130` + `c`.`c3140`),2) AS `Modal Luar`,format(`n`.`vol_usaha`,2) AS `Volume Usaha`,format((((`c`.`c11` + `c`.`c12`) + `c`.`c13`) + `c`.`c14`),2) AS `Asset`,format((`c`.`c3170` + `c`.`c3180`),2) AS `SHU`,format(`n`.`sb_simpanan`,2) AS `Suku Bunga Simpanan`,format(`n`.`sb_pinjaman`,2) AS `Suku Bunga Pinjaman`,format((`n`.`piutangmacet` / `n`.`akumulasi_pinjaman`),2) AS `NPL`, tk.jenis as `tipe`, k.propinsi
+from (((((`koperasi` `k` left join `coa` `c` on((`c`.`idkoperasi` = `k`.`idkoperasi`))) left join `shu` `s` on((`s`.`idkoperasi` = `k`.`idkoperasi`))) left join `harian` `h` on((`h`.`idkoperasi` = `k`.`idkoperasi`))) left join `non_coa` `n` on((`n`.`idkoperasi` = `k`.`idkoperasi`))) left join `tipe_koperasi` `tk` on((`k`.`jenis` = `tk`.`idtipe_koperasi`))) group by `c`.`idkoperasi`
+
+SELECT `tipe` , sum( `Simpanan` ) , sum( `Pinjaman` ) , sum( `Modal Dalam` ) , sum( `Modal Luar` ) , sum( `Volume Usaha` ) , sum( `Asset` ) , sum( `SHU` ) , avg( `Suku Bunga Simpanan` ) , avg( `Suku Bunga Pinjaman` ) , avg( `NPL` )
+FROM `report_graph` 
