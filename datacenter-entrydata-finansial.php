@@ -253,12 +253,12 @@ echo navigation(3);
   </tr>
   <tr>
     <td>1</td>
-    <td>Akumulasi Transaksi Simpanan (Neraca Lajur Mutasi Pasiva)</td>
+    <td>Total Penerimaan Simpanan</td>
     <td><input type="text" size="40" name="h1" value="<?php echo isset($recHarian['h1']) ? $recHarian['h1'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>2</td>
-    <td>Akumulasi Transaksi Pinjaman (Neraca Lajur Mutasi Aktiva)</td>
+    <td>Total Pemberian Pinjaman</td>
     <td><input type="text" size="40" name="h2" value="<?php echo isset($recHarian['h2']) ? $recHarian['h2'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>

@@ -61,6 +61,10 @@ function navigation($nav_active=0) {
 	if ($nav_active == 4) { $nav_menu .='<li id="submenu-active">'; } else {$nav_menu .='<li>';}
 	$nav_menu .= '<a href="'.KUKM_WEB_ROOT_DIR.'frontpage.php">Laporan</a> <!-- Active -->
 			</li>
+			</li>';
+	$nav_menu .= '<li>';
+	$nav_menu .= '<a href="'.KUKM_WEB_ROOT_DIR.'panduan-jkuk.pdf">Panduan Data Entri</a> <!-- Active -->
+			</li>
 		</ul>';
 	return $nav_menu;
 }
