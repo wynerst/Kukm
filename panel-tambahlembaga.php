@@ -276,6 +276,10 @@ if ($recKop['idkoperasi'] == $_SESSION['koperasi'] OR $_SESSION['group'] == 1){
 ?>
 						</select></td>
 					</tr>
+                    <tr>
+                        <td><input type="submit" name="saveKoperasi" value="Simpan" />
+                        </td>
+                    </tr>
 			</table>
 			</fieldset>
 			<fieldset>
