@@ -6,6 +6,7 @@ include "nav_datacenter.php";
 if (isset($_POST['searchShu'])) {
 	$kopnama = $_POST['idkoperasi'];
 	$lapperiod = $_POST['idperiode'];
+    //die($_POST['idkoperasi']." - " .$_POST['idperiode']);
 	if ($kopnama <>"" AND $lapperiod <>"") {
 		$search_limit = ' k.idkoperasi ='. $kopnama . ' AND s.dateposting = "'.$lapperiod.'"';
 		// get record
@@ -135,7 +136,8 @@ echo navigation(2);
     if ($_SESSION['group'] == 1) {
     	echo '<td><select id="jenis" name="idkoperasi" class="input-text-02">';
     } else {
-    	echo '<td><select id="jenis" name="idkoperasi" class="input-text-02" disabled>';
+    	echo '<td><input type="hidden" name="idkoperasi" value="'.$_SESSION['koperasi'].'" />';
+        echo '<select id="jenis" name="idkoperasi" class="input-text-02" disabled>';
     }
 	echo '<option value="0">--- Pilih nama ---</option>';
 	while ($choice = $option->fetch_assoc()) {
