@@ -12,9 +12,20 @@ if (isset($_POST['saveShu'])) {
 	if (isset($_POST['updatenid'])) {
 		$idshu = $_POST['updatenid'];
 	}
+	$date['month']=$_POST['month'];
+	$date['tahun']=$_POST['tahun'];
+    if (isset($_POST['month'])) {
+        $date['time'] = $date['tahun']."-".$date['month']."-01";
+        $testdate = $dbs->query("SELECT LAST_DAY('".$date['time']."')");
+        $resultdate = $testdate->fetch_row();
+        $data['dateposting'] = $resultdate[0];
+    } else {
+        $data['dateposting'] = $date['tahun']."-12-31";
+        $data['tahunan'] = 1;
+    }
 
 	$data['idkoperasi'] = $_POST['idkoperasi'];
-	$data['idperiode'] = $_POST['idperiode'];
+//	$data['idperiode'] = $_POST['idperiode'];
 	$data['s1'] = $_POST['s1'];
 	$data['s11'] = $_POST['s11'];
 	$data['s1101'] = $_POST['s1101'];
@@ -88,18 +99,17 @@ if (isset($_POST['saveShu'])) {
 	if (isset($idshu) AND $idshu <> 0) {
 		$update = $sql_op->update('shu', $data, 'idshu ='.$idshu);
 		if ($update) {
-			utility::jsAlert('Data Sisa Hasil Usaha berhasil diperbaiki.');
+			$message='Data Sisa Hasil Usaha berhasil diperbaiki.';
 		} else {
-			utility::jsAlert('Data Sisa Hasil Usaha GAGAL diperbaiki.');
+			$message=$sql_op->error.' -- Data Sisa Hasil Usaha GAGAL diperbaiki.';
 		}
 	} else {
 		$insert = $sql_op->insert('shu', $data);
 		if ($insert) {
-			utility::jsAlert('Data Sisa Hasil Usaha berhasil disimpan.');
+			$message='Data Sisa Hasil Usaha berhasil disimpan.';
 		} else {
-			utility::jsAlert($sql_op->error.' -- Data Sisa Hasil Usaha GAGAL disimpan.');
+			$message=$sql_op->error.' -- Data Sisa Hasil Usaha GAGAL disimpan.';
 		}
-
 	}
 }
 
@@ -152,7 +162,11 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 </head>
 
 <body>
-
+<?php
+if (isset($message) AND $message <> "") {
+    utility::jsAlert($message);
+}
+?>
 <div id="main">
 
 	<!-- Tray -->
@@ -219,7 +233,7 @@ echo navigation(2);
 			<?php
 			if (isset($_GET['list'])) {
 				echo "<fieldset>\n<legend>Data Neraca Tersedia</legend>";
-				echo listShu();
+				echo listShu(true);
 				echo '<form action="datacenter-entrydata.php" method="link"><table class="nostyle">';
 				echo '<div style="text-align:right";><input type="submit" class="input-submit" value="Data Baru" /></div></form>';
 				echo "</fieldset>\n";
@@ -261,20 +275,34 @@ echo navigation(2);
 					</tr>
 					<tr>
 						<td>Periode:</td>
+                        <td><input id="enable" name="enable" type="checkbox" value="1" checked="" />&nbsp;Bulanan<br />
 <?php
-	$sql_text = "SELECT idperiode, periode from periode ORDER BY finaldate DESC";
-	$option = $dbs->query($sql_text);
-	echo '<td><select id="periode" name="idperiode" class="input-text-2">"';
-	echo '<option value="">--- Periode pelaporan ---</option>';
-	while ($choice = $option->fetch_assoc()) {
-		if ($choice['idperiode'] == $recShu['idperiode']) {
-			echo '<option value="'.$choice['idperiode'].'" SELECTED >'.$choice['periode'].'</option>';
-		} else {
-			echo '<option value="'.$choice['idperiode'].'">'.$choice['periode'].'</option>';
-		}
-	}
-	echo '</select></td>';
+    for ($i=0; $i<12; $i++) {
+        echo '<input type="radio" name="month" id="m1" value="'. sprintf("%02d",$i+1).'" ';
+        if (isset($recShu['dateposting'])) {
+            $m = -1+substr($recShu['dateposting'],5,2);
+            if ($i == $m) {
+                echo ' checked';
+            }
+        }
+        echo '/ > '.$sysconf['months'][$i].'&nbsp;&nbsp;';
+    }
+    $t = date("Y");
+    echo '<select id="year" name="tahun">';
+    for ($i=$t; $i>$t-5; $i--) {
+        echo '<option value="'.$i.'"';
+        if (isset($recShu['dateposting'])) {
+            $y = 0+substr($recShu['dateposting'],0,4);
+            if ($i == $y) {
+                echo ' SELECTED';
+            }
+        }
+        echo ' >'.$i.'</option>';
+    }
+    echo '</select>';
 ?>
+                        </td>
+                    </tr>
 				</table>
 			</fieldset>
 

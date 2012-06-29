@@ -91,18 +91,17 @@ if (isset($_POST['saveShu'])) {
 	if (isset($idshu) AND $idshu <> 0) {
 		$update = $sql_op->update('shu', $data, 'idshu ='.$idshu);
 		if ($update) {
-			utility::jsAlert('Data Sisa Hasil Usaha berhasil diperbaiki.');
+			$message='Data Sisa Hasil Usaha berhasil diperbaiki.';
 		} else {
-			utility::jsAlert('Data Sisa Hasil Usaha GAGAL diperbaiki.');
+			$message=$sql_op->error.' -- Data Sisa Hasil Usaha GAGAL diperbaiki.';
 		}
 	} else {
 		$insert = $sql_op->insert('shu', $data);
 		if ($insert) {
-			utility::jsAlert('Data Sisa Hasil Usaha berhasil disimpan.');
+			$message='Data Sisa Hasil Usaha berhasil disimpan.';
 		} else {
-			utility::jsAlert($sql_op->error.' -- Data Sisa Hasil Usaha GAGAL disimpan.');
+			$message=$sql_op->error.' -- Data Sisa Hasil Usaha GAGAL disimpan.';
 		}
-
 	}
 }
 
@@ -162,7 +161,11 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 </head>
 
 <body>
-
+<?php
+if (isset($message) AND $message <> "") {
+    utility::jsAlert($message);
+}
+?>
 <div id="main">
 
 	<!-- Tray -->

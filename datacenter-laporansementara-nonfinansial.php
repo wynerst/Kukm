@@ -7,9 +7,9 @@ if (isset($_POST['searchCoa'])) {
 	$kopnama = $_POST['koperasi'];
 	$lapperiod = $_POST['periode'];
 	if ($kopnama <>"" AND $lapperiod <>"") {
-		$search_limit = ' k.idkoperasi ='. $kopnama . ' AND p.periode = "'.$lapperiod.'"';
+		$search_limit = ' k.idkoperasi ='. $kopnama . ' AND c.periode = "'.$lapperiod.'"';
 		// get record
-		$sql_text = "SELECT c.*, i.*, k.nama FROM non_coa as c LEFT JOIN periode as p ON p.idperiode = c.idperiode ";
+		$sql_text = "SELECT c.*, k.nama FROM non_coa as c ";
 		$sql_text .= " LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi ";
 		if (isset($search_limit)) {
 			$sql_text .= "WHERE ". $search_limit;
@@ -144,7 +144,8 @@ echo navigation(3);
     if ($_SESSION['group'] == 1) {
     	echo '<td><select id="jenis" name="koperasi" class="input-text-02">';
     } else {
-    	echo '<td><select id="jenis" name="koperasi_idkoperasi" class="input-text-02" disabled>';
+    	echo '<td><input type="hidden" name="koperasi" value="'.$_SESSION['koperasi'].'" />';
+        echo '<select id="jenis" name="koperasi_idkoperasi" class="input-text-02" disabled>';
     }
 	echo '<option value="0">--- Pilih nama ---</option>';
 	while ($choice = $option->fetch_assoc()) {
@@ -160,7 +161,8 @@ echo navigation(3);
 					<tr>
 						<td>Periode:</td>
 <?php
-	$sql_text = "SELECT DISTINCT periode from non_coa ORDER BY periode DESC";
+/**
+ 	$sql_text = "SELECT DISTINCT periode from non_coa ORDER BY periode DESC";
 	$option = $dbs->query($sql_text);
 	echo '<td><select id="periode" name="periode" class="input-text-2">"';
 	echo '<option value="">--- Periode pelaporan ---</option>';
@@ -168,6 +170,7 @@ echo navigation(3);
 		echo '<option value="'.$choice['periode'].'">'.$choice['periode'].'</option>';
 	}
 	echo '</select></td>';
+**/ 
 ?>
 					</tr>
 					<tr>
@@ -230,7 +233,7 @@ echo navigation(3);
 	<!-- Footer -->
 	<div id="footer" class="box">
 
-		<p class="f-left">&copy; 2012 <a href="#">PT. Artistika Prasetia</a>, All Rights Reserved &reg;</p>
+		<p class="f-left">&copy; 2012 <a href="#">Kementerian Koperasi dan UKM</a>, All Rights Reserved &reg;</p>
 
 		<p class="f-right">Templates by <a href="http://www.adminizio.com/">Adminizio</a></p>
 

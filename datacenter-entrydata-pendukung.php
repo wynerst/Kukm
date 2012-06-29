@@ -22,7 +22,7 @@ if (isset($_POST['saveNon'])) {
     $data['karyawan']=$_POST['karyawan'];
     $data['anggota']=$_POST['anggota'];
     $data['calon_anggota']=$_POST['calon_anggota'];
-//    $data['iduser']=$_POST['iduser'];
+//    $data['iduser']=$_SESSION['userID'];
 //    $data['sb_simpanan']=$_POST['sb_simpanan'];
 //    $data['sb_pinjaman']=$_POST['sb_pinjaman'];
 
@@ -211,6 +211,7 @@ echo navigation(3);
                     <tr>
                         <td>Periode:</td>
 <?php
+/**
     $sql_text = "SELECT idperiode, periode from periode ORDER BY finaldate DESC";
     $option = $dbs->query($sql_text);
     echo '<td><select id="periode" name="idperiode" class="input-text-2">"';
@@ -223,7 +224,9 @@ echo navigation(3);
         }
     }
     echo '</select></td>';
+**/
 ?>
+                    <td><input id="periode" name="periode" class="input-text-2" value="Gunakan format YYYY-MM-DD" /></td>
                     </tr>
                 </table>
             </fieldset>

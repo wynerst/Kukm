@@ -9,7 +9,7 @@ if (isset($_POST['searchHarian'])) {
 	if ($kopnama <>"" AND $lapperiod <>"") {
 		$search_limit = ' k.idkoperasi ='. $kopnama . ' AND c.periode = "'.$lapperiod.'"';
 		// get record
-		$sql_text = "SELECT c.*, i.*, k.nama FROM harian as c ";
+		$sql_text = "SELECT c.*, k.nama FROM harian as c ";
 		$sql_text .= " LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi ";
 		if (isset($search_limit)) {
 			$sql_text .= "WHERE ". $search_limit;
@@ -142,7 +142,8 @@ echo navigation(5);
     if ($_SESSION['group'] == 1) {
     	echo '<td><select id="jenis" name="koperasi" class="input-text-02">';
     } else {
-    	echo '<td><select id="jenis" name="koperasi_idkoperasi" class="input-text-02" disabled>';
+    	echo '<td><input type="hidden" name="koperasi" value="'.$_SESSION['koperasi'].'" />';
+        echo '<select id="jenis" name="koperasi_idkoperasi" class="input-text-02" disabled>';
     }
     echo '<option value="0">--- Pilih nama ---</option>';
 	while ($choice = $option->fetch_assoc()) {
@@ -262,7 +263,7 @@ echo navigation(5);
         $npl = ($recHarian['s103'] + (0.75*$recHarian['s102']) + (0.5*$recHarian['s101']) ) / $recHarian['s2'];
         if ($npl > 0) {
             $npl = $npl * 100;
-            echo '<npltr><td>&nbsp;</td><td>NPL</td><td><input type="text" size="40" name="s10" value="'.$npl.'%" class="input-text" disabled /></td></tr>';
+            echo '<tr><td>&nbsp;</td><td>NPL</td><td><input type="text" size="40" name="s10" value="'.$npl.'%" class="input-text" disabled /></td></tr>';
         }
     }
 ?>

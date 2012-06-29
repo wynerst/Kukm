@@ -255,47 +255,47 @@ echo navigation(3);
   <tr>
     <td>1</td>
     <td>Total Penerimaan Simpanan</td>
-    <td><input type="text" size="40" name="h1" value="<?php echo isset($recHarian['h1']) ? $recHarian['h1'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h1" value="<?php echo isset($recHarian['h1']) ? number_format($recHarian['h1'],2,',','.') : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>2</td>
     <td>Total Pemberian Pinjaman</td>
-    <td><input type="text" size="40" name="h2" value="<?php echo isset($recHarian['h2']) ? $recHarian['h2'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h2" value="<?php echo isset($recHarian['h2']) ? number_format($recHarian['h2'],2,',','.') : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>3</td>
     <td>Modal dalam</td>
-    <td><input type="text" size="40" name="h3" value="<?php echo isset($recHarian['h3']) ? $recHarian['h3'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h3" value="<?php echo isset($recHarian['h3']) ? number_format($recHarian['h3'],2,',','.') : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>4</td>
     <td>Modal luar</td>
-    <td><input type="text" size="40" name="h4" value="<?php echo isset($recHarian['h4']) ? $recHarian['h4'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h4" value="<?php echo isset($recHarian['h4']) ? number_format($recHarian['h4'],2,',','.') : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>5</td>
     <td>Volume Usaha</td>
-    <td><input type="text" size="40" name="h5" value="<?php echo isset($recHarian['h5']) ? $recHarian['h5'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h5" value="<?php echo isset($recHarian['h5']) ? number_format($recHarian['h5'],2,',','.') : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>6</td>
     <td>Asset</td>
-    <td><input type="text" size="40" name="h6" value="<?php echo isset($recHarian['h6']) ? $recHarian['h6'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h6" value="<?php echo isset($recHarian['h6']) ? number_format($recHarian['h6'],2,',','.') : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>7</td>
     <td>SHU</td>
-    <td><input type="text" size="40" name="h7" value="<?php echo isset($recHarian['h7']) ? $recHarian['h7'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h7" value="<?php echo isset($recHarian['h7']) ? number_format($recHarian['h7'],2,',','.') : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>8</td>
     <td>Suku Bunga simpanan</td>
-    <td><input type="text" size="40" name="h8" value="<?php echo isset($recHarian['h8']) ? $recHarian['h8'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h8" value="<?php echo isset($recHarian['h8']) ? number_format($recHarian['h8'],2,',','.') : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>9</td>
     <td>Suku bunga pinjaman</td>
-    <td><input type="text" size="40" name="h9" value="<?php echo isset($recHarian['h9']) ? $recHarian['h9'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h9" value="<?php echo isset($recHarian['h9']) ? number_format($recHarian['h9'],2,',','.') : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr style="background: #999">
     <td style="width:5px;">10</td>
@@ -305,17 +305,17 @@ echo navigation(3);
   <tr>
     <td>&nbsp;</td>
     <td>Pinjaman Kurang Lancar/PKL</td>
-    <td><input type="text" size="40" name="h102" value="<?php echo isset($recHarian['h102']) ? $recHarian['h102'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h102" value="<?php echo isset($recHarian['h102']) ? number_format($recHarian['h102'],2,',','.') : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
     <td>Pinjaman Diragukan</td>
-    <td><input type="text" size="40" name="h103" value="<?php echo isset($recHarian['h103']) ? $recHarian['h103'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h103" value="<?php echo isset($recHarian['h103']) ? number_format($recHarian['h103'],2,',','.') : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
     <td>Pinjaman Macet</td>
-    <td><input type="text" size="40" name="h101" value="<?php echo isset($recHarian['h101']) ? $recHarian['h101'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h101" value="<?php echo isset($recHarian['h101']) ? number_format($recHarian['h101'],2,',','.') : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td colspan="4" class="t-right"><input type="submit" name="saveHarian" class="input-submit" value="Submit" /></td>

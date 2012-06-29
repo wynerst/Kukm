@@ -3,7 +3,7 @@ require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
 require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
 require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
 
-function listNeraca() {
+function listNeraca($syariah = false) {
 	global $dbs;
     $criteria = "";
     $koperasi = $_SESSION['koperasi'];
@@ -11,9 +11,15 @@ function listNeraca() {
     $jenis = $_SESSION['tipekoperasi'];
 	$datagrid = new simbio_datagrid();
 	$table_spec = 'coa as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi LEFT JOIN periode as p ON c.idperiode = p.idperiode';
+    if ($syariah) {
+	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrysyariah.php?nid=\',c.idcoa,\'">Edit</a>\') as \'&nbsp;\'',
+		'CONCAT(\'<a href="datacenter-delete.php?nid=\',c.idcoa,\'">Hapus</a>\') as \'&nbsp;\'',
+		'k.nama AS \'Koperasi\'', 'DATE(c.dateposting) AS \'Periode Laporan\'');
+    } else {
 	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata.php?nid=\',c.idcoa,\'">Edit</a>\') as \'&nbsp;\'',
 		'CONCAT(\'<a href="datacenter-delete.php?nid=\',c.idcoa,\'">Hapus</a>\') as \'&nbsp;\'',
 		'k.nama AS \'Koperasi\'', 'DATE(c.dateposting) AS \'Periode Laporan\'');
+    }
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
 	$datagrid->debug = true;
 	if ($group == 1 or $group == 3) {
@@ -69,7 +75,7 @@ function listFinasial() {
 
 }
 
-function listShu() {
+function listShu($syariah = false) {
 	global $dbs;
 	$datagrid = new simbio_datagrid();
     $critera = "";
@@ -77,9 +83,15 @@ function listShu() {
     $group = $_SESSION['group'];
     $jenis = $_SESSION['tipekoperasi'];
 	$table_spec = 'shu as s LEFT JOIN koperasi as k ON s.idkoperasi = k.idkoperasi LEFT JOIN periode as p ON s.idperiode = p.idperiode';
+    if ($syariah) {
+	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata-phu-syariah.php?nid=\',s.idshu,\'">Edit</a>\') as \'&nbsp;\'',
+		'CONCAT(\'<a href="datacenter-delete.php?pid=\',s.idshu,\'">Hapus</a>\') as \'&nbsp;\'',
+		'k.nama AS \'Koperasi\'', 'DATE(s.dateposting) AS \'Periode Laporan\'');
+    } else {
 	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata-phu.php?nid=\',s.idshu,\'">Edit</a>\') as \'&nbsp;\'',
 		'CONCAT(\'<a href="datacenter-delete.php?pid=\',s.idshu,\'">Hapus</a>\') as \'&nbsp;\'',
 		'k.nama AS \'Koperasi\'', 'DATE(s.dateposting) AS \'Periode Laporan\'');
+    }
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
 	if ($group == 1 or $group == 3) {
         $criteria = "";

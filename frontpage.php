@@ -21,7 +21,11 @@ if (isset($_GET['fp']) and $_GET['fp'] <> "") {
 } else {
 	$modul = "";
 	//die("fp_d1.php");
-	include "fp_d1.php";
+    if ($_SESSION['group'] == 1) {
+        include "fp_d1.php";
+    } else {
+        include "fp_m2.php";
+    }
 }
 
 ?>
