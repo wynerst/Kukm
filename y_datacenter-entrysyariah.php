@@ -12,9 +12,9 @@ if (isset($_POST['saveNeraca'])) {
 
     $sql_op = new simbio_dbop($dbs);
 
-    if (isset($_POST['updatenid'])) {
-        $idcoa = $_POST['updatenid'];
-    }
+	if (isset($_POST['updatenid'])) {
+		$idcoa = $_POST['updatenid'];
+	}
     $date['month']=$_POST['month'];
     $date['tahun']=$_POST['tahun'];
     if (isset($_POST['month'])) {
@@ -26,14 +26,14 @@ if (isset($_POST['saveNeraca'])) {
         $data['dateposting'] = $date['tahun']."-12-31";
         $data['tahunan'] = 1;
     }
-    $data['idkoperasi']=$_POST['idkoperasi'];
-//    $data['idperiode']=$_POST['idperiode'];
-    $data['c1']=$_POST['c1'];
-    $data['c11']=$_POST['c11'];
-    $data['c1110']=val($_POST['c1110']);
-    $data['c1120']=$_POST['c1120'];
-    $data['c1121']=$_POST['c1121'];
-    $data['c1122']=$_POST['c1122'];
+	$data['idkoperasi']=$_POST['idkoperasi'];
+//	$data['idperiode']=$_POST['idperiode'];
+	$data['c1']=$_POST['c1'];
+	$data['c11']=$_POST['c11'];
+	$data['c1110']=$_POST['c1110'];
+	$data['c1120']=$_POST['c1120'];
+	$data['c1121']=$_POST['c1121'];
+	$data['c1122']=$_POST['c1122'];
     if ($data['c1120'] > 0) {
         if ($data['c1120'] <> ($data['c1121'] + $data['c1122'])) {
             $galat[3] = $err_jml;
@@ -44,25 +44,30 @@ if (isset($_POST['saveNeraca'])) {
         $data['c1120'] = $data['c1121'] + $data['c1122'];
         $galat[3] = "";
     }
-    $data['c1130']=$_POST['c1130'];
-    $data['c1140']=$_POST['c1140'];
-    $data['c1141']=$_POST['c1141'];
-    $data['c1142']=$_POST['c1142'];
-    $data['c1143']=$_POST['c1143'];
-    $data['c1149']=$_POST['c1149'];
+	$data['c1130']=$_POST['c1130'];
+	$data['c1140']=$_POST['c1140'];
+	$data['c1141']=$_POST['c1141'];
+	$data['c1142']=$_POST['c1142'];
+	$data['c1143']=$_POST['c1143'];
+	$data['c1144']=$_POST['c1144'];
+	$data['c1145']=$_POST['c1145'];
+	$data['c1146']=$_POST['c1146'];
+	$data['c1147']=$_POST['c1147'];
+	$data['c1148']=$_POST['c1148'];
+	$data['c1149']=$_POST['c1149'];
     if ($data['c1140'] > 0) {
-        if ($data['c1140'] <> ($data['c1141'] + $data['c1142'] + $data['c1143'] + $data['c1149'])) {
+        if ($data['c1140'] <> ($data['c1141'] + $data['c1142'] + $data['c1143'] + $data['c1144'] + $data['c1145'] + $data['c1146'] + $data['c1147'] + $data['c1148'] + $data['c1149'])) {
             $galat[4] = $err_jml;
         } else {
             $galat[4] = "";
         }
     } else {
-        $data['c1140'] = $data['c1141'] + $data['c1142'] + $data['c1143'] + $data['c1149'];
+        $data['c1140'] = $data['c1141'] + $data['c1142'] + $data['c1143'] + $data['c1144'] + $data['c1145'] + $data['c1146'] + $data['c1147'] + $data['c1148'] + $data['c1149'];
         $galat[4] = "";
     }
 
     $data['c1150']=$_POST['c1150'];
-    $data['c1160']=$_POST['c1160'];
+	$data['c1160']=$_POST['c1160'];
     $data['c1190']=$_POST['c1190'];
     if ($data['c11'] > 0) {
         if ($data['c11'] <> ($data['c1110'] + $data['c1120'] + $data['c1130'] + $data['c1140'] + $data['c1150'] + $data['c1160'] + $data['c1190'])) {
@@ -75,10 +80,10 @@ if (isset($_POST['saveNeraca'])) {
         $galat[2] = "";
     }
 
-    $data['c12']=$_POST['c12'];
-    $data['c1210']=$_POST['c1210'];
-    $data['c1220']=$_POST['c1220'];
-    $data['c1230']=$_POST['c1230'];
+	$data['c12']=$_POST['c12'];
+	$data['c1210']=$_POST['c1210'];
+	$data['c1220']=$_POST['c1220'];
+	$data['c1230']=$_POST['c1230'];
     if ($data['c12'] > 0) {
         if ($data['c12'] <> ($data['c1210'] + $data['c1220'] + $data['c1230'])) {
             $galat[5] = $err_jml;
@@ -89,16 +94,16 @@ if (isset($_POST['saveNeraca'])) {
         $data['c12'] = $data['c1210'] + $data['c1220'] + $data['c1230'];
         $galat[5] = "";
     }
-
-    $data['c13']=$_POST['c13'];
-    $data['c1310']=$_POST['c1310'];
-    $data['c1320']=$_POST['c1320'];
-    $data['c1325']=$_POST['c1325'];
-    $data['c1330']=$_POST['c1330'];
-    $data['c1335']=$_POST['c1335'];
-    $data['c1340']=$_POST['c1340'];
-    $data['c1345']=$_POST['c1345'];
-    $data['c1390']=$_POST['c1390'];
+    
+	$data['c13']=$_POST['c13'];
+	$data['c1310']=$_POST['c1310'];
+	$data['c1320']=$_POST['c1320'];
+	$data['c1325']=$_POST['c1325'];
+	$data['c1330']=$_POST['c1330'];
+	$data['c1335']=$_POST['c1335'];
+	$data['c1340']=$_POST['c1340'];
+	$data['c1345']=$_POST['c1345'];
+	$data['c1390']=$_POST['c1390'];
     if ($data['c13'] > 0) {
         if ($data['c13'] <> ($data['c1310'] + $data['c1320'] + $data['c1325'] + $data['c1330'] + $data['c1335'] + $data['c1340'] + $data['c1345'] + $data['c1390'])) {
             $galat[6] = $err_jml;
@@ -110,9 +115,9 @@ if (isset($_POST['saveNeraca'])) {
         $galat[6] = "";
     }
 
-    $data['c14']=$_POST['c14'];
-    $data['c1410']=$_POST['c1410'];
-    $data['c1415']=$_POST['c1415'];
+	$data['c14']=$_POST['c14'];
+	$data['c1410']=$_POST['c1410'];
+	$data['c1415']=$_POST['c1415'];
     if ($data['c14'] > 0) {
         if ($data['c14'] <> ($data['c1410'] + $data['c1415'])) {
             $galat[7] = $err_jml;
@@ -135,11 +140,11 @@ if (isset($_POST['saveNeraca'])) {
         $galat[1] = "";
     }
 
-    $data['c2']=$_POST['c2'];
-    $data['c21']=$_POST['c21'];
-    $data['c2110']=$_POST['c2110'];
-    $data['c2111']=$_POST['c2111'];
-    $data['c2112']=$_POST['c2112'];
+	$data['c2']=$_POST['c2'];
+	$data['c21']=$_POST['c21'];
+	$data['c2110']=$_POST['c2110'];
+	$data['c2111']=$_POST['c2111'];
+	$data['c2112']=$_POST['c2112'];
     if ($data['c2110'] > 0) {
         if ($data['c2110'] <> ($data['c2111'] + $data['c2112'])) {
             $galat[10] = $err_jml;
@@ -151,11 +156,11 @@ if (isset($_POST['saveNeraca'])) {
         $galat[10] = "";
     }
 
-    $data['c2120']=$_POST['c2120'];
-    $data['c2130']=$_POST['c2130'];
-    $data['c2140']=$_POST['c2140'];
-    $data['c2150']=$_POST['c2150'];
-    $data['c2160']=$_POST['c2160'];
+	$data['c2120']=$_POST['c2120'];
+	$data['c2130']=$_POST['c2130'];
+	$data['c2140']=$_POST['c2140'];
+	$data['c2150']=$_POST['c2150'];
+	$data['c2160']=$_POST['c2160'];
     if ($data['c21'] > 0) {
         if ($data['c21'] <> ($data['c2110'] + $data['c2120'] + $data['c2130'] + $data['c2140'] + $data['c2150'] + $data['c2160'])) {
             $galat[9] = $err_jml;
@@ -167,11 +172,11 @@ if (isset($_POST['saveNeraca'])) {
         $galat[9] = "";
     }
 
-    $data['c22']=$_POST['c22'];
-    $data['c2210']=$_POST['c2210'];
-    $data['c2220']=$_POST['c2220'];
-    $data['c2230']=$_POST['c2230'];
-    $data['c2240']=$_POST['c2240'];
+	$data['c22']=$_POST['c22'];
+	$data['c2210']=$_POST['c2210'];
+	$data['c2220']=$_POST['c2220'];
+	$data['c2230']=$_POST['c2230'];
+	$data['c2240']=$_POST['c2240'];
     if ($data['c22'] > 0) {
         if ($data['c22'] <> ($data['c2210'] + $data['c2220'] + $data['c2230'] + $data['c2240'])) {
             $galat[11] = $err_jml;
@@ -194,15 +199,15 @@ if (isset($_POST['saveNeraca'])) {
         $galat[8] = "";
     }
 
-    $data['c3']=$_POST['c3'];
-    $data['c3110']=$_POST['c3110'];
-    $data['c3120']=$_POST['c3120'];
-    $data['c3130']=$_POST['c3130'];
-    $data['c3140']=$_POST['c3140'];
-    $data['c3150']=$_POST['c3150'];
-    $data['c3160']=$_POST['c3160'];
-    $data['c3161']=$_POST['c3161'];
-    $data['c3162']=$_POST['c3162'];
+	$data['c3']=$_POST['c3'];
+	$data['c3110']=$_POST['c3110'];
+	$data['c3120']=$_POST['c3120'];
+	$data['c3130']=$_POST['c3130'];
+	$data['c3140']=$_POST['c3140'];
+	$data['c3150']=$_POST['c3150'];
+	$data['c3160']=$_POST['c3160'];
+	$data['c3161']=$_POST['c3161'];
+	$data['c3162']=$_POST['c3162'];
     if ($data['c3160'] > 0) {
         if ($data['c3160'] <> ($data['c3161'] + $data['c3162'])) {
             $galat[13] = $err_jml;
@@ -213,9 +218,9 @@ if (isset($_POST['saveNeraca'])) {
         $data['c3160'] = $data['c3161'] + $data['c3162'];
         $galat[13] = "";
     }
-
-    $data['c3170']=$_POST['c3170'];
-    $data['c3180']=$_POST['c3180'];
+    
+	$data['c3170']=$_POST['c3170'];
+	$data['c3180']=$_POST['c3180'];
     if ($data['c3'] > 0) {
         if ($data['c3'] <> ($data['c3110'] + $data['c3120'] + $data['c3130'] + $data['c3140'] + $data['c3150'] + $data['c3160'] + $data['c3170'] + $data['c3180'])) {
             $galat[12] = $err_jml;
@@ -226,7 +231,7 @@ if (isset($_POST['saveNeraca'])) {
         $data['c3'] = $data['c3110'] + $data['c3120'] + $data['c3130'] + $data['c3140'] + $data['c3150'] + $data['c3160'] + $data['c3170'] + $data['c3180'];
         $galat[12] = "";
     }
-
+	
     $recNeraca = $data;
     for ($i=1; $i<=13; $i++) {
         if ($galat[$i] <> "") {
@@ -265,20 +270,21 @@ if (isset($_POST['saveNeraca'])) {
 }
 
 if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
-    // get record
-    $idcoa = $_GET['nid'];
-    $sql_text = "SELECT c.*, p.periode, k.nama FROM coa as c
-        LEFT JOIN periode as p ON c.idperiode = p.idperiode
-        LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi
-        WHERE c.idcoa =". $idcoa;
-    $q_neraca = $dbs->query($sql_text);
-    $recNeraca = $q_neraca->fetch_assoc();
+	// get record
+	$idcoa = $_GET['nid'];
+	$sql_text = "SELECT c.*, p.periode, k.nama FROM coa as c
+		LEFT JOIN periode as p ON c.idperiode = p.idperiode
+		LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi
+		WHERE c.idcoa =". $idcoa;
+	$q_neraca = $dbs->query($sql_text);
+	$recNeraca = $q_neraca->fetch_assoc();
 }
 
 // start the output buffering for main content
 ob_start();
 
 session_start();
+
 if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
     echo '<script type="text/javascript">alert(\'Anda tidak berhak mengakses laman!\');';
     echo 'location.href = \'index.php\';</script>';
@@ -289,24 +295,33 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta http-equiv="content-language" content="en" />
-    <meta name="robots" content="noindex,nofollow" />
-    <link rel="stylesheet" media="screen,projection" type="text/css" href="css/reset.css" /> <!-- RESET -->
-    <link rel="stylesheet" media="screen,projection" type="text/css" href="css/main.css" /> <!-- MAIN STYLE SHEET -->
-    <link rel="stylesheet" media="screen,projection" type="text/css" href="css/2col.css" title="2col" /> <!-- DEFAULT: 2 COLUMNS -->
-    <link rel="alternate stylesheet" media="screen,projection" type="text/css" href="css/1col.css" title="1col" /> <!-- ALTERNATE: 1 COLUMN -->
-    <!--[if lte IE 6]><link rel="stylesheet" media="screen,projection" type="text/css" href="css/main-ie6.css" /><![endif]--> <!-- MSIE6 -->
-    <link rel="stylesheet" media="screen,projection" type="text/css" href="css/style.css" /> <!-- GRAPHIC THEME -->
-    <link rel="stylesheet" media="screen,projection" type="text/css" href="css/mystyle.css" /> <!-- WRITE YOUR CSS CODE HERE -->
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/switcher.js"></script>
-    <script type="text/javascript" src="js/toggle.js"></script>
-    <script type="text/javascript" src="js/ui.core.js"></script>
-    <script type="text/javascript" src="js/ui.tabs.js"></script>
-    <script type="text/javascript">
-    $(document).ready(function(){
-        $(".tabs > ul").tabs();
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="content-language" content="en" />
+	<meta name="robots" content="noindex,nofollow" />
+	<link rel="stylesheet" media="screen,projection" type="text/css" href="css/reset.css" /> <!-- RESET -->
+	<link rel="stylesheet" media="screen,projection" type="text/css" href="css/main.css" /> <!-- MAIN STYLE SHEET -->
+	<link rel="stylesheet" media="screen,projection" type="text/css" href="css/2col.css" title="2col" /> <!-- DEFAULT: 2 COLUMNS -->
+	<link rel="alternate stylesheet" media="screen,projection" type="text/css" href="css/1col.css" title="1col" /> <!-- ALTERNATE: 1 COLUMN -->
+	<!--[if lte IE 6]><link rel="stylesheet" media="screen,projection" type="text/css" href="css/main-ie6.css" /><![endif]--> <!-- MSIE6 -->
+	<link rel="stylesheet" media="screen,projection" type="text/css" href="css/style.css" /> <!-- GRAPHIC THEME -->
+	<link rel="stylesheet" media="screen,projection" type="text/css" href="css/mystyle.css" /> <!-- WRITE YOUR CSS CODE HERE -->
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/switcher.js"></script>
+	<script type="text/javascript" src="js/toggle.js"></script>
+	<script type="text/javascript" src="js/ui.core.js"></script>
+	<script type="text/javascript" src="js/ui.tabs.js"></script>
+	<!-- required plugins -->
+	<script type="text/javascript" src="js/date.js"></script>
+	<!--[if IE]><script type="text/javascript" src="scripts/jquery.bgiframe.min.js"></script><![endif]-->
+	
+	<!-- jquery.datePicker.js -->
+	<script type="text/javascript" src="js/jquery.datePicker.js"></script>
+	
+	<!-- datePicker required styles -->
+	<link rel="stylesheet" type="text/css" media="screen" href="css/datePicker.css">
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$(".tabs > ul").tabs();
         $("#enable").click(function() {
                if ($(this).is(':checked')) {
                     $('input:radio').attr("disabled", false);
@@ -314,10 +329,14 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
                     $('input:radio').attr("disabled", true);
                }
         });
-    }); 
+	});
 
-    </script>
-    <title>Kementerian KUKM - JKUK</title>
+	$(function()
+	{
+		$('.date-pick').datePicker({clickInput:true})
+	});
+	</script>
+	<title>Kementerian KUKM - JKUK</title>
 </head>
 
 <body>
@@ -328,117 +347,112 @@ if (isset($message) AND $message <> "") {
 ?>
 <div id="main">
 
-    <!-- Tray -->
-    <div id="tray" class="box">
+	<!-- Tray -->
+	<div id="tray" class="box">
 
-        <p class="f-left box">
+		<p class="f-left box">
 
-            <!-- Switcher -->
-            <span class="f-left" id="switcher">
-                <a href="#" rel="1col" class="styleswitch ico-col1" title="Display one column"><img src="design/switcher-1col.gif" alt="1 Column" /></a>
-                <a href="#" rel="2col" class="styleswitch ico-col2" title="Display two columns"><img src="design/switcher-2col.gif" alt="2 Columns" /></a>
-            </span>
+			<!-- Switcher -->
+			<span class="f-left" id="switcher">
+				<a href="#" rel="1col" class="styleswitch ico-col1" title="Display one column"><img src="design/switcher-1col.gif" alt="1 Column" /></a>
+				<a href="#" rel="2col" class="styleswitch ico-col2" title="Display two columns"><img src="design/switcher-2col.gif" alt="2 Columns" /></a>
+			</span>
 
-            Project: <strong>Kementerian KUKM</strong>
+			Project: <strong>Kementerian KUKM</strong>
 
-        </p>
+		</p>
 
-        <p class="f-right">User: <strong><a href="#"><?php echo isset($_SESSION['userName']) ? $_SESSION['userName'] : "None";?></a></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong><a href="index.php?login=" id="logout">Log out</a></strong></p>
+		<p class="f-right">User: <strong><a href="#"><?php echo isset($_SESSION['userName']) ? $_SESSION['userName'] : "None";?></a></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong><a href="index.php?login=" id="logout">Log out</a></strong></p>
 
-    </div> <!--  /tray -->
+	</div> <!--  /tray -->
 
-    <hr class="noscreen" />
+	<hr class="noscreen" />
 
-    <!-- Menu -->
-    <div id="menu" class="box">
+	<!-- Menu -->
+	<div id="menu" class="box">
 
-        <ul class="box f-right">
-            <li><a href="#"><span><strong>Visit Site &raquo;</strong></span></a></li>
-        </ul>
+		<ul class="box f-right">
+			<li><a href="#"><span><strong>Visit Site &raquo;</strong></span></a></li>
+		</ul>
 
-        <ul class="box">
-        <?php echo menutop(2); ?>
-        </ul>
+		<ul class="box">
+		<?php echo menutop(2); ?>
+		</ul>
 
-    </div> <!-- /header -->
+	</div> <!-- /header -->
 
-    <hr class="noscreen" />
+	<hr class="noscreen" />
 
-    <!-- Columns -->
-    <div id="cols" class="box">
+	<!-- Columns -->
+	<div id="cols" class="box">
 
-        <!-- Aside (Left Column) -->
-        <div id="aside" class="box">
+		<!-- Aside (Left Column) -->
+		<div id="aside" class="box">
 
-            <div class="padding box">
+			<div class="padding box">
 
-                <!-- Logo (Max. width = 200px) -->
-                <p id="logo"><a href="#"><img src="tmp/logo.gif" alt="Our logo" title="Visit Site" /></a></p>
+				<!-- Logo (Max. width = 200px) -->
+				<p id="logo"><a href="#"><img src="tmp/logo.gif" alt="Our logo" title="Visit Site" /></a></p>
 
-            </div> <!-- /padding -->
+			</div> <!-- /padding -->
 
 <?php
 echo navigation(1);
 ?>
 
 
-        </div> <!-- /aside -->
+		</div> <!-- /aside -->
 
-        <hr class="noscreen" />
+		<hr class="noscreen" />
 
-        <!-- Content (Right Column) -->
-        <div id="content" class="box">
+		<!-- Content (Right Column) -->
+		<div id="content" class="box">
 
-            <h1>Neraca</h1>
-            <?php
-//            include('lib/getyear.php');
-            if (isset($_GET['list'])) {
-                echo "<fieldset>\n<legend>Data Neraca Tersedia</legend>";
-                echo listNeraca();
-                echo '<form action="datacenter-entrydata.php" method="link"><table class="nostyle">';
-                echo '<div style="text-align:right";><input type="submit" class="input-submit" value="Data Baru" /></div></form>';
-                echo "</fieldset>\n";
-                //echo listNonNeraca()."<br />";
-                $main_content = ob_get_clean();
-                die($main_content);
-            }
-            ?>
+			<h1>Neraca</h1>
+			<?php
+			if (isset($_GET['list'])) {
+				echo "<fieldset>\n<legend>Data Neraca Tersedia</legend>";
+				echo listNeraca(true);
+				echo '<form action="datacenter-entrydata.php" method="link"><table class="nostyle">';
+				echo '<div style="text-align:right";><input type="submit" class="input-submit" value="Data Baru" /></div></form>';
+				echo "</fieldset>\n";
+				//echo listNonNeraca()."<br />";
+				$main_content = ob_get_clean();
+				die($main_content);
+			}
+			?>
 
-            <!-- Form -->
-            <form id=neracaForm method=post>
-            <h3 class="tit">Entry Data</h3>
-            <fieldset>
-                <legend>Informasi Entry Data</legend>
-                <table class="nostyle">
-                    <tr>
-                        <td style="width:180px;">Koperasi:</td>
+			<!-- Form -->
+			<form id=neracaForm method=post>
+			<h3 class="tit">Entry Data</h3>
+			<fieldset>
+				<legend>Informasi Entry Data</legend>
+				<table class="nostyle">
+					<tr>
+						<td style="width:180px;">Koperasi:</td>
 <?php
-    $sql_text = "SELECT idkoperasi, nama from koperasi ORDER BY nama";
-    $option = $dbs->query($sql_text);
+	$sql_text = "SELECT idkoperasi, nama from koperasi WHERE (jenis = 3 or jenis = 5) ORDER BY nama";
+	$option = $dbs->query($sql_text);
     if ($_SESSION['group'] == 1) {
-        echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02">';
+    	echo '<td><select id="idkoperasi" name="idkoperasi" class="input-text-02">';
     } else {
-        echo '<td><input type="hidden" name="idkoperasi" value="'.$_SESSION['koperasi'].'" />';
-        echo '<select id="idkoperasi" name="idkoperasi" class="input-text-02" disabled>';
+    	echo '<td><input type="hidden" name="idkoperasi" value="'.$_SESSION['koperasi'].'" />';
+    	echo '<select id="idkoperasi" name="idkoperasi" class="input-text-02" disabled>';
     }
-    echo '<option value="0">--- Pilih nama ---</option>';
-    while ($choice = $option->fetch_assoc()) {
-        if ($_SESSION['group'] == 1 AND $choice['idkoperasi'] == $recNeraca['idkoperasi']) {
-            echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
-        } else {
-            if ($_SESSION['group'] <> 1 AND $choice['idkoperasi'] == $_SESSION['koperasi']) {
-                echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
-            } else {
-                echo '<option value="'.$choice['idkoperasi'].'">'.$choice['nama'].'</option>';
-            }
-        }
-    }
-    unset ($choice);
-    echo '</select></td>';
+	echo '<option value="0">--- Pilih nama ---</option>';
+	while ($choice = $option->fetch_assoc()) {
+		if ($choice['idkoperasi'] == $recNeraca['idkoperasi'] OR $choice['idkoperasi'] == $_SESSION['koperasi']) {
+			echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
+		} else {
+			echo '<option value="'.$choice['idkoperasi'].'">'.$choice['nama'].'</option>';
+		}
+	}
+	unset ($choice);
+	echo '</select></td>';
 ?>
-                    </tr>
-                    <tr>
-                        <td>Periode:</td>
+					</tr>
+					<tr>
+						<td>Periode:</td>
                         <td><input id="enable" name="enable" type="checkbox" value="1" checked="" />&nbsp;Bulanan<br />
 <?php
     for ($i=0; $i<12; $i++) {
@@ -466,9 +480,9 @@ echo navigation(1);
     echo '</select>';
 ?>
                       </td>
-                    </tr>
-                </table>
-            </fieldset>
+					</tr>
+				</table>
+			</fieldset>
 <?php
 if ($display) {
     $disabled = '" class="input-text" />';
@@ -476,8 +490,9 @@ if ($display) {
     $disabled = '" class="input-text" disabled />';
 }
 ?>
-            <fieldset>
-                <legend>Data</legend>
+
+			<fieldset>
+				<legend>Data</legend>
 <table class="nostyle">
   <tr style="background: #999">
     <td style="width:5px;">1</td>
@@ -530,20 +545,50 @@ if ($display) {
   <tr>
     <td></td>
     <td>1141</td>
-    <td>Piutang Pinjaman Anggota</td>
+    <td>Pembiayaan Murabahah</td>
     <td><input type="text" size="40" name="c1141" value="<?php isset($recNeraca['c1141']) ? $v=$recNeraca['c1141']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
   </tr>
   <tr>
     <td></td>
     <td>1142</td>
-    <td>Piutang Pinjaman Non Anggota / Calon Anggota</td>
+    <td>Pembiayaan Mudharabah</td>
     <td><input type="text" size="40" name="c1142" value="<?php isset($recNeraca['c1142']) ? $v=$recNeraca['c1142']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
   </tr>
   <tr>
     <td></td>
     <td>1143</td>
-    <td>Piutang Pinjaman pada Koperasi Lain</td>
+    <td>Pembiayaan Musyarakah</td>
     <td><input type="text" size="40" name="c1143" value="<?php isset($recNeraca['c1143']) ? $v=$recNeraca['c1143']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>1144</td>
+    <td>Pembiayaan Qodul hasan</td>
+    <td><input type="text" size="40" name="c1144" value="<?php isset($recNeraca['c1144']) ? $v=$recNeraca['c1144']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>1145</td>
+    <td>Pembiayaan Salam</td>
+    <td><input type="text" size="40" name="c1145" value="<?php isset($recNeraca['c1145']) ? $v=$recNeraca['c1145']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>1146</td>
+    <td>Pembiayaan Istishna</td>
+    <td><input type="text" size="40" name="c1146" value="<?php isset($recNeraca['c1146']) ? $v=$recNeraca['c1146']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>1147</td>
+    <td>Pembiayaan Ijarah</td>
+    <td><input type="text" size="40" name="c1147" value="<?php isset($recNeraca['c1147']) ? $v=$recNeraca['c1147']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>1148</td>
+    <td>Pembiayaan Syariah lainnya</td>
+    <td><input type="text" size="40" name="c1148" value="<?php isset($recNeraca['c1148']) ? $v=$recNeraca['c1148']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
   </tr>
   <tr>
     <td></td>
@@ -567,7 +612,7 @@ if ($display) {
     <td>1190</td>
     <td></td>
     <td>Aktiva Lancar lainnya</td>
-    <td><input type="text" size="40" name="c1160" value="<?php isset($recNeraca['c1190']) ? $v=$recNeraca['c1190']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
+    <td><input type="text" size="40" name="c1190" value="<?php isset($recNeraca['c1190']) ? $v=$recNeraca['c1190']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
   </tr>
   <tr style="background: #CCC">
     <td>12</td>
@@ -668,7 +713,7 @@ if ($display) {
   <tr style="background: #999">
     <td>2</td>
     <td></td>
-    <td>PASIVA / KEWAJIBAN</td>
+    <td>KEWAJIBAN</td>
     <td><input type="text" size="40" name="c2" value="<?php isset($recNeraca['c2']) ? $v=$recNeraca['c2']: $v="0"; echo number_format($v,2,',','.').$disabled.$galat[8]; ?></td>
     <td></td>
   </tr>
@@ -687,19 +732,19 @@ if ($display) {
   <tr>
     <td></td>
     <td>2111</td>
-    <td>Simpanan Sukarela / Tabungan</td>
+    <td>Simpanan Wadiah</td>
     <td><input type="text" size="40" name="c2111" value="<?php isset($recNeraca['c2111']) ? $v=$recNeraca['c2111']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
   </tr>
   <tr>
     <td></td>
     <td>2112</td>
-    <td>Simpanan Berjangka (kurang 1 tahun)</td>
+    <td>Simpanan Mudharabah Berjangka (kurang 1 tahun)</td>
     <td><input type="text" size="40" name="c2112" value="<?php isset($recNeraca['c2112']) ? $v=$recNeraca['c2112']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
   </tr>
   <tr>
     <td>2120</td>
     <td></td>
-    <td>Dana Bagian SHU</td>
+    <td>Titipan Dana Bagian Zis</td>
     <td><input type="text" size="40" name="c2120" value="<?php isset($recNeraca['c2120']) ? $v=$recNeraca['c2120']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
   </tr>
   <tr>
@@ -755,6 +800,12 @@ if ($display) {
     <td></td>
     <td>Hutang Jangka Panjang Lain</td>
     <td><input type="text" size="40" name="c2240" value="<?php isset($recNeraca['c2240']) ? $v=$recNeraca['c2240']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
+  </tr>
+  <tr>
+    <td>2250</td>
+    <td></td>
+    <td>Pembiayaan Syariah lainnya (lebih 1 tahun)</td>
+    <td><input type="text" size="40" name="c2250" value="<?php isset($recNeraca['c2250']) ? $v=$recNeraca['c2250']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
   </tr>
   <tr style="background: #999">
     <td>3</td>
@@ -832,27 +883,27 @@ echo '&nbsp;';
 }
 ?>
 </table>
-            </fieldset>
+			</fieldset>
 <?php
 if (isset($idcoa)) {
     echo '<input type="hidden" name="updatenid" value="'.$idcoa.'"/>';
 }
 ?>
 </form>
-        </div> <!-- /content -->
+		</div> <!-- /content -->
 
-    </div> <!-- /cols -->
+	</div> <!-- /cols -->
 
-    <hr class="noscreen" />
+	<hr class="noscreen" />
 
-    <!-- Footer -->
-    <div id="footer" class="box">
+	<!-- Footer -->
+	<div id="footer" class="box">
 
-        <p class="f-left">&copy; 2012 <a href="#">Kementerian Koperasi dan UKM</a>, All Rights Reserved &reg;</p>
+		<p class="f-left">&copy; 2012 <a href="#">Kementerian Koperasi dan UKM</a>, All Rights Reserved &reg;</p>
 
-        <p class="f-right">Templates by <a href="http://www.adminizio.com/">Adminizio</a></p>
+		<p class="f-right">Templates by <a href="http://www.adminizio.com/">Adminizio</a></p>
 
-    </div> <!-- /footer -->
+	</div> <!-- /footer -->
 
 </div> <!-- /main -->
 

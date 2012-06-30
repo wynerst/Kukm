@@ -38,5 +38,5 @@ $datagrid->invisible_fields = array(0,1);
 // put the result into variables
 $datagrid_result = $datagrid->createDataGrid($dbs, $table_spec, 10, false);
 
-$frontpage_content = "<h3>Laporan Tahunan Berdasar Jenis Koperasi</h3>\n<p>";
+$frontpage_content = '<h3>Laporan Tahunan Berdasar Jenis Koperasi&nbsp;<a href="keterangan.php" target="blank" title="Penjelasan tabel"><img src="images/info.png" /></a></h3><p>';
 $frontpage_content .= $datagrid_result . "*) dalam jutaan\n</p>";

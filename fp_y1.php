@@ -33,5 +33,5 @@ $agr_tahun->invisible_fields = array(0);
 // put the result into variables
 $agr_tahun_result = $agr_tahun->createDataGrid($dbs, $table_agr, 10, false);
 
-$frontpage_content = "<h3>Rekap data koperasi pertahun</h3>\n<p>";
+$frontpage_content = '<h3>Rekap data koperasi pertahun&nbsp;<a href="keterangan.php" target="blank" title="Penjelasan tabel"><img src="images/info.png" /></a></h3><p>';
 $frontpage_content .= $agr_tahun_result . "*) dalam jutaan\n</p>";

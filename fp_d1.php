@@ -55,4 +55,8 @@ $datagrid->invisible_fields = array(0,1,2);
 $datagrid_result = $datagrid->createDataGrid($dbs, $table_spec, 10, false, true);
 
 $frontpage_content = '<h3>Laporan Bulanan Usaha Simpan Pinjam Koperasi&nbsp;<a href="keterangan.php" target="blank" title="Penjelasan tabel"><img src="images/info.png" /></a></h3><p>';
-$frontpage_content .= $datagrid_result . "\n</p>";
+if ($_SESSION['group'] == 1) {
+    $frontpage_content .= $datagrid_result . "\n</p>";
+} else {
+    $frontpage_content .= "Anda tidak berhak untuk melihat data yang diminta.\n</p>";
+}

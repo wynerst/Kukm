@@ -33,14 +33,14 @@ if (isset($_POST['saveNon'])) {
         if ($update) {
             utility::jsAlert('Data Non-Neraca berhasil diperbaiki.');
         } else {
-            utility::jsAlert('Data Non-Neraca GAGAL diperbaiki.');
+            utility::jsAlert($sql_op->error.' -- Data Non-Neraca GAGAL diperbaiki.');
         }
     } else {
         $insert = $sql_op->insert('non_coa', $data);
         if ($insert) {
             utility::jsAlert('Data Non-Neraca berhasil disimpan.');
         } else {
-            utility::jsAlert('Data Non-Neraca GAGAL disimpan.');
+            utility::jsAlert($sql_op->error.' -- Data Non-Neraca GAGAL disimpan.');
         }
     }
 
@@ -49,8 +49,7 @@ if (isset($_POST['saveNon'])) {
 if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
     // get record
     $idncoa = $_GET['nid'];
-    $sql_text = "SELECT n.*, p.*, k.* FROM non_coa as n
-        LEFT JOIN periode as p ON n.idperiode = p.idperiode
+    $sql_text = "SELECT n.*, k.* FROM non_coa as n
         LEFT JOIN koperasi as k ON n.idkoperasi = k.idkoperasi
         WHERE n.idnon_coa =". $idncoa;
     $q_ncoa = $dbs->query($sql_text);
@@ -226,7 +225,7 @@ echo navigation(3);
     echo '</select></td>';
 **/
 ?>
-                    <td><input id="periode" name="periode" class="input-text-2" value="Gunakan format YYYY-MM-DD" /></td>
+                    <td><input id="periode" name="periode" class="input-text-2" value="<?php echo isset($recNon['periode']) ? $recNon['periode'] : "Gunakan format YYYY-MM-DD"; ?>" /></td>
                     </tr>
                 </table>
             </fieldset>
