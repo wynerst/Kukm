@@ -8,28 +8,20 @@ include "nav_datacenter.php";
 if (isset($_POST['saveNon'])) {
 
     $sql_op = new simbio_dbop($dbs);
+    $submit = $_POST['non'];
 
     if (isset($_POST['updatenid'])) {
         $idncoa = $_POST['updatenid'];
     }
     $data['idkoperasi'] = $_POST['idkoperasi'];
     $data['periode'] = $_POST['periode'];
-//    $data['piutangmacet']=$_POST['piutangmacet'];
-//    $data['akumulasi_pinjaman']=$_POST['akumulasi_pinjaman'];
-//    $data['akumulasi_simpanan']=$_POST['akumulasi_simpanan'];
-    $data['pengurus']=$_POST['pengurus'];
-    $data['pengawas']=$_POST['pengawas'];
-    $data['karyawan']=$_POST['karyawan'];
-    $data['anggota']=$_POST['anggota'];
-    $data['calon_anggota']=$_POST['calon_anggota'];
-//    $data['iduser']=$_SESSION['userID'];
-//    $data['sb_simpanan']=$_POST['sb_simpanan'];
-//    $data['sb_pinjaman']=$_POST['sb_pinjaman'];
+    foreach ($submit as $key=>$value) {
+        $temp = preg_replace("/[^0-9,]/","",$value);
+        $data[$key] = preg_replace("/[^0-9]/",".",$temp);
+    }
 
     if (isset($idncoa) AND $idncoa <> 0) {
         $update = $sql_op->update('non_coa', $data, 'idnon_coa ='.$idncoa);
-//        print_r($data);
-//        die();
         if ($update) {
             utility::jsAlert('Data Non-Neraca berhasil diperbaiki.');
         } else {
@@ -216,7 +208,7 @@ echo navigation(3);
     echo '<td><select id="periode" name="idperiode" class="input-text-2">"';
     echo '<option value="">--- Periode pelaporan ---</option>';
     while ($choice = $option->fetch_assoc()) {
-        if ($choice['idperiode'] == $recNon['idperiode']) {
+        if ($choice['idperiode'] == $recnon['idperiode']) {
             echo '<option value="'.$choice['idperiode'].'" SELECTED >'.$choice['periode'].'</option>';
         } else {
             echo '<option value="'.$choice['idperiode'].'">'.$choice['periode'].'</option>';
@@ -225,7 +217,7 @@ echo navigation(3);
     echo '</select></td>';
 **/
 ?>
-                    <td><input id="periode" name="periode" class="input-text-2" value="<?php echo isset($recNon['periode']) ? $recNon['periode'] : "Gunakan format YYYY-MM-DD"; ?>" /></td>
+                    <td><input id="periode" name="periode" class="input-text-2" value="<?php echo isset($recnon['periode']) ? $recnon['periode'] : "Gunakan format YYYY-MM-DD"; ?>" /></td>
                     </tr>
                 </table>
             </fieldset>
@@ -241,27 +233,27 @@ echo navigation(3);
   <tr>
     <td>1</td>
     <td>Jumlah Penasehat/Pengawas</td>
-    <td><input type="text" size="40" name="pengawas" value="<?php echo isset($recNon['pengawas']) ? $recNon['pengawas'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="non[pengawas]" value="<?php echo isset($recnon['pengawas']) ? $recnon['pengawas'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>2</td>
     <td>Jumlah Pengurus</td>
-    <td><input type="text" size="40" name="pengurus" value="<?php echo isset($recNon['pengurus']) ? $recNon['pengurus'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="non[pengurus]" value="<?php echo isset($recnon['pengurus']) ? $recnon['pengurus'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>3</td>
     <td>Jumlah Karyawan</td>
-    <td><input type="text" size="40" name="karyawan" value="<?php echo isset($recNon['karyawan']) ? $recNon['karyawan'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="non[karyawan]" value="<?php echo isset($recnon['karyawan']) ? $recnon['karyawan'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>4</td>
     <td>Jumlah Anggota</td>
-    <td><input type="text" size="40" name="anggota" value="<?php echo isset($recNon['anggota']) ? $recNon['anggota'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="non[anggota]" value="<?php echo isset($recnon['anggota']) ? $recnon['anggota'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>5</td>
     <td>Jumlah Calon Anggota/Anggota tidak tetap</td>
-    <td><input type="text" size="40" name="calon_anggota" value="<?php echo isset($recNon['calon_anggota']) ? $recNon['calon_anggota'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="non[calon_anggota]" value="<?php echo isset($recnon['calon_anggota']) ? $recnon['calon_anggota'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td colspan="4" class="t-right"><input type="submit" name="saveNon" class="input-submit" value="Submit" /></td>
