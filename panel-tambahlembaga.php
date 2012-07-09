@@ -31,20 +31,21 @@ if (isset($_POST['saveKoperasi'])) {
 	$data['tgl_berdiri'] = $_POST['tgl_berdiri'];
 	$data['grouplevel'] = $_POST['grouplevel'];
 	$data['jenis'] = $_POST['jenis'];
+    $data['primkop'] = $_POST['primkop'];
 
 	if (isset($idkoperasi) AND $idkoperasi <> 0) {
 		$update = $sql_op->update('koperasi', $data, 'idkoperasi ='.$idkoperasi);
 		if ($update) {
-			utility::jsAlert('Data Koperasi berhasil diperbaiki.');
+			$message='Data Koperasi berhasil diperbaiki.';
 		} else {
-			utility::jsAlert('Data Koperasi GAGAL diperbaiki.');
+			$message=$sql_op->error.' Data Koperasi GAGAL diperbaiki.';
 		}
 	} else {
 		$insert = $sql_op->insert('koperasi', $data);
 		if ($insert) {
-			utility::jsAlert('Data Koperasi berhasil disimpan.');
+			$message='Data Koperasi berhasil disimpan.';
 		} else {
-			utility::jsAlert($sql_op->error.'Data Koperasi GAGAL disimpan.');
+			$message=$sql_op->error.' Data Koperasi GAGAL disimpan.';
 		}
 	}
 
@@ -97,7 +98,11 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 </head>
 
 <body>
-
+<?php
+if (isset($message) AND $message <> "") {
+    utility::jsAlert($message);
+}
+?>
 <div id="main">
 
 	<!-- Tray -->
@@ -276,6 +281,24 @@ if ($recKop['idkoperasi'] == $_SESSION['koperasi'] OR $_SESSION['group'] == 1){
 ?>
 						</select></td>
 					</tr>
+                    <tr>
+						<td>Primer Koperasi:</td>
+						<td><select id="primkop" name="primkop" class="input-text-02" 
+<?php
+    echo $show ? '>' : ' disabled >' ;
+	$primkop['1'] = "Primer Koperasi Propinsi";
+	$primkop['2'] = "Primer Koperasi Kabupaten";
+	$primkop['3'] = "Primer Koperasi Propinsi";
+    foreach ($primkop as $key=>$value) {
+		if (isset($recKop['primkop']) and $recKop['primkop'] == $key) {
+			echo '<option value="'.$key.'" SELECTED >'.$value.'</option>';
+		} else {
+			echo '<option value="'.$key.'">'.$value.'</option>';
+		}
+	}
+?>
+						</select></td>
+                    </tr>
                     <tr>
                         <td><input type="submit" name="saveKoperasi" value="Simpan" />
                         </td>

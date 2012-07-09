@@ -65,10 +65,13 @@ if (isset($_POST['saveShu'])) {
 
 	$data[s3] = $data[s31]+$data[s32]+$data[s33]+$data[s34];
 	
+    $recShu = $data;
+
 	if (isset($idshu) AND $idshu <> 0) {
 		$update = $sql_op->update('shu', $data, 'idshu ='.$idshu);
 		if ($update) {
 			$message='Data Sisa Hasil Usaha berhasil diperbaiki.';
+            $display = false;
 		} else {
 			$message=$sql_op->error.' -- Data Sisa Hasil Usaha GAGAL diperbaiki.';
 		}
@@ -76,8 +79,11 @@ if (isset($_POST['saveShu'])) {
 		$insert = $sql_op->insert('shu', $data);
 		if ($insert) {
 			$message='Data Sisa Hasil Usaha berhasil disimpan.';
+            $idshu = $sql_op->insert_id;
+            $display = false;
 		} else {
 			$message=$sql_op->error.' -- Data Sisa Hasil Usaha GAGAL disimpan.';
+            $display = true;
 		}
 	}
 }
@@ -293,6 +299,7 @@ if ($display) {
     $disabled = '" class="input-text" />';
 } else {
     $disabled = '" class="input-text" disabled />';
+    echo '<div id="menu" class="box"><ul class="box f-right"><li><a href="?nid='.$idshu.'"><span><strong>Edit</strong></span></a></li></ul></div>';
 }
 ?>
 			<fieldset>

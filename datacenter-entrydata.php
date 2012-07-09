@@ -201,7 +201,7 @@ if (isset($_POST['saveNeraca'])) {
         }
     }
     
-/** Calculting Balance
+/** Calculating Balance
  
     $balance = $data[c1] - $data[c2];
     if ($balance <> 0) {
@@ -226,6 +226,7 @@ if (isset($_POST['saveNeraca'])) {
             $insert = $sql_op->insert('coa', $data);
             if ($insert) {
                 $message='Data Neraca berhasil disimpan.';
+                $idcoa = $sql_op->insert_id;
                 $display = false;
             } else {
                 $message=$sql_op->error.' Data Neraca GAGAL disimpan.';
@@ -445,6 +446,7 @@ if ($display) {
     $disabled = '" class="input-text" />';
 } else {
     $disabled = '" class="input-text" disabled />';
+    echo '<div id="menu" class="box"><ul class="box f-right"><li><a href="?nid='.$idcoa.'"><span><strong>Edit</strong></span></a></li></ul></div>';
 }
 ?>
             <fieldset>
@@ -538,7 +540,7 @@ if ($display) {
     <td>1190</td>
     <td></td>
     <td>Aktiva Lancar lainnya</td>
-    <td><input type="text" size="40" name="ner[c1160]" value="<?php isset($recNeraca['c1190']) ? $v=$recNeraca['c1190']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
+    <td><input type="text" size="40" name="ner[c1190]" value="<?php isset($recNeraca['c1190']) ? $v=$recNeraca['c1190']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
   </tr>
   <tr style="background: #CCC">
     <td>12</td>

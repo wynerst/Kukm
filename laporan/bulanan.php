@@ -263,7 +263,7 @@ echo navigation(2);
 				<legend>Data
 <?php
 	if (isset($recNeraca['nama']) and $recNeraca['nama']<>"") {
-		echo $recNeraca['nama'];
+		// echo $recNeraca['nama'];
 	}
 	if (isset($recNeraca['dateposting']) and substr($recNeraca['dateposting'],0,4)<>"") {
 		echo '&nbsp;untuk&nbsp;'. substr($recNeraca['dateposting'],0,4);

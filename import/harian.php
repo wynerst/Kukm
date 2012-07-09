@@ -23,7 +23,7 @@ if(isset($_POST["Go"]) && ""!=$_POST["Go"]) //form was submitted
   $csv->field_enclose_char = $_POST["field_enclose_char"][0];
   $csv->field_escape_char = $_POST["field_escape_char"][0];
   $csv->encoding = $_POST["encoding"];
-  $csv->table_name = "noncoa";
+  $csv->table_name = "harian";
   $csv->table_exists = true;
   
   //start import now

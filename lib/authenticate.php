@@ -6,7 +6,7 @@ global $dbs;
     
     $sql = "SELECT * from user as u LEFT JOIN koperasi as k
         ON u.koperasi_idkoperasi = k.idkoperasi
-        WHERE u.login = '$name' and u.password = '$pass' and u.group_idgroup <> 0";
+        WHERE u.login = '".$name."' and u.password = '".$pass."' and u.group_idgroup <> 0";
     $rs_user = $dbs->query($sql);
     //$numrec = $rs_user->affected_rows;
     //if ($numrec > 0) {

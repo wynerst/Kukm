@@ -11,7 +11,9 @@ if (isset($_POST['saveUser'])) {
 
 	if (isset($_POST['updatenid'])) {
 		$iduser = $_POST['updatenid'];
-	}
+	} else {
+        $data['group_idgroup']=$_POST['group_idgroup'];
+    }
 	$data['nama'] = $_POST['nama'];
 	$data['koperasi_idkoperasi'] = $_POST['koperasi_idkoperasi'];
 	$data['divisi']=$_POST['divisi'];
@@ -19,7 +21,6 @@ if (isset($_POST['saveUser'])) {
 	$data['email']=$_POST['email'];
 	$data['fax']=$_POST['fax'];
     $data['login']=$_POST['login'];
-    $data['group_idgroup']=$_POST['group_idgroup'];
     $data['validasi']=$_POST['validasi'];
 
     if ($_POST['password'] <> "") {

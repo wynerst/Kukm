@@ -34,3 +34,26 @@ from (((((`koperasi` `k` left join `coa` `c` on((`c`.`idkoperasi` = `k`.`idkoper
 
 SELECT `tipe` , sum( `Simpanan` ) , sum( `Pinjaman` ) , sum( `Modal Dalam` ) , sum( `Modal Luar` ) , sum( `Volume Usaha` ) , sum( `Asset` ) , sum( `SHU` ) , avg( `Suku Bunga Simpanan` ) , avg( `Suku Bunga Pinjaman` ) , avg( `NPL` )
 FROM `report_graph` 
+
+// CREATE Table from SELECT
+SELECT 
+MIN(TIMESTAMPDIFF(MONTH,c.dateposting,curdate())) as 'Last', k.idkoperasi, 
+k.nama as 'Koperasi', tk.jenis, k.propinsi, date(c.dateposting) as 'Periode',
+format((h.h1/1000),2) AS 'Simpanan',
+format((h.h2/1000),2) AS 'Pinjaman',
+format((h.h3/1000),2) AS 'Modal Dalam',
+format((h.h4/1000),2) AS 'Modal Luar',
+format((h.h5/1000),2) AS 'Volume Usaha',
+format((h.h6/1000),2) AS 'Asset',
+format((h.h7/1000),2) AS 'SHU',
+format((h.h8),2) AS 'Suku Bunga Simpanan (%)',
+format((h.h9),2) AS 'Suku Bunga Pinjaman (%)',
+format((h.h10),2) AS 'NPL (%)'
+FROM `koperasi` as k
+LEFT JOIN coa as c ON c.idkoperasi = k.idkoperasi
+LEFT JOIN shu as s ON s.idkoperasi = k.idkoperasi 
+LEFT JOIN harian as h ON h.idkoperasi = k.idkoperasi
+LEFT JOIN `non_coa` as n ON n.idkoperasi = k.idkoperasi 
+LEFT JOIN `tipe_koperasi` as tk ON k.jenis = tk.idtipe_koperasi
+GROUP BY c.idkoperasi
+ORDER BY MIN(TIMESTAMPDIFF(MONTH,c.dateposting,curdate())) ASC, c.dateposting DESC, c.createdate DESC, k.nama ASC

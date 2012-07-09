@@ -25,7 +25,6 @@ $datagrid->setSQLColumn(
 	'format(n.sb_pinjaman,2) AS \'Suku Bunga Pinjaman (%)\'',
 	'format((n.piutangmacet/n.akumulasi_pinjaman),2) AS \'NPL (%)\'');
 $datagrid->sql_group_by = 'c.idkoperasi, YEAR(c.dateposting)';
-**/
 
 $datagrid->setSQLColumn(
     'MIN(TIMESTAMPDIFF(MONTH,c.dateposting,curdate())), k.idkoperasi, c.dateposting as \'Periode\'',
@@ -40,8 +39,23 @@ $datagrid->setSQLColumn(
 	'format(n.sb_simpanan,2) AS \'Suku Bunga Simpanan (%)\'',
 	'format(n.sb_pinjaman,2) AS \'Suku Bunga Pinjaman (%)\'',
 	'format((n.piutangmacet/n.akumulasi_pinjaman),2) AS \'NPL (%)\'');
+**/
 
-$datagrid->setSQLorder(' c.dateposting DESC, c.createdate DESC, k.nama ASC');
+$datagrid->setSQLColumn(
+    'MIN(TIMESTAMPDIFF(MONTH,c.dateposting,curdate())), k.idkoperasi, c.dateposting as \'Periode\'',
+	'k.nama as \'Koperasi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\'',
+	'format((h.h1),2) AS \'Simpanan&nbsp;*)\'',
+	'format((h.h2),2) AS \'Pinjaman&nbsp;*)\'',
+	'format((h.h3),2) AS \'Modal Dalam&nbsp;*)\'',
+	'format((h.h4),2) AS \'Modal Luar&nbsp;*)\'',
+	'format((h.h5),2) AS \'Volume Usaha&nbsp;*)\'',
+	'format((h.h6),2) AS \'Asset&nbsp;*)\'',
+	'format((h.h7),2) AS \'SHU&nbsp;*)\'',
+	'format((h.h8),2) AS \'Suku Bunga Simpanan (%)\'',
+	'format((h.h9),2) AS \'Suku Bunga Pinjaman (%)\'',
+	'format((h.h10),2) AS \'NPL (%)\'');
+
+$datagrid->setSQLorder('MIN(TIMESTAMPDIFF(MONTH,c.dateposting,curdate())) ASC, c.dateposting DESC, c.createdate DESC, k.nama ASC');
 //$datagrid->setSQLcriteria('YEAR(p.finaldate) = 2010 or YEAR(p2.finaldate) = 2010 or YEAR(p3.finaldate) = 2010');
 $datagrid->sql_group_by = 'c.idkoperasi';
 
