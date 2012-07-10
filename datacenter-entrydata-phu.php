@@ -218,7 +218,11 @@ echo navigation(2);
 			<?php
 			if (isset($_GET['list'])) {
 				echo "<fieldset>\n<legend>Data PHU/SHU Tersedia</legend>";
-				echo listShu();
+				if($_SESSION['group']==1){
+					echo listShuAdmin();
+				}else{
+					echo listShu();
+				}
 				echo '<form action="datacenter-entrydata-phu.php" method="link"><table class="nostyle">';
 				echo '<div style="text-align:right";><input type="submit" class="input-submit" value="Data Baru" /></div></form>';
 				echo "</fieldset>\n";
@@ -654,13 +658,19 @@ if ($display) {
  <td>&nbsp;</td>
  <td>&nbsp;</td>
  <td>SISA HASIL USAHA SETELAH PAJAK</td>
-    <td><input type="text" size="40" name="shu[s95]" value="<?php isset($recShu['s95']) ? $v=$recShu['s95']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
+    <td><input type="text" size="40" name="shu[s95]" value="<?php isset($recShu['s95']) ? $v=$recShu['s95']: $v="0"; echo number_format($v,2,',','.').'" class="input-text" disabled />'; ?></td>
  </tr>
-					<tr>
-						<td colspan="4" class="t-right"><input type="submit" name="saveShu" class="input-submit" value="Simpan" /></td>
-					</tr>
-				</table>
-			</fieldset>
+<?php
+if ($display) {
+echo ' 	<tr>
+			<td colspan="4" class="t-right"><input type="submit" name="saveShu" class="input-submit" value="Simpan" /></td>
+		</tr>';
+} else {
+echo '&nbsp;';
+}
+?>
+</table>
+</fieldset>
 <?php
 if (isset($idshu)) {
     echo '<input type="hidden" name="updatenid" value="'.$idshu.'"/>';

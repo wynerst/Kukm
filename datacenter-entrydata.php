@@ -366,7 +366,11 @@ echo navigation(1);
 //            include('lib/getyear.php');
             if (isset($_GET['list'])) {
                 echo "<fieldset>\n<legend>Data Neraca Tersedia</legend>";
-                echo listNeraca();
+				if($_SESSION['group']==1){
+					echo listNeracaAdmin();
+				}else{
+					echo listNeraca();
+				}
                 echo '<form action="datacenter-entrydata.php" method="link"><table class="nostyle">';
                 echo '<div style="text-align:right";><input type="submit" class="input-submit" value="Data Baru" /></div></form>';
                 echo "</fieldset>\n";

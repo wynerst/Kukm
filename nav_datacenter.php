@@ -36,7 +36,7 @@ function navigation($nav_active=0) {
 				<ul>
 					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-entrydata-phu-syariah.php">Entry Data</a></li>
 					<li><a href="'.KUKM_WEB_ROOT_DIR.'import/phu.php">Upload Data</a></li>
-					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-laporansementara.php">Laporan Neraca Sementara</a></li>
+					<li><a href="'.KUKM_WEB_ROOT_DIR.'datacenter-laporansementara-phu.php">Laporan SHU Sementara</a></li>
 				</ul>
 			</li>';
 	} else {

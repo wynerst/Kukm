@@ -37,6 +37,38 @@ function listNeraca($syariah = false) {
 
 }
 
+// neraca admin spv
+function listNeracaAdmin($syariah = false) {
+	global $dbs;
+    $criteria = "";
+
+    $koperasi = $_SESSION['koperasi'];
+    $group = $_SESSION['group'];
+    $jenis = $_SESSION['tipekoperasi'];
+    $sql_text = 'SELECT c.idcoa, k.nama, k.jenis, DATE(c.dateposting) AS periode FROM coa as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi';
+	  
+    $tmp_neraca = $dbs->query($sql_text);
+    $tmp_result = '<table>';
+
+   while ($tmp_rec = $tmp_neraca->fetch_assoc()) {
+        $tmp_result .= '<tr>';
+        if ($tmp_rec['jenis'] == 3 or $tmp_rec['jenis'] == 5) {
+            $tmp_result .='<td><a
+href="datacenter-entrysyariah.php?nid='.$tmp_rec['idcoa'].'">Edit</a></td><td><a href="datacenter-delete.php?nid='.$tmp_rec['idcoa'].'">Hapus</a></td>';
+        } else {
+            $tmp_result .='<td><a
+href="datacenter-entrydata.php?nid='.$tmp_rec['idcoa'].'">Edit</a></td><td><a
+href="datacenter-delete.php?nid='.$tmp_rec['idcoa'].'">Hapus</a></td>';
+        }
+        $tmp_result .=
+'<td>'.$tmp_rec['nama'].'</td><td>'.$tmp_rec['periode'].'</td></tr>';
+    }
+    $tmp_result .= '</table>';
+
+        return $tmp_result;
+
+}
+
 function listNonNeraca() {
 	global $dbs;
 	$datagrid = new simbio_datagrid();
@@ -107,6 +139,38 @@ function listShu($syariah = false) {
 	// put the result into variables
 	$datagrid_result = $datagrid->createDataGrid($dbs, $table_spec, 50, false);
 	return $datagrid_result;
+
+}
+
+//shu admin spv
+function listShuAdmin($syariah = false) {
+	global $dbs;
+    $criteria = "";
+
+    $koperasi = $_SESSION['koperasi'];
+    $group = $_SESSION['group'];
+    $jenis = $_SESSION['tipekoperasi'];
+    $sql_text = 'SELECT c.idshu, k.nama, k.jenis, DATE(c.dateposting) AS periode FROM shu as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi';
+	  
+    $tmp_neraca = $dbs->query($sql_text);
+    $tmp_result = '<table>';
+
+   while ($tmp_rec = $tmp_neraca->fetch_assoc()) {
+        $tmp_result .= '<tr>';
+        if ($tmp_rec['jenis'] == 3 or $tmp_rec['jenis'] == 5) {
+            $tmp_result .='<td><a
+href="datacenter-entrydata-phu-syariah.php?nid='.$tmp_rec['idshu'].'">Edit</a></td><td><a href="datacenter-delete.php?pid='.$tmp_rec['idshu'].'">Hapus</a></td>';
+        } else {
+            $tmp_result .='<td><a
+href="datacenter-entrydata-phu.php?nid='.$tmp_rec['idshu'].'">Edit</a></td><td><a
+href="datacenter-delete.php?pid='.$tmp_rec['idshu'].'">Hapus</a></td>';
+        }
+        $tmp_result .=
+'<td>'.$tmp_rec['nama'].'</td><td>'.$tmp_rec['periode'].'</td></tr>';
+    }
+    $tmp_result .= '</table>';
+
+        return $tmp_result;
 
 }
 

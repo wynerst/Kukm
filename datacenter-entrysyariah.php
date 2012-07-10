@@ -228,6 +228,7 @@ if (isset($_POST['saveNeraca'])) {
             $insert = $sql_op->insert('coa', $data);
             if ($insert) {
                 $message='Data Neraca berhasil disimpan.';
+				$idcoa = $sql_op->insert_id;
                 $display = false;
             } else {
                 $message=$sql_op->error.' Data Neraca GAGAL disimpan.';
@@ -380,7 +381,11 @@ echo navigation(1);
 			<?php
 			if (isset($_GET['list'])) {
 				echo "<fieldset>\n<legend>Data Neraca Tersedia</legend>";
-				echo listNeraca(true);
+				if($_SESSION['group']==1){
+					echo listNeracaAdmin();
+				}else{
+					echo listNeraca(true);
+				}
 				echo '<form action="datacenter-entrysyariah.php" method="link"><table class="nostyle">';
 				echo '<div style="text-align:right";><input type="submit" class="input-submit" value="Data Baru" /></div></form>';
 				echo "</fieldset>\n";
@@ -456,6 +461,7 @@ if ($display) {
     $disabled = '" class="input-text" />';
 } else {
     $disabled = '" class="input-text" disabled />';
+	echo '<div id="menu" class="box"><ul class="box f-right"><li><a href="?nid='.$idcoa.'"><span><strong>Edit</strong></span></a></li></ul></div>';
 }
 ?>
 
