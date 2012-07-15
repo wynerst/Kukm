@@ -4,10 +4,16 @@ require 'sysconfig.inc.php';
 require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
 include "listdata.php";
 include "nav_datacenter.php";
+require 'lib/logs.php';
 
 $display = true;
 $err_jml = '<font color="red">&nbsp;Jumlah direvisi.</font>';
 $galat = array();
+
+// start the output buffering for main content
+ob_start();
+
+session_start();
 
 if (isset($_POST['saveNeraca'])) {
 
@@ -87,13 +93,13 @@ if (isset($_POST['saveNeraca'])) {
     
     // c13 - Aktiva Tetap
     if ($data['c13'] > 0) {
-        if ($data['c13'] <> ($data['c1310'] + $data['c1320'] + $data['c1325'] + $data['c1330'] + $data['c1335'] + $data['c1340'] + $data['c1345'] + $data['c1390'])) {
+        if ($data['c13'] <> ($data['c1310'] + $data['c1320'] + $data['c1325'] + $data['c1330'] + $data['c1335'] + $data['c1340'] + $data['c1345'] + $data['c1390'] + $data['c1395'])) {
             $galat[6] = $err_jml;
         } else {
             $galat[6] = "";
         }
     } else {
-        $data['c13'] = $data['c1310'] + $data['c1320'] + $data['c1325'] + $data['c1330'] + $data['c1335'] + $data['c1340'] + $data['c1345'] + $data['c1390'];
+        $data['c13'] = $data['c1310'] + $data['c1320'] + $data['c1325'] + $data['c1330'] + $data['c1335'] + $data['c1340'] + $data['c1345'] + $data['c1390'] + $data['c1395'];
         $galat[6] = "";
     }
 
@@ -219,6 +225,7 @@ if (isset($_POST['saveNeraca'])) {
             $update = $sql_op->update('coa', $data, 'idcoa ='.$idcoa);
             if ($update) {
                 $message='Data Neraca berhasil diperbaiki.';
+                recLogs("Neraca diubah - ".$idcoa, "Neraca");
                 $display = false;
             } else {
                 $message=$sql_op->error.' Data Neraca GAGAL diperbaiki.';
@@ -229,6 +236,7 @@ if (isset($_POST['saveNeraca'])) {
             if ($insert) {
                 $message='Data Neraca berhasil disimpan.';
 				$idcoa = $sql_op->insert_id;
+                recLogs("Neraca ditambah - ".$idcoa, "Neraca");
                 $display = false;
             } else {
                 $message=$sql_op->error.' Data Neraca GAGAL disimpan.';
@@ -249,10 +257,6 @@ if (isset($_POST['saveNeraca'])) {
         $recNeraca = $q_neraca->fetch_assoc();
     }
 }
-// start the output buffering for main content
-ob_start();
-
-session_start();
 
 if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
     echo '<script type="text/javascript">alert(\'Anda tidak berhak mengakses laman!\');';
@@ -663,8 +667,14 @@ if ($display) {
   <tr>
     <td>1390</td>
     <td></td>
-    <td>Akumulasi Seluruh Penyusutan</td>
+    <td>Aktiva Tetap Lain</td>
     <td><input type="text" size="40" name="ner[c1390]" value="<?php isset($recNeraca['c1390']) ? $v=$recNeraca['c1390']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
+  </tr>
+  <tr>
+    <td>1395</td>
+    <td></td>
+    <td>Akumulasi Penyusutan Lain-lain</td>
+    <td><input type="text" size="40" name="ner[c1395]" value="<?php isset($recNeraca['c1395']) ? $v=$recNeraca['c1395']: $v="0"; echo number_format($v,2,',','.').$disabled; ?></td>
   </tr>
   <tr style="background: #CCC">
     <td>14</td>

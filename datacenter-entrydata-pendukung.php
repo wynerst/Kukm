@@ -4,6 +4,12 @@ require 'sysconfig.inc.php';
 require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
 include "listdata.php";
 include "nav_datacenter.php";
+require 'lib/logs.php';
+
+// start the output buffering for main content
+ob_start();
+
+session_start();
 
 if (isset($_POST['saveNon'])) {
 
@@ -23,16 +29,19 @@ if (isset($_POST['saveNon'])) {
     if (isset($idncoa) AND $idncoa <> 0) {
         $update = $sql_op->update('non_coa', $data, 'idnon_coa ='.$idncoa);
         if ($update) {
-            utility::jsAlert('Data Non-Neraca berhasil diperbaiki.');
+            $message = 'Data Non-Neraca berhasil diperbaiki.';
+            recLogs("Pengukung diubah - ".$idncoa, "Pendukung");
         } else {
-            utility::jsAlert($sql_op->error.' -- Data Non-Neraca GAGAL diperbaiki.');
+            $message = $sql_op->error.' -- Data Non-Neraca GAGAL diperbaiki.';
         }
     } else {
         $insert = $sql_op->insert('non_coa', $data);
         if ($insert) {
-            utility::jsAlert('Data Non-Neraca berhasil disimpan.');
+            $message = 'Data Non-Neraca berhasil disimpan.';
+            $idncoa = $sql_op->insert_id;
+            recLogs("Pendukung ditambah - ".$idncoa, "Pendukung");
         } else {
-            utility::jsAlert($sql_op->error.' -- Data Non-Neraca GAGAL disimpan.');
+            $message = $sql_op->error.' -- Data Non-Neraca GAGAL disimpan.';
         }
     }
 
@@ -48,10 +57,6 @@ if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
     $recNon = $q_ncoa->fetch_assoc();
 }
 
-// start the output buffering for main content
-ob_start();
-
-session_start();
 if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
     echo '<script type="text/javascript">alert(\'Anda tidak berhak mengakses laman!\');';
     echo 'location.href = \'index.php\';</script>';
@@ -86,7 +91,11 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 </head>
 
 <body>
-
+<?php
+    if (isset($message)) {
+        utility::jsAlert($message);
+    }
+?>
 <div id="main">
 
     <!-- Tray -->

@@ -1,0 +1,2 @@
+ALTER TABLE `coa` CHANGE `c1390` `c1395` DECIMAL( 15, 3 ) NULL DEFAULT '0.000' COMMENT 'Akumulasi Penyusutan Lainnya';
+ALTER TABLE `coa` ADD `c1390` DECIMAL( 15, 3 ) NOT NULL COMMENT 'Aktiva Tetap Lainnya' AFTER `c1345`;

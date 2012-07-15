@@ -4,11 +4,12 @@ $datagrid = new simbio_datagrid_alt();
 
 // table spec
 $table_spec = '`koperasi` as k
-LEFT JOIN coa as c ON c.idkoperasi = k.idkoperasi
+RIGHT JOIN harian as h ON h.idkoperasi = k.idkoperasi';
+/** LEFT JOIN coa as c ON c.idkoperasi = k.idkoperasi
 LEFT JOIN shu as s ON s.idkoperasi = k.idkoperasi 
-LEFT JOIN harian as h ON h.idkoperasi = k.idkoperasi
 LEFT JOIN `non_coa` as n ON n.idkoperasi = k.idkoperasi 
 LEFT JOIN `tipe_koperasi` as tk ON k.jenis = tk.idtipe_koperasi';
+**/
 
 /**
 $datagrid->setSQLColumn(
@@ -42,7 +43,7 @@ $datagrid->setSQLColumn(
 **/
 
 $datagrid->setSQLColumn(
-    'MIN(TIMESTAMPDIFF(MONTH,c.dateposting,curdate())), k.idkoperasi, c.dateposting as \'Periode\'',
+    'MIN(TIMESTAMPDIFF(MONTH,h.periode,curdate())), k.idkoperasi, h.periode as \'Periode\'',
 	'k.nama as \'Koperasi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\'',
 	'format((h.h1),2) AS \'Simpanan&nbsp;*)\'',
 	'format((h.h2),2) AS \'Pinjaman&nbsp;*)\'',
@@ -55,9 +56,9 @@ $datagrid->setSQLColumn(
 	'format((h.h9),2) AS \'Suku Bunga Pinjaman (%)\'',
 	'format((h.h10),2) AS \'NPL (%)\'');
 
-$datagrid->setSQLorder('MIN(TIMESTAMPDIFF(MONTH,c.dateposting,curdate())) ASC, c.dateposting DESC, c.createdate DESC, k.nama ASC');
+$datagrid->setSQLorder('MIN(TIMESTAMPDIFF(MONTH,h.periode,curdate())) ASC, h.periode DESC, k.nama ASC');
 //$datagrid->setSQLcriteria('YEAR(p.finaldate) = 2010 or YEAR(p2.finaldate) = 2010 or YEAR(p3.finaldate) = 2010');
-$datagrid->sql_group_by = 'c.idkoperasi';
+$datagrid->sql_group_by = 'h.idkoperasi';
 
 // set table and table header attributes
 $datagrid->table_attr = 'align="center" id="dataList" cellpadding="5" cellspacing="0"';

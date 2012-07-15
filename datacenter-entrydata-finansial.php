@@ -4,6 +4,12 @@ require 'sysconfig.inc.php';
 require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
 include "listdata.php";
 include "nav_datacenter.php";
+require 'lib/logs.php';
+
+// start the output buffering for main content
+ob_start();
+
+session_start();
 
 if (isset($_POST['saveHarian'])) {
 
@@ -27,6 +33,7 @@ if (isset($_POST['saveHarian'])) {
         $update = $sql_op->update('harian', $data, 'idday ='.$idday);
         if ($update) {
             $message='Data Harian berhasil diperbaiki.';
+            recLogs("Finansial diubah - ".$idday, "Finansial");
         } else {
             $message=$sql_op->error.' Data Harian GAGAL diperbaiki.';
         }
@@ -34,6 +41,8 @@ if (isset($_POST['saveHarian'])) {
         $insert = $sql_op->insert('harian', $data);
         if ($insert) {
             $message='Data Harian berhasil disimpan.';
+            $idday = $sql_op->insert_id;
+            recLogs("Finansial ditambah - ".$idday, "Finansial");
         } else {
             $message=$sql_op->error.' Data Harian GAGAL disimpan.';
         }
@@ -53,11 +62,6 @@ if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
         $message = "Data tidak ditemukan.";
     }
 }
-
-// start the output buffering for main content
-ob_start();
-
-session_start();
 
 if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
     echo '<script type="text/javascript">alert(\'Anda tidak berhak mengakses laman!\');';

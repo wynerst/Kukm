@@ -4,9 +4,15 @@ require 'sysconfig.inc.php';
 require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
 include "listdata.php";
 include "nav_datacenter.php";
+require 'lib/logs.php';
 
 $display = true;
 $err_jml = '<font color="red">&nbsp;Jumlah direvisi.</font>';
+
+// start the output buffering for main content
+ob_start();
+
+session_start();
 
 if (isset($_POST['saveShu'])) {
 
@@ -70,8 +76,9 @@ if (isset($_POST['saveShu'])) {
 	if (isset($idshu) AND $idshu <> 0) {
 		$update = $sql_op->update('shu', $data, 'idshu ='.$idshu);
 		if ($update) {
-			$message='Data Sisa Hasil Usaha berhasil diperbaiki.';
-			 $display = false;
+            $message='Data Sisa Hasil Usaha berhasil diperbaiki.';
+            recLogs("SHU/PHU diubah - ".$idshu, "SHU");
+            $display = false;
 		} else {
 			$message=$sql_op->error.' -- Data Sisa Hasil Usaha GAGAL diperbaiki.';
 		}
@@ -80,6 +87,7 @@ if (isset($_POST['saveShu'])) {
 		if ($insert) {
 			$message='Data Sisa Hasil Usaha berhasil disimpan.';
             $idshu = $sql_op->insert_id;
+            recLogs("SHU/PHU ditambah - ".$idshu, "SHU");
             $display = false;
 		} else {
 			$message=$sql_op->error.' -- Data Sisa Hasil Usaha GAGAL disimpan.';
