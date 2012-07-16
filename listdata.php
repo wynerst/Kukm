@@ -280,4 +280,25 @@ function listGroup() {
 	return $datagrid_result;
 
 }
+
+function logsdata() {
+	global $dbs;
+    $koperasi = $_SESSION['koperasi'];
+    $group = $_SESSION['group'];
+	$datagrid = new simbio_datagrid();
+	$table_spec = 'logs as l LEFT JOIN user as u ON u.iduser=l.userID LEFT JOIN koperasi as k ON k.idkoperasi = u.koperasi_Idkoperasi';
+	$datagrid->setSQLColumn('k.nama AS \'Koperasi\'', 'u.nama AS \'Nama User\'', 
+		'l.parts AS \'Modul\'', 'l.notes AS \'Catatan\'', 'l.recorded AS \'Waktu\'', 'l.Ipid AS \'Alamat IP\'');
+	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
+    if ($group == 2) {
+    $datagrid->setSQLcriteria("u.koperasi_idkoperasi = ".$koperasi);
+    }
+	$datagrid->debug = true;
+
+	// put the result into variables
+	$datagrid_result = $datagrid->createDataGrid($dbs, $table_spec, 50, false);
+	return $datagrid_result;
+
+}
+
 ?>

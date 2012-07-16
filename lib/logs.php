@@ -4,7 +4,7 @@ function recLogs($notes="", $parts="")
 {    
 global $dbs;
 
-    if ($notes<>"" and $parts<>"") {
+    if ($notes<>"" and $parts<>"" and $_SESSION['userID'] <> "") {
         $log['userID'] = $_SESSION['userID'];
         $log['parts'] = $parts;
         $log['notes'] = $notes;

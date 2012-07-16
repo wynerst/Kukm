@@ -5,6 +5,12 @@ require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
 require SIMBIO_BASE_DIR.'simbio_GUI/form_maker/simbio_form_table_AJAX.inc.php';
 include "listdata.php";
 include 'nav_panel.php';
+require 'lib/logs.php';
+
+// start the output buffering for main content
+ob_start();
+
+session_start();
 
 if (isset($_POST['saveKoperasi'])) {
 
@@ -37,6 +43,7 @@ if (isset($_POST['saveKoperasi'])) {
 		$update = $sql_op->update('koperasi', $data, 'idkoperasi ='.$idkoperasi);
 		if ($update) {
 			$message='Data Koperasi berhasil diperbaiki.';
+            recLogs("Diubah - ".$idkoperasi, "Profil");
 		} else {
 			$message=$sql_op->error.' Data Koperasi GAGAL diperbaiki.';
 		}
@@ -44,6 +51,8 @@ if (isset($_POST['saveKoperasi'])) {
 		$insert = $sql_op->insert('koperasi', $data);
 		if ($insert) {
 			$message='Data Koperasi berhasil disimpan.';
+            $idkoperasi = $sql_op->insert_id;
+            recLogs("Ditambah - ".$idkoperasi, "Profil");
 		} else {
 			$message=$sql_op->error.' Data Koperasi GAGAL disimpan.';
 		}
@@ -59,11 +68,6 @@ if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
 	$q_koperasi = $dbs->query($sql_text);
 	$recKop = $q_koperasi->fetch_assoc();
 }
-
-// start the output buffering for main content
-ob_start();
-
-session_start();
 
 if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
     echo '<script type="text/javascript">alert(\'Anda tidak berhak mengakses laman!\');';

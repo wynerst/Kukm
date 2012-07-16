@@ -3,6 +3,8 @@
 require 'sysconfig.inc.php';
 require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
 include "nav_datacenter.php";
+require 'lib/logs.php';
+
 
 $sql_op = new simbio_dbop($dbs);
 
@@ -28,7 +30,7 @@ if (isset($_GET['nid']) AND $_GET['nid'] > 0) {
     }
 
     if ($delete) {
-        // recLogs("Delete success", "Neraca");
+        recLogs("Dihapus - ".$nid, "Neraca");
         $messages= '<script type="text/javascript">';
         $messages.= 'alert(\'Data Neraca BERHASIL dihapus.\');';
         $messages.= 'location.href = \'datacenter-entrydata.php?list\';';
@@ -53,7 +55,7 @@ if (isset($_GET['pid']) AND $_GET['pid'] > 0) {
     }
 
     if ($delete) {
-        // recLogs("Delete success", "PHU/SHU");
+        recLogs("Dihapus - ".$pid, "PHU/SHU");
         $messages= '<script type="text/javascript">';
         $messages.= 'alert(\'Data PHU/SHU BERHASIL dihapus.\');';
         $messages.= 'location.href = \'datacenter-entrydata-phu.php?list\';';
@@ -78,7 +80,7 @@ if (isset($_GET['fid']) AND $_GET['fid'] > 0) {
     }
 
     if ($delete) {
-        // recLogs("Delete success", "Finansial lain");
+        recLogs("Dihapus - ".$fid, "Finansial");
         $messages= '<script type="text/javascript">';
         $messages.= 'alert(\'Data Finansial Pendukung BERHASIL dihapus.\');';
         $messages.= 'location.href = \'datacenter-entrydata-finansial.php?list\';';
@@ -103,7 +105,7 @@ if (isset($_GET['oid']) AND $_GET['oid'] > 0) {
     }
 
     if ($delete) {
-        // recLogs("Delete success", "PHU/SHU");
+        recLogs("Dihapus - ".$oid, "Pendukung");
         $messages= '<script type="text/javascript">';
         $messages.= 'alert(\'Data Pendukung Lain BERHASIL dihapus.\');';
         $messages.= 'location.href = \'datacenter-entrydata-pendukung.php?list\';';
