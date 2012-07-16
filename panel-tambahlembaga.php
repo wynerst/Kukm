@@ -290,9 +290,9 @@ if ($recKop['idkoperasi'] == $_SESSION['koperasi'] OR $_SESSION['group'] == 1){
 						<td><select id="primkop" name="primkop" class="input-text-02" 
 <?php
     echo $show ? '>' : ' disabled >' ;
-	$primkop['1'] = "Primer Koperasi Propinsi";
-	$primkop['2'] = "Primer Koperasi Kabupaten";
-	$primkop['3'] = "Primer Koperasi Propinsi";
+	$primkop['1'] = "Primer Koperasi Nasional";
+	$primkop['2'] = "Primer Koperasi Propinsi";
+	$primkop['3'] = "Primer Koperasi Kabupaten";
     foreach ($primkop as $key=>$value) {
 		if (isset($recKop['primkop']) and $recKop['primkop'] == $key) {
 			echo '<option value="'.$key.'" SELECTED >'.$value.'</option>';
