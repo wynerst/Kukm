@@ -233,6 +233,7 @@ $sysconf['mimetype']['mp4'] = 'video/mp4';
 
 /* MONTH NAME */
 $sysconf['months'] = array('Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des');
+$sysconf['bulan'] = array('Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember');
 
 /* MONTH NAME */
 $sysconf['idKukm'] = 62;

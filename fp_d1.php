@@ -1,13 +1,14 @@
 <?php
 // create datagrid
 $datagrid = new simbio_datagrid_alt();
+if (isset($filtered) and $filtered > 0) {
+    $datagrid->setSQLcriteria('k.primkop=' . $filtered);
+}
 
 // table spec
 $table_spec = '`koperasi` as k
 RIGHT JOIN harian as h ON h.idkoperasi = k.idkoperasi';
-/** LEFT JOIN coa as c ON c.idkoperasi = k.idkoperasi
-LEFT JOIN shu as s ON s.idkoperasi = k.idkoperasi 
-LEFT JOIN `non_coa` as n ON n.idkoperasi = k.idkoperasi 
+/**
 LEFT JOIN `tipe_koperasi` as tk ON k.jenis = tk.idtipe_koperasi';
 **/
 
@@ -44,7 +45,7 @@ $datagrid->setSQLColumn(
 
 $datagrid->setSQLColumn(
     'MIN(TIMESTAMPDIFF(MONTH,h.periode,curdate())), k.idkoperasi, h.periode as \'Periode\'',
-	'k.nama as \'Koperasi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\'',
+	'CONCAT(\'<a href="frontpage.php?id=\',k.idkoperasi,\'">\',k.nama,\'</a>\') as \'Koperasi\'',
 	'format((h.h1),2) AS \'Simpanan&nbsp;*)\'',
 	'format((h.h2),2) AS \'Pinjaman&nbsp;*)\'',
 	'format((h.h3),2) AS \'Modal Dalam&nbsp;*)\'',
@@ -57,7 +58,6 @@ $datagrid->setSQLColumn(
 	'format((h.h10),2) AS \'NPL (%)\'');
 
 $datagrid->setSQLorder('MIN(TIMESTAMPDIFF(MONTH,h.periode,curdate())) ASC, h.periode DESC, k.nama ASC');
-//$datagrid->setSQLcriteria('YEAR(p.finaldate) = 2010 or YEAR(p2.finaldate) = 2010 or YEAR(p3.finaldate) = 2010');
 $datagrid->sql_group_by = 'h.idkoperasi';
 
 // set table and table header attributes
@@ -69,7 +69,12 @@ $datagrid->invisible_fields = array(0,1,2);
 // put the result into variables
 $datagrid_result = $datagrid->createDataGrid($dbs, $table_spec, 10, false, true);
 
-$frontpage_content = '<h3>Laporan Bulanan Usaha Simpan Pinjam Koperasi&nbsp;<a href="keterangan.php" target="blank" title="Penjelasan tabel"><img src="images/info.png" /></a></h3><p>';
+$filter = '<div align="right"><form method="GET" id="filter">Tampilkan Primer Koperasi:  ';
+$filter .='<select name="fil"><option value="0">Seluruhnya</option><option value="1" label="Nasional">Nasional</option><option value="2" label="Propinsi">Propinsi</option><option value="3" label="Kabupaten">Kabupaten</option></select>';
+$filter .='<input name="submit" value="GO" type="submit"></button></form></div><br />';
+$m = $sysconf['bulan'][date('n')-1] . ' ' . date('Y');
+$head_titile = '<h3>Laporan Bulanan Usaha Simpan Pinjam Koperasi ('. $m .')&nbsp;<a href="keterangan.php" target="blank" title="Penjelasan tabel"><img src="images/info.png" /></a></h3>';
+$frontpage_content = $head_titile . '<p>' . $filter ;
 if ($_SESSION['group'] == 1) {
     $frontpage_content .= $datagrid_result . "\n</p>";
 } else {

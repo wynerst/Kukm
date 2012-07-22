@@ -14,10 +14,22 @@ ob_start();
 
 session_start();
 
+if (isset($_GET['fil'])) {
+    $filtered = $_GET['fil'];
+}
+
 if (isset($_GET['fp']) and $_GET['fp'] <> "") {
 	$modul = $_GET['fp'];
 	//die("fp_".$modul.".php");
 	include "fp_".$modul.".php";
+} elseif (isset($_GET['id']) and $_GET['id'] <> "") {
+	$modul = $_GET['id'];
+	//die("laporan/detil_bulanan.php ".$modul);
+    include "laporan/detil_bulanan.php";
+} elseif (isset($_GET['tk']) and $_GET['tk'] <> "") {
+	$modul = $_GET['tk'];
+	//die("laporan/detil_bulanan.php ".$modul);
+    include "laporan/detil_jenis.php";
 } else {
 	$modul = "";
 	//die("fp_d1.php");
@@ -64,9 +76,13 @@ if (isset($_GET['fp']) and $_GET['fp'] <> "") {
 				auto: true, 
 				continuous: true
 			});
-		});	
+		});
 	</script>
-	
+	<script type="text/javascript">
+		$("select").change(function () {
+			$('#filter').submit();
+      });
+	</script>
 
 	<title>Kementerian KUKM - JKUK</title>
 </head>
@@ -171,7 +187,6 @@ if (isset($_GET['fp']) and $_GET['fp'] <> "") {
 			<h1>Dashboard</h1>
 			
 			<?php
-			
 			echo $frontpage_content;
 			?>
 			
