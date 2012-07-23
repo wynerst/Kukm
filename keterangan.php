@@ -109,7 +109,7 @@ session_start();
     <div align="center" style="background-color: #AFFB62; line-height: 40px; font-size: 12pt; ">Usia laporan 1 - 3 bulan yang lalu</div>
     <div align="center" style="background-color: yellow; line-height: 40px;font-size: 12pt;  ">Usia laporan 4 - 6 bulan yang lalu</div>
     <div align="center" style="background-color: #FB5F00; line-height: 40px; font-size: 12pt; ">Usia laporan 7 - 9 bulan yang lalu</div>
-    <div align="center" style="background-color: #fb5555; line-height: 40px; font-size: 12pt; ">Usia laporan lebih dari 10 bulan yang lalu</div>
+    <div align="center" style="background-color: #aaa; line-height: 40px; font-size: 12pt; ">Usia laporan lebih dari 10 bulan yang lalu</div>
     </blockquote>
     <li><h4>Simpanan</h4></li>
 	<blockquote>adalah dana yang dipercayakan oleh anggota, calon anggota, koperasi lain, dan atau anggotanya kepada KSP dan atau USP dalam bentuk tabungan, dan simpanan koperasi berjangka. (Pengertian dalam monitoring disini adalah <i>out standing</i> simpanan pada saat pelaporan)</blockquote>
