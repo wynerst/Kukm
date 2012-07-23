@@ -31,7 +31,7 @@ $sql1 = "SELECT DISTINCT idkoperasi, nama FROM koperasi WHERE idkoperasi <>". $s
 if (isset($kopnama) and $kopnama <> "") {
     $sql1 .=' AND idkoperasi ='. $kopnama;
 }
-$sql2 = "SELECT MONTH(dateposting) as bulan, count(idcoa) as jumlah FROM coa";
+$sql2 = "SELECT MONTH(dateposting) as bulan, count(idshu) as jumlah FROM shu";
 
 if (isset($_GET['nid']) AND int($_GET['nid']) == 0) {
     $rs_koperasi = $dbs->query($sql1. " WHERE idkoperasi = ".$_GET['nid']);
@@ -52,7 +52,7 @@ while ($rec_koperasi = $rs_koperasi->fetch_assoc()) {
     $table .="<TR>\n";
     if ($rs_Laporan) {
         while ($rec_lap = $rs_Laporan->fetch_assoc()) {
-            echo $rec_koperasi['idkoperasi']. ' ' . $rec_koperasi['nama'] . ' ' . $rec_lap['bulan'] . " " . $rec_lap['jumlah'] . "<br />";
+            // echo $rec_koperasi['idkoperasi']. ' ' . $rec_koperasi['nama'] . ' ' . $rec_lap['bulan'] . " " . $rec_lap['jumlah'] . "<br />";
             switch ($rec_lap['bulan']){
                 case 1:
                     $lap_month['January'] = $rec_lap['jumlah'];
@@ -211,11 +211,18 @@ echo navigation(2);
 		<!-- Content (Right Column) -->
 		<div id="content" disabled="disabled" class="box">
 
-			<h1>Neraca</h1>
+			<h1>Sisa Hasil Usaha / Perhitungan Hasil Usaha</h1>
 
 			<!-- Form -->
-			<h3 disabled="disabled" class="tit">Laporan Bulanan</h3>
+
+                <h3 disabled="disabled" class="tit">Laporan Bulanan Data SHU/PHU</h3>
 			<fieldset>
+            <div id="menu" disabled="disabled" class="box">
+                <ul disabled="disabled" class="box f-right">
+                    <li><a href="bulanan_coa.php"><span><strong>Neraca</strong></span></a></li>
+                    <li><a href="bulanan_fin.php"><span><strong>Data Finansial</strong></span></a></li>
+                </ul>
+            </div>
 				<legend>Pilih Data</legend>
 				<form id=searchPost method=post>
 				<table disabled="disabled" class="nostyle" width="100%">

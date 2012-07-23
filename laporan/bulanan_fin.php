@@ -31,7 +31,7 @@ $sql1 = "SELECT DISTINCT idkoperasi, nama FROM koperasi WHERE idkoperasi <>". $s
 if (isset($kopnama) and $kopnama <> "") {
     $sql1 .=' AND idkoperasi ='. $kopnama;
 }
-$sql2 = "SELECT MONTH(dateposting) as bulan, count(idcoa) as jumlah FROM coa";
+$sql2 = "SELECT MONTH(periode) as bulan, count(idday) as jumlah FROM harian";
 
 if (isset($_GET['nid']) AND int($_GET['nid']) == 0) {
     $rs_koperasi = $dbs->query($sql1. " WHERE idkoperasi = ".$_GET['nid']);
@@ -41,18 +41,18 @@ if (isset($_GET['nid']) AND int($_GET['nid']) == 0) {
 
 while ($rec_koperasi = $rs_koperasi->fetch_assoc()) {
     $lap_month = array('January'=>0,'February'=>0,'March'=>0,'April'=>0,'May'=>0,'June'=>0,'July'=>0,'August'=>0,'September'=>0,'October'=>0,'November'=>0,'December'=>0);
-    $sqllaporan = $sql2. " WHERE idkoperasi=".$rec_koperasi['idkoperasi'] .' AND tahunan = 0';
+    $sqllaporan = $sql2. " WHERE idkoperasi=".$rec_koperasi['idkoperasi']; // .' AND tahunan = 0';
     if (isset($recNeraca['idkoperasi'])) {
-        $sqllaporan .= " AND YEAR(dateposting)=".$lapperiod." GROUP BY MONTH(dateposting) ORDER BY MONTH(dateposting)";
+        $sqllaporan .= " AND YEAR(periode)=".$lapperiod." GROUP BY MONTH(periode) ORDER BY MONTH(periode)";
     } else {
-        $sqllaporan .= " AND YEAR(dateposting)=YEAR(now()) GROUP BY MONTH(dateposting) ORDER BY MONTH(dateposting)";
+        $sqllaporan .= " AND YEAR(periode)=YEAR(now()) GROUP BY MONTH(periode) ORDER BY MONTH(periode)";
     }
 //    die($sqllaporan);
     $rs_Laporan = $dbs->query($sqllaporan);
     $table .="<TR>\n";
     if ($rs_Laporan) {
         while ($rec_lap = $rs_Laporan->fetch_assoc()) {
-            echo $rec_koperasi['idkoperasi']. ' ' . $rec_koperasi['nama'] . ' ' . $rec_lap['bulan'] . " " . $rec_lap['jumlah'] . "<br />";
+            //echo $rec_koperasi['idkoperasi']. ' ' . $rec_koperasi['nama'] . ' ' . $rec_lap['bulan'] . " " . $rec_lap['jumlah'] . "<br />";
             switch ($rec_lap['bulan']){
                 case 1:
                     $lap_month['January'] = $rec_lap['jumlah'];
@@ -211,11 +211,18 @@ echo navigation(2);
 		<!-- Content (Right Column) -->
 		<div id="content" disabled="disabled" class="box">
 
-			<h1>Neraca</h1>
+			<h1>Data Finansial</h1>
 
 			<!-- Form -->
-			<h3 disabled="disabled" class="tit">Laporan Bulanan</h3>
+
+			<h3 disabled="disabled" class="tit">Laporan Bulanan Data Finansial</h3>
 			<fieldset>
+            <div id="menu" disabled="disabled" class="box">
+                <ul disabled="disabled" class="box f-right">
+                    <li><a href="bulanan_coa.php"><span><strong>Neraca</strong></span></a></li>
+                    <li><a href="bulanan_shu.php"><span><strong>PHU/SHU</strong></span></a></li>
+                </ul>
+            </div>
 				<legend>Pilih Data</legend>
 				<form id=searchPost method=post>
 				<table disabled="disabled" class="nostyle" width="100%">

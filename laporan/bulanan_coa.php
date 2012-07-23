@@ -52,7 +52,7 @@ while ($rec_koperasi = $rs_koperasi->fetch_assoc()) {
     $table .="<TR>\n";
     if ($rs_Laporan) {
         while ($rec_lap = $rs_Laporan->fetch_assoc()) {
-            echo $rec_koperasi['idkoperasi']. ' ' . $rec_koperasi['nama'] . ' ' . $rec_lap['bulan'] . " " . $rec_lap['jumlah'] . "<br />";
+            // echo $rec_koperasi['idkoperasi']. ' ' . $rec_koperasi['nama'] . ' ' . $rec_lap['bulan'] . " " . $rec_lap['jumlah'] . "<br />";
             switch ($rec_lap['bulan']){
                 case 1:
                     $lap_month['January'] = $rec_lap['jumlah'];
@@ -214,8 +214,15 @@ echo navigation(2);
 			<h1>Neraca</h1>
 
 			<!-- Form -->
-			<h3 disabled="disabled" class="tit">Laporan Bulanan</h3>
+                <h3 disabled="disabled" class="tit">Laporan Bulanan Neraca</h3>
 			<fieldset>
+            <div id="menu" disabled="disabled" class="box">
+                <ul disabled="disabled" class="box f-right">
+                    <li><a href="bulanan_shu.php"><span><strong>PHU/SHU</strong></span></a></li>
+                    <li><a href="bulanan_fin.php"><span><strong>Data Finansial</strong></span></a></li>
+                </ul>
+            </div>
+
 				<legend>Pilih Data</legend>
 				<form id=searchPost method=post>
 				<table disabled="disabled" class="nostyle" width="100%">

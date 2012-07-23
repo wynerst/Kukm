@@ -25,19 +25,24 @@ GROUP BY YEAR(p.finaldate),MONTH(p.finaldate)
 ORDER BY p.finaldate ASC';
 **/
 $sql_text = 'SELECT
-	p.periode as \'1\',
-	CONCAT(MONTHNAME(p.finaldate),\' \',YEAR(p.finaldate)) as \'2\',
-	sum(c.c11) AS \'3\',
-	sum(c.c12) AS \'4\',
-	sum(c.c13) AS \'5\',
-	sum(c.c14) AS \'6\',
-	sum(c.c21) AS \'7\',
-	sum(c.c22) AS \'8\',
-	sum(c.c3) AS \'9\'
-FROM harian as h
-LEFT JOIN koperasi as k ON k.idkoperasi =  h.idkoperasi
-GROUP BY YEAR(p.finaldate),MONTH(p.finaldate)
-ORDER BY p.finaldate ASC';
+	MIN(TIMESTAMPDIFF(MONTH,h.periode,curdate())) as \'1\',
+	CONCAT(MONTHNAME(h.periode),\' \',YEAR(h.periode)) as \'2\',
+	format(sum((h.h1))/1e6,2) AS \'3\',
+	format(sum((h.h2))/1e6,2) AS \'4\',
+	format(sum((h.h3))/1e6,2) AS \'5\',
+	format(sum((h.h4))/1e6,2) AS \'6\',
+	format(sum((h.h5))/1e6,2) AS \'7\',
+	format(sum((h.h6))/1e6,2) AS \'8\',
+	format(avg((h.h7))/1e6,2) AS \'9\',
+	format(avg((h.h8)),2) AS \'10\',
+	format(avg((h.h9)),2) AS \'11\',
+	format(avg((h.h10)),2) AS \'12\'
+FROM `koperasi` as k
+RIGHT JOIN harian as h ON h.idkoperasi = k.idkoperasi
+LEFT JOIN `tipe_koperasi` as tk ON k.jenis = tk.idtipe_koperasi
+GROUP BY YEAR(h.periode),MONTH(h.periode)
+ORDER BY h.periode DESC
+LIMIT 0,5';
 
 
 $xdata = array();
@@ -52,8 +57,8 @@ $arrseries['3'][]='Modal Luar';
 $arrseries['4'][]='Volume Usaha';
 $arrseries['5'][]='Aset';
 $arrseries['6'][]='SHU';
-$arrseries['7'][]='Suku Bunga Simpanan';
-$arrseries['8'][]='Suku Bunga Pinjaman';
+$arrseries['7'][]='Bunga Simpanan';
+$arrseries['8'][]='Bunga Pinjaman';
 $arrseries['9'][]='NPL';
  
 $set_yearly = $dbs->query($sql_text);
@@ -66,15 +71,17 @@ while ($rec = $set_yearly->fetch_assoc()) {
  $arrseries['4'][]=$rec['7'];
  $arrseries['5'][]=$rec['8'];
  $arrseries['6'][]=$rec['9'];
- $arrseries['7'][]=$rec['7'];
- $arrseries['8'][]=$rec['8'];
- $arrseries['9'][]=$rec['9'];
+ $arrseries['7'][]=$rec['10'];
+ $arrseries['8'][]=$rec['11'];
+ $arrseries['9'][]=$rec['12'];
  }
 
  $xdata = $arrseries;
+ nl2br(print_r ($arrseries));
+ die();
 
 # Create a PHPlot object which will make an 800x400 pixel image:
-$p = new PHPlot(900, 400);
+ $p = new PHPlot(900, 400);
 
 # Use TrueType fonts:
 //$p->SetDefaultTTFont('./arial.ttf');
@@ -105,12 +112,12 @@ $p->SetLegend($arrlegend);
 //$p->SetLegendWorld(0.1, 95);
 
 # Turn data labels on, and all ticks and tick labels off:
-//$p->SetDrawXGrid(true);
-$p->SetXDataLabelPos('plotdown');
+$p->SetDrawXGrid(true);
+//$p->SetXDataLabelPos('plotdown');
 //$p->SetXTickPos('none');
-$p->SetXTickLabelPos('none');
+//$p->SetXTickLabelPos('none');
 //$p->SetYTickPos('none');
-$p->SetYTickLabelPos('none');
+//$p->SetYTickLabelPos('none');
 
 # Generate and output the graph now:
 $p->DrawGraph();

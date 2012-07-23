@@ -104,7 +104,14 @@ session_start();
 			<h1>Definisi Istilah</h1>
 
 	<p><ul>
-	<li><h4>Simpanan</h4></li>
+ 	<li><h4>Kode warna laporan</h4></li>
+	<blockquote>Usia laporan yang masuk ke dalam sistem pelaporan ditandai dengan warna:<br />
+    <div align="center" style="background-color: #AFFB62; line-height: 40px; font-size: 12pt; ">Usia laporan 1 - 3 bulan yang lalu</div>
+    <div align="center" style="background-color: yellow; line-height: 40px;font-size: 12pt;  ">Usia laporan 4 - 6 bulan yang lalu</div>
+    <div align="center" style="background-color: #FB5F00; line-height: 40px; font-size: 12pt; ">Usia laporan 7 - 9 bulan yang lalu</div>
+    <div align="center" style="background-color: #fb5555; line-height: 40px; font-size: 12pt; ">Usia laporan lebih dari 10 bulan yang lalu</div>
+    </blockquote>
+    <li><h4>Simpanan</h4></li>
 	<blockquote>adalah dana yang dipercayakan oleh anggota, calon anggota, koperasi lain, dan atau anggotanya kepada KSP dan atau USP dalam bentuk tabungan, dan simpanan koperasi berjangka. (Pengertian dalam monitoring disini adalah <i>out standing</i> simpanan pada saat pelaporan)</blockquote>
 	<li><h4>Pinjaman</h4></li>
 	<blockquote>adalah penyediaan uang atau tagihan yang dapat dipersamakan dengan itu, berdasarkan persetujuan atau kesepakatan pinjam meminjam antara KSP dan atau USP dengan pihak lain yang mewajibkan pihak peminjam untuk melunasi hutangnya setelah jangka waktu tertentu disertai dengan pembayaran sejumlah imbalan. (Pengertian dalam monitoring disini adalah <i>out standing</i> pinjaman pada saat pelaporan)</blockquote>
@@ -155,7 +162,7 @@ session_start();
 	<!-- Footer -->
 	<div id="footer" class="box">
 
-		<p class="f-left">&copy; 2009 <a href="#">Kementerian Koperasi dan UKM</a>, All Rights Reserved &reg;</p>
+		<p class="f-left">&copy; 2009 <a href="#">PT. Artistika Prasetia</a>, All Rights Reserved &reg;</p>
 
 		<p class="f-right">Templates by <a href="http://www.adminizio.com/">Adminizio</a></p>
 
