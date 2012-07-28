@@ -161,6 +161,11 @@ echo navigation(3);
             <?php
             if (isset($_GET['list'])) {
                 echo "<fieldset>\n<legend>Data Pendukung Lain</legend>";
+                echo '<div id="menu" class="box">
+                    <ul class="box f-right">
+                        <li><a href="datacenter-entrydata-finansial.php?list"><span><strong>Data pendukung finansial</strong></span></a></li>
+                    </ul>
+                    </div><br/>';
                 echo listNonNeraca();
                    echo '<div id="menu" class="box">';
                 echo '<ul class="box f-right">';
