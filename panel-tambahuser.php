@@ -43,30 +43,39 @@ if (isset($_POST['saveUser'])) {
 	$data['fax']=$_POST['fax'];
     if (!isset($iduser)) {
         $data['login']=$_POST['login'];
-        $data['group_idgroup']=$_POST['group_idgroup'];
-        $data['validasi']=$_POST['validasi'];
+        $data['group_idgroup']=isset($_POST['group_idgroup']) ? $_POST['group_idgroup'] : 0;
+//        $data['validasi']=$_POST['validasi'];
         if ($_POST['password'] <> "") {
             $data['password']=$_POST['password'];
+            if ($data['password'] <> $_POST['new_confirm']) {
+                $nomatch = true;
+                $message = 'Password tidak sama. Ulangi lagi';
+                $recNon = $data;
+            } else {
+                $nomatch = false;
+            }
         }
     }
 
 	if (isset($iduser) AND $iduser <> 0) {
-		$update = $sql_op->update('user', $data, 'iduser ='.$iduser);
-//		print_r($data);
-//		die();
-		if ($update) {
-			$message = 'Data User berhasil diperbaiki.';
-		} else {
-			$message = 'Data User GAGAL diperbaiki. '.$update->error;
-		}
+        if ((isset($nomatch) AND !$nomatch)) {
+            $update = $sql_op->update('user', $data, 'iduser ='.$iduser);
+            if ($update) {
+                $message = 'Data User berhasil diperbaiki.';
+            } else {
+                $message = 'Data User GAGAL diperbaiki. '.$update->error;
+            }
+        }
 	} else {
-		$insert = $sql_op->insert('user', $data);
-		if ($insert) {
-			$message = 'Data User berhasil disimpan.';
-		} else {
-			$message = 'Data User GAGAL disimpan. '.$insert->error;
-            //die($insert->error);
-		}
+        if ((isset($nomatch) AND !$nomatch)) {
+            $insert = $sql_op->insert('user', $data);
+            if ($insert) {
+                $message = 'Data User berhasil disimpan.';
+            } else {
+                $message = 'Data User GAGAL disimpan. '.$sql_op->error;
+                //die($insert->error);
+            }
+        }
 	}
 
 }
@@ -173,6 +182,7 @@ echo menutop(3);
 <?php
 echo navigation(1);
 ?>
+
 		</div> <!-- /aside -->
 
 		<hr class="noscreen" />
@@ -183,7 +193,7 @@ echo navigation(1);
 			<h1>Panel</h1>
 
 			<!-- Headings -->
-			<h3 class="tit"><?php echo isset($iduser)? "Edit" : "Tambah"; ?> User</h2>
+			<h3 class="tit"><?php echo isset($iduser)? "Edit" : "Tambah"; ?> User</h3>
 <form id='form_user' method=post>
 
 <table class="nostyle">
@@ -203,9 +213,14 @@ echo navigation(1);
     if ($_SESSION['group'] == 1) {
     	echo '<td><select id="jenis" name="koperasi_idkoperasi" class="input-text-02">';
     } else {
-    	echo '<td><select id="jenis" name="koperasi_idkoperasi" class="input-text-02" disabled>';
+        echo '<td><input type="hidden" name="koperasi_idkoperasi" value="'.$_SESSION['koperasi'].'">';
+    	echo '<select id="jenis"  class="input-text-02" disabled>';
     }
 	echo '<option value="0">--- Pilih Koperasi ---</option>';
+    if (!isset($recNon['koperasi_idkoperasi'])) {
+        $recNon['koperasi_idkoperasi'] = 0;
+    }
+    
 	while ($choice = $option->fetch_assoc()) {
 		if ($choice['idkoperasi'] == $recNon['koperasi_idkoperasi'] OR $choice['idkoperasi'] == $_SESSION['koperasi']) {
 			echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
@@ -243,11 +258,9 @@ echo navigation(1);
   </tr>
 <?php
 if ($_SESSION['group'] == 1) {
-?>
-  <tr>
-    <td>Group</td>
+  echo '<tr>';
+  echo '  <td>Group</td>';
 
-<?php
 	$sql_text = "SELECT * from `group` ORDER BY `idgroup`";
 	$option = $dbs->query($sql_text);
 	echo '<td><select id="group" name="group_idgroup" class="input-text-02">"';
@@ -261,15 +274,13 @@ if ($_SESSION['group'] == 1) {
 	}
 	unset ($choice);
 	echo '</select></td>';
-  
+    echo '</tr>';
 }
 ?>
-  </tr>
   <tr>
 	<td colspan="2" class="t-right"><input type="submit" name="saveUser" class="input-submit" value="Submit" /></td>
   </tr>
 </table>
-			</fieldset>
 
 <?php
 if (isset($iduser)) {

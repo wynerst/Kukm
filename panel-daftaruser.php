@@ -25,9 +25,15 @@ if (isset($_POST['saveUser'])) {
 
     if ($_POST['password'] <> "") {
         $data['password']=$_POST['password'];
+        if ($data['password'] <> $_POST['new_confirm']) {
+            $nomatch = true;
+            $message = 'Password tidak sama. Ulangi lagi';
+        } else {
+            $nomatch = false;
+        }
     }
 
-	if (isset($iduser) AND $iduser <> 0) {
+	if (isset($iduser) AND $iduser <> 0 AND !$nomatch) {
 		$update = $sql_op->update('user', $data, 'iduser ='.$iduser);
 //		print_r($data);
 //		die();
@@ -220,7 +226,7 @@ if ($_SESSION['userID'] = $iduser) {
   </tr>
   <tr>
     <td>Verifikasi Password</td>
-    <td><input type="password" size="40" name="new_confirm" value="" class="input-text-02" /></td>
+    <td><input type="password" size="40" name="new_confirm" value="" class="input-text-02" pattern="^.{8}.*$" /></td>
   </tr>
 
 <?php
