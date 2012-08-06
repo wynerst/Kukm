@@ -28,9 +28,9 @@ if (isset($_POST['saveNeraca'])) {
         $date['time'] = $date['tahun']."-".$date['month']."-01";
         $testdate = $dbs->query("SELECT LAST_DAY('".$date['time']."')");
         $resultdate = $testdate->fetch_row();
-        $data['dateposting'] = $resultdate[0];
+        $data['periode'] = $resultdate[0];
     } else {
-        $data['dateposting'] = $date['tahun']."-12-31";
+        $data['periode'] = $date['tahun']."-12-31";
         $data['tahunan'] = 1;
     }
 

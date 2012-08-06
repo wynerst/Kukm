@@ -23,7 +23,11 @@ if (isset($_POST['saveHarian'])) {
 	$data['h7']=$_POST['h7'];
 	$data['h8']=$_POST['h8'];
 	$data['h9']=$_POST['h9'];
-	$data['h10']=(($_POST['h101']+(0.5*$_POST['h102'])+(0.75*$_POST['h103']))/$_POST['h2']);
+	if(isset($_POST['h10']) AND $_POST['h10'] !=""){
+		$data['h10']=$_POST['h10'];
+	} else {
+		$data['h10']=(($_POST['h101']+(0.5*$_POST['h102'])+(0.75*$_POST['h103']))/$_POST['h2']);
+	}
 	$data['h101']=$_POST['h101'];
 	$data['h102']=$_POST['h102'];
 	$data['h103']=$_POST['h103'];
@@ -91,11 +95,19 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 	<script type="text/javascript" src="js/toggle.js"></script>
 	<script type="text/javascript" src="js/ui.core.js"></script>
 	<script type="text/javascript" src="js/ui.tabs.js"></script>
-	<script type="text/javascript">
-	$(document).ready(function(){
-		$(".tabs > ul").tabs();
-	});
-	</script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $(".tabs > ul").tabs();
+        $("#enable").click(function() {
+               if ($(this).is(':checked')) {
+                    $('input:radio').attr("disabled", false);
+               } else if ($(this).not(':checked')) {
+                    $('input:radio').attr("disabled", true);
+               }
+        });
+    }); 
+
+    </script>
 	<title>Kementerian KUKM - JKUK</title>
 </head>
 
@@ -216,9 +228,37 @@ echo navigation(5);
 					</tr>
 					<tr>
 						<td>Periode:</td>
-	<td>
+<!--	<td>
 	<input type="text" id="periode" name="periode" class="input-text-2" value="<?php isset($recHarian['periode']) ? $v=$recHarian['periode']: $v="0000-00-00"; echo $v; ?>" />
 	</td>
+-->
+						<td><input id="enable" name="enable" type="checkbox" value="1" checked="" />&nbsp;Bulanan<br />
+<?php
+    for ($i=0; $i<12; $i++) {
+        echo '<input type="radio" name="month" id="m1" value="'. sprintf("%02d",$i+1).'" ';
+        if (isset($recHarian['periode'])) {
+            $m = -1+substr($recNeraca['periode'],5,2);
+            if ($i == $m) {
+                echo ' checked';
+            }
+        }
+        echo '/ > '.$sysconf['months'][$i].'&nbsp;&nbsp;';
+    }
+    $t = date("Y");
+    echo '<select id="year" name="tahun">';
+    for ($i=$t; $i>$t-5; $i--) {
+        echo '<option value="'.$i.'"';
+        if (isset($recHarian['periode'])) {
+            $y = 0+substr($recHarian['periode'],0,4);
+            if ($i == $y) {
+                echo ' selected';
+            }
+        }
+        echo ' >'.$i.'</option>';
+    }
+    echo '</select>';
+?>
+						</td>
 					</tr>
 				</table>
 			</fieldset>
@@ -279,7 +319,7 @@ echo navigation(5);
   <tr style="background: #999">
     <td style="width:5px;">10</td>
     <td style="width:250px;"><b>NPL/Non Performing Loan</b></td>
-    <td></td>
+    <td><input type="text" size="40" name="h10" value="<?php echo isset($recHarian['h10']) ? $recHarian['h10'] : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
