@@ -271,8 +271,14 @@ echo navigation(2);
 					</tr>
 					<tr>
 						<td>Periode:</td>
-                        <td><input id="enable" name="enable" type="checkbox" value="1" checked="" />&nbsp;Bulanan<br />
 <?php
+    if(isset($recShu['tahunan']) AND $recShu['tahunan'] > 0) {
+        $tahunan = true;
+        echo '<td><input id="enable" name="enable" type="checkbox" value="1" />&nbsp;Bulanan<br />';
+    } else {
+        $tahunan = false;
+        echo '<td><input id="enable" name="enable" type="checkbox" value="1" checked="" />&nbsp;Bulanan<br />';
+    }
     for ($i=0; $i<12; $i++) {
         echo '<input type="radio" name="month" id="m1" value="'. sprintf("%02d",$i+1).'" ';
         if (isset($recShu['dateposting'])) {
@@ -280,6 +286,9 @@ echo navigation(2);
             if ($i == $m) {
                 echo ' checked';
             }
+        }
+        if ($tahunan) {
+            echo ' disabled ';
         }
         echo '/ > '.$sysconf['months'][$i].'&nbsp;&nbsp;';
     }

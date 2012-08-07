@@ -14,11 +14,11 @@ function listNeraca($syariah = false) {
     if ($syariah) {
 	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrysyariah.php?nid=\',c.idcoa,\'">Edit</a>\') as \'&nbsp;\'',
 		'CONCAT(\'<a href="datacenter-delete.php?nid=\',c.idcoa,\'">Hapus</a>\') as \'&nbsp;\'',
-		'k.nama AS \'Koperasi\'', 'DATE(c.dateposting) AS \'Periode Laporan\'');
+		'k.nama AS \'Koperasi\'', 'DATE(c.dateposting) AS \'Periode Laporan\'', 'IF(c.tahunan > 0, \'Tahunan\', \'Bulanan\') AS \'Jenis\'');
     } else {
 	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata.php?nid=\',c.idcoa,\'">Edit</a>\') as \'&nbsp;\'',
 		'CONCAT(\'<a href="datacenter-delete.php?nid=\',c.idcoa,\'">Hapus</a>\') as \'&nbsp;\'',
-		'k.nama AS \'Koperasi\'', 'DATE(c.dateposting) AS \'Periode Laporan\'');
+		'k.nama AS \'Koperasi\'', 'DATE(c.dateposting) AS \'Periode Laporan\'', 'IF(c.tahunan > 0, \'Tahunan\', \'Bulanan\') AS \'Jenis\'');
     }
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
 	$datagrid->debug = true;
@@ -45,8 +45,9 @@ function listNeracaAdmin($syariah = false) {
     $koperasi = $_SESSION['koperasi'];
     $group = $_SESSION['group'];
     $jenis = $_SESSION['tipekoperasi'];
-    $sql_text = 'SELECT c.idcoa, k.nama, k.jenis, DATE(c.dateposting) AS periode FROM coa as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi';
-	  
+    $sql_text = 'SELECT c.idcoa, k.nama, k.jenis, DATE(c.dateposting) AS periode, ';
+    $sql_text .= 'IF(c.tahunan > 0, \'Tahunan\', \'Bulanan\')  AS laporan ';
+    $sql_text .= 'FROM coa as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi';
     $tmp_neraca = $dbs->query($sql_text);
     $tmp_result = '<table>';
 
@@ -61,7 +62,7 @@ href="datacenter-entrydata.php?nid='.$tmp_rec['idcoa'].'">Edit</a></td><td><a
 href="datacenter-delete.php?nid='.$tmp_rec['idcoa'].'">Hapus</a></td>';
         }
         $tmp_result .=
-'<td>'.$tmp_rec['nama'].'</td><td>'.$tmp_rec['periode'].'</td></tr>';
+'<td>'.$tmp_rec['nama'].'</td><td>'.$tmp_rec['periode'].'</td><td>'.$tmp_rec['laporan'].'</td></tr>';
     }
     $tmp_result .= '</table>';
 
@@ -118,11 +119,11 @@ function listShu($syariah = false) {
     if ($syariah) {
 	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata-phu-syariah.php?nid=\',s.idshu,\'">Edit</a>\') as \'&nbsp;\'',
 		'CONCAT(\'<a href="datacenter-delete.php?pid=\',s.idshu,\'">Hapus</a>\') as \'&nbsp;\'',
-		'k.nama AS \'Koperasi\'', 'DATE(s.dateposting) AS \'Periode Laporan\'');
+		'k.nama AS \'Koperasi\'', 'DATE(s.dateposting) AS \'Periode Laporan\'', 'IF(s.tahunan > 0, \'Tahunan\', \'Bulanan\') AS \'Jenis\'');
     } else {
 	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata-phu.php?nid=\',s.idshu,\'">Edit</a>\') as \'&nbsp;\'',
 		'CONCAT(\'<a href="datacenter-delete.php?pid=\',s.idshu,\'">Hapus</a>\') as \'&nbsp;\'',
-		'k.nama AS \'Koperasi\'', 'DATE(s.dateposting) AS \'Periode Laporan\'');
+		'k.nama AS \'Koperasi\'', 'DATE(s.dateposting) AS \'Periode Laporan\'', 'IF(s.tahunan > 0, \'Tahunan\', \'Bulanan\') AS \'Jenis\'');
     }
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
 	if ($group == 1 or $group == 3) {
@@ -150,7 +151,9 @@ function listShuAdmin($syariah = false) {
     $koperasi = $_SESSION['koperasi'];
     $group = $_SESSION['group'];
     $jenis = $_SESSION['tipekoperasi'];
-    $sql_text = 'SELECT c.idshu, k.nama, k.jenis, DATE(c.dateposting) AS periode FROM shu as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi';
+    $sql_text = 'SELECT c.idshu, k.nama, k.jenis, DATE(c.dateposting) AS periode, ';
+    $sql_text .= 'IF(c.tahunan > 0, \'Tahunan\', \'Bulanan\') AS laporan ';
+    $sql_text .= 'FROM shu as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi';
 	  
     $tmp_neraca = $dbs->query($sql_text);
     $tmp_result = '<table>';
@@ -166,7 +169,7 @@ href="datacenter-entrydata-phu.php?nid='.$tmp_rec['idshu'].'">Edit</a></td><td><
 href="datacenter-delete.php?pid='.$tmp_rec['idshu'].'">Hapus</a></td>';
         }
         $tmp_result .=
-'<td>'.$tmp_rec['nama'].'</td><td>'.$tmp_rec['periode'].'</td></tr>';
+'<td>'.$tmp_rec['nama'].'</td><td>'.$tmp_rec['periode'].'</td><td>'.$tmp_rec['laporan'].'</td></tr>';
     }
     $tmp_result .= '</table>';
 

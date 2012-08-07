@@ -14,7 +14,7 @@ if (isset($_POST['searchCoa'])) {
 	}
     
     // get record
-    $sql_text = "SELECT c.*, k.nama FROM coa as c ";
+    $sql_text = "SELECT c.*, k.nama FROM shu as c ";
     $sql_text .= " LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi ";
     if (isset($search_limit)) {
         $sql_text .= "WHERE ". $search_limit;
@@ -33,16 +33,16 @@ if (isset($kopnama) and $kopnama <> "") {
 }
 $sql2 = "SELECT MONTH(dateposting) as bulan, count(idshu) as jumlah FROM shu";
 
-if (isset($_GET['nid']) AND int($_GET['nid']) == 0) {
-    $rs_koperasi = $dbs->query($sql1. " WHERE idkoperasi = ".$_GET['nid']);
-} else {
+//if (isset($_GET['nid']) AND int($_GET['nid']) == 0) {
+//    $rs_koperasi = $dbs->query($sql1. " WHERE idkoperasi = ".$_GET['nid']);
+//} else {
     $rs_koperasi = $dbs->query($sql1);
-}
+//}
 
 while ($rec_koperasi = $rs_koperasi->fetch_assoc()) {
     $lap_month = array('January'=>0,'February'=>0,'March'=>0,'April'=>0,'May'=>0,'June'=>0,'July'=>0,'August'=>0,'September'=>0,'October'=>0,'November'=>0,'December'=>0);
     $sqllaporan = $sql2. " WHERE idkoperasi=".$rec_koperasi['idkoperasi'] .' AND tahunan = 0';
-    if (isset($recNeraca['idkoperasi'])) {
+    if (isset($lapperiod) and $lapperiod > 0) {
         $sqllaporan .= " AND YEAR(dateposting)=".$lapperiod." GROUP BY MONTH(dateposting) ORDER BY MONTH(dateposting)";
     } else {
         $sqllaporan .= " AND YEAR(dateposting)=YEAR(now()) GROUP BY MONTH(dateposting) ORDER BY MONTH(dateposting)";
@@ -273,8 +273,8 @@ echo navigation(2);
 	if (isset($recNeraca['nama']) and $recNeraca['nama']<>"") {
 		// echo $recNeraca['nama'];
 	}
-	if (isset($recNeraca['dateposting']) and substr($recNeraca['dateposting'],0,4)<>"") {
-		echo '&nbsp;untuk&nbsp;'. substr($recNeraca['dateposting'],0,4);
+	if (isset($lapperiod)) {
+		echo '&nbsp;untuk&nbsp;'. $lapperiod;
 	} else {
 		echo '&nbsp;untuk&nbsp;'. date("Y");
     }

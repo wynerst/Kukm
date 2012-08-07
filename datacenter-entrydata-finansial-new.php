@@ -21,13 +21,29 @@ if (isset($_POST['saveHarian'])) {
     }
     $data['idkoperasi']=$_POST['idkoperasi'];
     $data['periode']=$_POST['periode'];
+    $date['month']=$_POST['month'];
+    $date['tahun']=$_POST['tahun'];
+    if (isset($_POST['month'])) {
+        $date['time'] = $date['tahun']."-".$date['month']."-01";
+        $testdate = $dbs->query("SELECT LAST_DAY('".$date['time']."')");
+        $resultdate = $testdate->fetch_row();
+        $data['periode'] = $resultdate[0];
+    } else {
+        $data['periode'] = $date['tahun']."-12-31";
+        $data['tahunan'] = 1;
+    }
+
     foreach ($submit as $key=>$value) {
         $temp = preg_replace("/[^0-9,\-]/","",$value);
         $data[$key] = preg_replace("/[^0-9\-]/",".",$temp);
     }
-    if ($data['h10'] == 0) {
-        $data['h10']=(($data['h101']+(0.5*$data['h102'])+(0.75*$data['h103']))/$data['h2'])*100;
-    }
+
+    if(isset($data['h10']) AND $data['h10'] >0){
+	 } else {
+	     $data['h10']=(($data['h101']+(0.5*$data['h102'])+(0.75*$data['h103']))/$data['h2'])*100;
+	 }
+ 
+    //$data['h10']=(($data['h101']+(0.5*$data['h102'])+(0.75*$data['h103']))/$data['h2'])*100;
     $data['iduser']=$_POST['iduser'];
     
     if (isset($idday) AND $idday <> 0) {
@@ -93,6 +109,13 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
     <script type="text/javascript">
     $(document).ready(function(){
         $(".tabs > ul").tabs();
+        $("#enable").click(function() {
+               if ($(this).is(':checked')) {
+                    $('input:radio').attr("disabled", false);
+               } else if ($(this).not(':checked')) {
+                    $('input:radio').attr("disabled", true);
+               }
+        });
     });
     </script>
     <title>Kementerian KUKM - JKUK</title>
@@ -225,7 +248,9 @@ echo navigation(3);
                     </tr>
                     <tr>
                         <td>Periode:</td>
+        						<td><input id="enable" name="enable" type="checkbox" value="1" checked="" />&nbsp;Bulanan<br />
 <?php
+/**
     $sql_text = "SELECT DISTINCT substring(dateposting,1,10) as idperiode from coa";
     if ($_SESSION['group'] == 2) {
         $sql_text .= " WHERE idkoperasi=".$_SESSION['koperasi'];
@@ -242,6 +267,31 @@ echo navigation(3);
         }
     }
     echo '</select></td>';
+**/
+    for ($i=0; $i<12; $i++) {
+        echo '<input type="radio" name="month" id="m1" value="'. sprintf("%02d",$i+1).'" ';
+        if (isset($recHarian['periode'])) {
+            $m = -1+substr($recHarian['periode'],5,2);
+            if ($i == $m) {
+                echo ' checked';
+            }
+        }
+        echo '/ > '.$sysconf['months'][$i].'&nbsp;&nbsp;';
+    }
+    $t = date("Y");
+    echo '<select id="year" name="tahun">';
+    for ($i=$t; $i>$t-5; $i--) {
+        echo '<option value="'.$i.'"';
+        if (isset($recHarian['periode'])) {
+            $y = 0+substr($recHarian['periode'],0,4);
+            if ($i == $y) {
+                echo ' selected';
+            }
+        }
+        echo ' >'.$i.'</option>';
+    }
+    echo '</select></td>';
+
 ?>
                     </tr>
                 </table>
@@ -292,18 +342,18 @@ echo navigation(3);
   </tr>
   <tr>
     <td>8</td>
-    <td>Suku Bunga simpanan / bulan</td>
+    <td>Suku Bunga simpanan</td>
     <td><input type="text" size="40" name="fin[h8]" value="<?php echo isset($recHarian['h8']) ? number_format($recHarian['h8'],2,',','.') : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>9</td>
-    <td>Suku bunga pinjaman / bulan</td>
+    <td>Suku bunga pinjaman</td>
     <td><input type="text" size="40" name="fin[h9]" value="<?php echo isset($recHarian['h9']) ? number_format($recHarian['h9'],2,',','.') : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr style="background: #999">
     <td style="width:5px;">10</td>
     <td style="width:250px;"><b>NPL/Non Performing Loan</b></td>
-    <td><input type="text" size="40" name="fin[h10]" value="<?php echo isset($recHarian['h10']) ? number_format($recHarian['h10'],2,',','.') : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="h10" value="<?php echo isset($recHarian['h10']) ? number_format($recHarian['h10'],2,',','.') : "0"; ?>" class="input-text" /></td>
   </tr>
   <tr>
     <td>&nbsp;</td>

@@ -153,13 +153,13 @@ if (isset($_POST['saveNeraca'])) {
 
     // c22 - Kewajiban Jangka Panjang
     if ($data['c22'] > 0) {
-        if ($data['c22'] <> ($data['c2210'] + $data['c2220'] + $data['c2230'] + $data['c2240'])) {
+        if ($data['c22'] <> ($data['c2210'] + $data['c2220'] + $data['c2230'] + $data['c2240'] + $data['c2250'])) {
             $galat[11] = $err_jml;
         } else {
             $galat[11] = "";
         }
     } else {
-        $data['c22'] = $data['c2210'] + $data['c2220'] + $data['c2230'] + $data['c2240'];
+        $data['c22'] = $data['c2210'] + $data['c2220'] + $data['c2230'] + $data['c2240'] + $data['c2250'];
         $galat[11] = "";
     }
     
@@ -430,8 +430,14 @@ echo navigation(1);
 					</tr>
 					<tr>
 						<td>Periode:</td>
-                        <td><input id="enable" name="enable" type="checkbox" value="1" checked="" />&nbsp;Bulanan<br />
 <?php
+    if(isset($recNeraca['tahunan']) AND $recNeraca['tahunan'] > 0) {
+        $tahunan = true;
+        echo '<td><input id="enable" name="enable" type="checkbox" value="1" />&nbsp;Bulanan<br />';
+    } else {
+        $tahunan = false;
+        echo '<td><input id="enable" name="enable" type="checkbox" value="1" checked="" />&nbsp;Bulanan<br />';
+    }
     for ($i=0; $i<12; $i++) {
         echo '<input type="radio" name="month" id="m1" value="'. sprintf("%02d",$i+1).'" ';
         if (isset($recNeraca['dateposting'])) {
@@ -439,6 +445,9 @@ echo navigation(1);
             if ($i == $m) {
                 echo ' checked';
             }
+        }
+        if ($tahunan) {
+            echo ' disabled ';
         }
         echo '/ > '.$sysconf['months'][$i].'&nbsp;&nbsp;';
     }
