@@ -45,29 +45,30 @@ if (isset($_POST['saveShu'])) {
 
 	$data[s1299] = $data[s1201] + $data[s1202];
 	$data[s12] = $data[s1201] + $data[s1202];
-	$data[s1099] = $data[s11] + $data[s12];
-	$data[s1] = $data[s11] + $data[s12];
+	$data[s1099] = $data[s11] - $data[s12];
+	$data[s1] = $data[s11] - $data[s12];
 
 	$data[s2098] = $data[s2001] + $data[s2002] + $data[s2003] + $data[s2004];
 	$data[s2097] = $data[s2005] + $data[s2006] + $data[s2007] + $data[s2008] + $data[s2009] + $data[s2010];
-	$data[s2099] = $data[s2098] + $data[s2097];
-	$data[s2] = $data[s2098] + $data[s2097];
-	$data[s91] = $data[s1099] + $data[s2099];
+	$data[s2099] = $data[s2098] - $data[s2097];
+	$data[s2] = $data[s2098] - $data[s2097];
+	$data[s91] = $data[s1099] - $data[s2099];
 
 	$data[s3199] = $data[s3101]+$data[s3102]+$data[s3103]+$data[s3104]+$data[s3105]+$data[s3106]+$data[s3107]+$data[s3108]+$data[s3109]+$data[s3110]+$data[s3111]+$data[s3112]+$data[s3113]+$data[s3114]+$data[s3115]+$data[s3116];
 	$data[s31] = $data[s3199];
-	$data[s92] = $data[s91]+$data[s3199];
+    // $data[s3] = $data[s3199];
+	$data[s92] = $data[s91]-$data[s3199];
 
 	$data[s3299] = $data[s3201]+$data[s3202]+$data[s3203]+$data[s3298];
 	$data[s32] = $data[s3201]+$data[s3202]+$data[s3203]+$data[s3298];
 
-	$data[s93] = $data[s92] + $data[s3299];
+	$data[s93] = $data[s92] - $data[s3299];
     
-	$data[s3399] = $data[s3301]+$data[s3302];
-	$data[s33] = $data[s3301]+$data[s3302];
-	$data[s94] = $data[s93]+$data[s3399];
+	$data[s3399] = $data[s3301]-$data[s3302];
+	$data[s33] = $data[s3301]-$data[s3302];
+	$data[s94] = $data[s93]-$data[s3399];
     
-	$data[s95] = $data[s94] + $data[s34];
+	$data[s95] = $data[s94] - $data[s34];
 
 	$data[s3] = $data[s31]+$data[s32]+$data[s33]+$data[s34];
 	
