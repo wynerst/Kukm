@@ -182,7 +182,7 @@ function listKoperasi() {
 	$datagrid = new simbio_datagrid();
 	$table_spec = 'koperasi as k LEFT JOIN tipe_koperasi as t ON k.jenis = t.idtipe_koperasi';
 	$datagrid->setSQLColumn('CONCAT(\'<a href="panel-tambahlembaga.php?nid=\',k.idkoperasi,\'">Edit</a>\') as \'&nbsp;\'',
-		'k.nama AS \'Koperasi\'', 'k.sandilembaga AS \'Sandi Lembaga\'',
+		'k.nama AS \'Koperasi\'', 'k.propinsi AS \'Propinsi\'', 'k.sandilembaga AS \'Sandi Lembaga\'',
 		't.jenis AS \'Tipe Koperasi\'');
 // 'CONCAT(\'<a href="panel-tambahlembaga.php">Hapus</a>\') as \'&nbsp;\'',        
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
@@ -290,7 +290,7 @@ function logsdata() {
     $group = $_SESSION['group'];
 	$datagrid = new simbio_datagrid();
 	$table_spec = 'logs as l LEFT JOIN user as u ON u.iduser=l.userID LEFT JOIN koperasi as k ON k.idkoperasi = u.koperasi_Idkoperasi';
-	$datagrid->setSQLColumn('k.nama AS \'Koperasi\'', 'u.nama AS \'Nama User\'', 
+	$datagrid->setSQLColumn('k.nama AS \'Koperasi\'', 'k.propinsi AS \'Propinsi\'', 'u.nama AS \'Nama User\'', 
 		'l.parts AS \'Modul\'', 'l.notes AS \'Catatan\'', 'l.recorded AS \'Waktu\'', 'l.Ipid AS \'Alamat IP\'');
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
     if ($group == 2) {

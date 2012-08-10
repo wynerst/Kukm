@@ -130,8 +130,9 @@ if (isset($_POST['logMeIn'])) {
 				<legend>Login</legend>
 				<form method="post"><table width="100%" class="nostyle">
 					<tr>
-						<td style="width:120px;">Username:</td>
-						<td><input type="text" size="15" id="userName" name="userName" class="input-text-02" /></td>
+						<td>Username / <br />
+                        Alamat email :</td>
+						<td style="vertical-align: middle; "><input type="text" size="15" id="userName" name="userName" class="input-text-02" /></td>
 					</tr>
 					<tr>
 						<td>Password:</td>
