@@ -183,7 +183,8 @@ function listKoperasi() {
 	$table_spec = 'koperasi as k LEFT JOIN tipe_koperasi as t ON k.jenis = t.idtipe_koperasi';
 	$datagrid->setSQLColumn('CONCAT(\'<a href="panel-tambahlembaga.php?nid=\',k.idkoperasi,\'">Edit</a>\') as \'&nbsp;\'',
 		'k.nama AS \'Koperasi\'', 'k.propinsi AS \'Propinsi\'', 'k.sandilembaga AS \'Sandi Lembaga\'',
-		't.jenis AS \'Tipe Koperasi\'');
+		't.jenis AS \'Tipe Koperasi\'',
+        'IF(k.primkop = 1,\'Nasional\',IF(k.primkop = 2,\'Propinsi\',IF(k.primkop = 3,\'Kabupaten\',\'&nbsp\'))) AS \'Primer Koperasi\'');
 // 'CONCAT(\'<a href="panel-tambahlembaga.php">Hapus</a>\') as \'&nbsp;\'',        
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
 	$datagrid->debug = true;
@@ -284,7 +285,7 @@ function listGroup() {
 
 }
 
-function logsdata() {
+function logsdata($filter) {
 	global $dbs;
     $koperasi = $_SESSION['koperasi'];
     $group = $_SESSION['group'];
@@ -294,7 +295,15 @@ function logsdata() {
 		'l.parts AS \'Modul\'', 'l.notes AS \'Catatan\'', 'l.recorded AS \'Waktu\'', 'l.Ipid AS \'Alamat IP\'');
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
     if ($group == 2) {
-    $datagrid->setSQLcriteria("u.koperasi_idkoperasi = ".$koperasi);
+        if ($filter <> "") {
+            $datagrid->setSQLcriteria("u.koperasi_idkoperasi = ".$koperasi . " AND ". $filter);
+        } else {
+            $datagrid->setSQLcriteria("u.koperasi_idkoperasi = ".$koperasi);
+        }
+    } else {
+        if ($filter <> "") {
+            $datagrid->setSQLcriteria($filter);
+        }
     }
 	$datagrid->debug = true;
 

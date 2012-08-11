@@ -193,12 +193,6 @@ echo navigation(1);
     <td style="width:5px;">1</td>
     <td style="width:5px;"></td>
     <td style="width:250px;">AKTIVA</td>
-    <td></td>
-  </tr>
-  <tr style="background: #CCC">
-    <td>11</td>
-    <td></td>
-    <td>AKTIVA LANCAR</td>
     <td><input type="text" size="40" name="c1" value="<?php isset($recNeraca['c1']) ? $v=$recNeraca['c1']: $v=""; echo number_format($v,2,',','.'); ?>" disabled="disabled" class="input-text" /></td>
   </tr>
   <tr style="background: #CCC">

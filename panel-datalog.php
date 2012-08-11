@@ -4,22 +4,48 @@ require 'sysconfig.inc.php';
 include "listdata.php";
 include "nav_panel.php";
 
-if (isset($_POST['searchData'])) {
-	$kopnama = $_POST['koperasi'];
-	$lapperiod = $_POST['periode'];
-	if ($kopnama <>"" AND $lapperiod <>"") {
-		$search_limit = ' k.idkoperasi ='. $kopnama . ' AND p.idperiode = "'.$lapperiod.'"';
-		// get record
-		$sql_text = "SELECT p.periode, k.nama FROM periode as p ";
-		$sql_text .= " LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi ";
-		if (isset($search_limit)) {
-			$sql_text .= "WHERE ". $search_limit;
-		}
-		$q_koperasi = $dbs->query($sql_text);
-		$reckoperasi = $q_koperasi->fetch_assoc();
-	} else {
-		utility::jsAlert('Nama koperasi dan periode tidak boleh kosong.');
-	}
+if (isset($_GET['filterOn'])) {
+	$filter_txt = "";
+    
+    IF (isset($_GET['kop']) AND $_GET['kop'] <> "") {
+        $filter_txt .= ' k.nama LIKE \'%'. $_GET['kop'].'%\'';
+    }
+    IF (isset($_GET['cat']) AND $_GET['cat'] <> "") {
+        if ($filter_txt <> "") {
+            $filter_txt .= ' AND l.notes LIKE \'%'. $_GET['cat'].'%\'';
+        } else {
+            $filter_txt .= ' l.notes LIKE \'%'. $_GET['cat'].'%\'';
+        }
+    }
+    IF (isset($_GET['ip']) AND $_GET['ip'] <> "") {
+        if ($filter_txt <> "") {
+            $filter_txt .= ' AND l.ipid LIKE \'%'. $_GET['ip'].'%';
+        } else {
+            $filter_txt .= ' l.ipid LIKE \'%'. $_GET['ip'].'%\'';
+        }
+    }
+    IF (isset($_GET['tgl']) AND $_GET['tgl'] <> "") {
+        if ($filter_txt <> "") {
+            $filter_txt .= ' AND l.recorded LIKE \''. $_GET['tgl'].'%\'';
+        } else {
+            $filter_txt .= ' l.recorded LIKE \''. $_GET['tgl'].'%\'';
+        }
+    }
+    IF (isset($_GET['user']) AND $_GET['user'] <> "") {
+        if ($filter_txt <> "") {
+            $filter_txt .= ' AND u.nama LIKE \'%'. $_GET['user'].'%\'';
+        } else {
+            $filter_txt .= ' u.nama LIKE \'%'. $_GET['user'].'%\'';
+        }
+    }
+    IF (isset($_GET['mod']) AND $_GET['mod'] <> "") {
+        if ($filter_txt <> "") {
+            $filter_txt .= ' AND l.parts = \''. $_GET['mod'].'\'';
+        } else {
+            $filter_txt .= ' l.parts = \''. $_GET['mod'].'\'';
+        }
+    }
+
 }
 
 // start the output buffering for main content
@@ -126,10 +152,30 @@ echo navigation(1);
 		<div id="content" class="box">
 
 			<h1>Panel</h1>
-
 			<!-- Headings -->
 			<h3 class="tit">Data Log Aktifitas</h2>
-			<?php echo logsdata(); ?>
+<?php
+    echo '<table class="nostyle"><form method="get">';
+    if (isset($_SESSION['group']) AND $_SESSION['group'] == 1) {
+        echo '<tr>';
+        echo '<td>Koperasi</td><td><input type="text" name="kop"></td>';
+        echo '<td>User</td><td><input type="text" name="user"></td>';
+        echo '<td>Kode IP</td><td><input type="text" name="ip"></td>';
+        echo '<td>&nbsp;</td>';
+        echo '</tr>';
+
+    }
+    echo '<tr>';
+    echo '<td>Modul</td><td><input type="text" name="mod"></td>';
+    echo '<td>Catatan</td><td><input type="text" name="cat"></td>';
+    echo '<td>Waktu</td><td><input type="text" name="tgl"></td>';
+    echo '<td><input type="reset" value="Reset">&nbsp;';
+    echo '<input type="submit" name="filterOn" value="Filter"></td>';
+    echo '</tr>';
+    echo '</form></table><br />';
+    
+    echo $filter_txt == "" ? logsdata() : logsdata($filter_txt);
+?>
 
 		</div> <!-- /content -->
 

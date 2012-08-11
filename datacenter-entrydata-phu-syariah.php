@@ -52,7 +52,7 @@ if (isset($_POST['saveShu'])) {
 	$data[s2097] = $data[s2010]+$data[s2011]+$data[s2012]+$data[s2013];
 	$data[s2099] = $data[s2098] - $data[s2097];
 	$data[s2] = $data[s2098] - $data[s2097];
-	$data[s91] = $data[s1099] - $data[s2099];
+	$data[s91] = $data[s1099] + $data[s2099];
 
 	$data[s3199] = $data[s3101]+$data[s3102]+$data[s3103]+$data[s3104]+$data[s3105]+$data[s3106]+$data[s3107]+$data[s3108]+$data[s3109]+$data[s3110]+$data[s3111]+$data[s3112]+$data[s3113]+$data[s3114]+$data[s3115]+$data[s3116];
 	$data[s31] = $data[s3199];
@@ -65,7 +65,7 @@ if (isset($_POST['saveShu'])) {
     
 	$data[s3399] = $data[s3301]-$data[s3302];
 	$data[s33] = $data[s3301]-$data[s3302];
-	$data[s94] = $data[s93]-$data[s3399];
+	$data[s94] = $data[s93] + $data[s3399];
     
 	$data[s95] = $data[s94] - $data[s34];
 
