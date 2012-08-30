@@ -41,6 +41,7 @@ function listNeraca($syariah = false) {
 function listNeracaAdmin($syariah = false) {
 	global $dbs;
     $criteria = "";
+    $counter = 0;
 
     $koperasi = $_SESSION['koperasi'];
     $group = $_SESSION['group'];
@@ -53,6 +54,8 @@ function listNeracaAdmin($syariah = false) {
 
    while ($tmp_rec = $tmp_neraca->fetch_assoc()) {
         $tmp_result .= '<tr>';
+        $counter = $counter+1;
+        $tmp_result .= '<td align="right">'. $counter . '.</td>';
         if ($tmp_rec['jenis'] == 3 or $tmp_rec['jenis'] == 5) {
             $tmp_result .='<td><a
 href="datacenter-entrysyariah.php?nid='.$tmp_rec['idcoa'].'">Edit</a></td><td><a href="datacenter-delete.php?nid='.$tmp_rec['idcoa'].'">Hapus</a></td>';
@@ -147,6 +150,7 @@ function listShu($syariah = false) {
 function listShuAdmin($syariah = false) {
 	global $dbs;
     $criteria = "";
+    $counter = 0;
 
     $koperasi = $_SESSION['koperasi'];
     $group = $_SESSION['group'];
@@ -160,6 +164,8 @@ function listShuAdmin($syariah = false) {
 
    while ($tmp_rec = $tmp_neraca->fetch_assoc()) {
         $tmp_result .= '<tr>';
+        $counter = $counter+1;
+        $tmp_result .= '<td align="right">'. $counter . '.</td>';
         if ($tmp_rec['jenis'] == 3 or $tmp_rec['jenis'] == 5) {
             $tmp_result .='<td><a
 href="datacenter-entrydata-phu-syariah.php?nid='.$tmp_rec['idshu'].'">Edit</a></td><td><a href="datacenter-delete.php?pid='.$tmp_rec['idshu'].'">Hapus</a></td>';
@@ -305,6 +311,21 @@ function logsdata($filter) {
             $datagrid->setSQLcriteria($filter);
         }
     }
+	$datagrid->debug = true;
+
+	// put the result into variables
+	$datagrid_result = $datagrid->createDataGrid($dbs, $table_spec, 50, false);
+	return $datagrid_result;
+
+}
+
+function statdatakoperasi() {
+	global $dbs;
+	$datagrid = new simbio_datagrid();
+	$table_spec = 'koperasi as k ';
+	$datagrid->setSQLColumn('if(k.primkop = 1, \'Nasional\', if(k.primkop = 2, \'Propinsi\', if(k.primkop = 3, \'Kabupaten\', \'Tidak Jelas\'))) AS \'Primer Koperasi\'', 'count(*) AS \'Jumlah\'');
+    $datagrid->sql_group_by = 'k.primkop';
+	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
 	$datagrid->debug = true;
 
 	// put the result into variables

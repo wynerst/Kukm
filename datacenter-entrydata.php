@@ -372,6 +372,12 @@ echo navigation(1);
             if (isset($_GET['list'])) {
                 echo "<fieldset>\n<legend>Data Neraca Tersedia</legend>";
 				if($_SESSION['group']==1){
+                    echo '<form><table class="nostyle"><tr>';
+                    echo '<td>Koperasi</td><td><input type="text" name="filter_kop" /></td>';
+                    echo '<td>Laporan</td><td><input type="text" name="filter_type" /></td></tr><tr>';
+                    echo '<td>Tanggal</td><td><input type="text" name="filter_date" /></td>';
+                    echo '<td colspan="2" align="right"><input type="reset" value="RESET" /><input type="submit" name="setFilter" value="Filter" /></td></tr>';
+                    echo '<tr><td colspan="4">&nbsp;</td></tr></table></form>';
 					echo listNeracaAdmin();
 				}else{
 					echo listNeraca();

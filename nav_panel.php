@@ -26,6 +26,7 @@ function navigation($nav_active=0) {
 						<li><a href="'.KUKM_WEB_ROOT_DIR.'laporan/bulanan_coa.php">Stat. Laporan Bulanan</a></li>
 						<li><a href="'.KUKM_WEB_ROOT_DIR.'laporan/tahunan.php">Stat. Laporan Tahunan</a></li>
 						<li><a href="'.KUKM_WEB_ROOT_DIR.'panel-datalog.php">Catatan aktivitas</a></li>
+						<li><a href="'.KUKM_WEB_ROOT_DIR.'panel-genstat.php">Statistik Koperasi</a></li>
 					</ul>
 			</li>';
 	return $nav_menu;

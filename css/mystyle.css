@@ -171,3 +171,18 @@
         font-size: normal;
         background-color:#aaa;
     }
+
+    .neraca_hd1 {
+    }
+    
+    .neraca_hd2 {
+    }
+    
+    .neraca_hd3 {
+    }
+    
+    .neraca_nilai {
+        text-align: "RIGHT";
+         SDNUM="1033;0;#,##0.00_);[RED]\(#,##0.00\)
+    }
+    

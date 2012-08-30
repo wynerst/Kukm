@@ -9,7 +9,7 @@ if (isset($_POST['searchCoa'])) {
 	if ($kopnama <>"" AND $lapperiod <>"") {
 		$search_limit = ' k.idkoperasi ='. $kopnama . ' AND c.dateposting like "'.$lapperiod.'%"';
 		// get record
-		$sql_text = "SELECT c.*, k.nama FROM coa as c";
+		$sql_text = "SELECT c.*, k.nama, FROM coa as c";
 		$sql_text .= " LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi ";
 		if (isset($search_limit)) {
 			$sql_text .= "WHERE ". $search_limit;
@@ -237,30 +237,113 @@ echo navigation(1);
     <td>Piutang</td>
     <td><input type="text" size="40" name="c1140" value="<?php isset($recNeraca['c1140']) ? $v=$recNeraca['c1140']: $v=""; echo number_format($v,2,',','.'); ?>" disabled="disabled" class="input-text" /></td>
   </tr>
+
+<!-- Piutang Start -->
+
+<?php
+if ($_SESSION['tipekoperasi'] == 3 OR $_SESSION['tipekoperasi'] == 5) {
+echo '
+<!-- Syariah -->
+
   <tr>
     <td></td>
     <td>1141</td>
-    <td>Piutang Pinjaman Anggota</td>
-    <td><input type="text" size="40" name="c1141" value="<?php isset($recNeraca['c1141']) ? $v=$recNeraca['c1141']: $v=""; echo number_format($v,2,',','.'); ?>" disabled="disabled" class="input-text" /></td>
+    <td>Pembiayaan Murabahah</td>
+    <td><input type="text" size="40" name="c1141" value="'; isset($recNeraca['c1141']) ? $v=$recNeraca['c1141']: $v=""; echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
   </tr>
   <tr>
     <td></td>
     <td>1142</td>
-    <td>Piutang Pinjaman Non Anggota / Calon Anggota</td>
-    <td><input type="text" size="40" name="c1142" value="<?php isset($recNeraca['c1142']) ? $v=$recNeraca['c1142']: $v=""; echo number_format($v,2,',','.'); ?>" disabled="disabled" class="input-text" /></td>
+    <td>Pembiayaan Mudharabah</td>
+    <td><input type="text" size="40" name="c1142" value="';  isset($recNeraca['c1142']) ? $v=$recNeraca['c1142']: $v=""; echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
   </tr>
   <tr>
     <td></td>
     <td>1143</td>
-    <td>Piutang Pinjaman pada Koperasi Lain</td>
-    <td><input type="text" size="40" name="c1143" value="<?php isset($recNeraca['c1143']) ? $v=$recNeraca['c1143']: $v=""; echo number_format($v,2,',','.'); ?>" disabled="disabled" class="input-text" /></td>
+    <td>Pembiayaan Musyarakah</td>
+    <td><input type="text" size="40" name="c1143" value="';  isset($recNeraca['c1143']) ? $v=$recNeraca['c1143']: $v=""; echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>1144</td>
+    <td>Pembiayaan Qodul Hasan</td>
+    <td><input type="text" size="40" name="c1144" value="';  isset($recNeraca['c1144']) ? $v=$recNeraca['c1144']: $v=""; echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>1145</td>
+    <td>Pembiayaan Salam</td>
+    <td><input type="text" size="40" name="c1145" value="';  isset($recNeraca['c1145']) ? $v=$recNeraca['c1145']: $v=""; echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>1146</td>
+    <td>Pembiayaan Istishna</td>
+    <td><input type="text" size="40" name="c1146" value="';  isset($recNeraca['c1146']) ? $v=$recNeraca['c1146']: $v=""; echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>1147</td>
+    <td>Pembiayaan Ijarah</td>
+    <td><input type="text" size="40" name="c1147" value="';  isset($recNeraca['c1147']) ? $v=$recNeraca['c1147']: $v=""; echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>1148</td>
+    <td>Pembiayaan Syariah Lainnya</td>
+    <td><input type="text" size="40" name="c1148" value="';  isset($recNeraca['c1148']) ? $v=$recNeraca['c1148']: $v=""; echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
   </tr>
   <tr>
     <td></td>
     <td>1149</td>
     <td>Penyisihan Piutang Tak tertagih</td>
-    <td><input type="text" size="40" name="c1149" value="<?php isset($recNeraca['c1149']) ? $v=$recNeraca['c1149']: $v=""; echo number_format($v,2,',','.'); ?>" disabled="disabled" class="input-text" /></td>
+    <td><input type="text" size="40" name="c1149" value="';  isset($recNeraca['c1149']) ? $v=$recNeraca['c1149']: $v=""; echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
   </tr>
+';
+    
+} else {
+echo '
+<!-- Konvensional -->
+
+  <tr>
+    <td></td>
+    <td>1141</td>
+    <td>Piutang Pinjaman Anggota</td>
+    <td><input type="text" size="40" name="c1141" value="';
+    isset($recNeraca['c1141']) ? $v=$recNeraca['c1141']: $v="";
+    echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td></td>
+        <td>1142</td>
+    <td>Piutang Pinjaman Non Anggota / Calon Anggota</td>
+    <td><input type="text" size="40" name="c1142" value="';
+    isset($recNeraca['c1142']) ? $v=$recNeraca['c1142']: $v="";
+    echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>1143</td>
+    <td>Piutang Pinjaman pada Koperasi Lain</td>
+    <td><input type="text" size="40" name="c1143" value="';
+    isset($recNeraca['c1143']) ? $v=$recNeraca['c1143']: $v="";
+    echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>1149</td>
+    <td>Penyisihan Piutang Tak tertagih</td>
+    <td><input type="text" size="40" name="c1149" value="';
+    isset($recNeraca['c1149']) ? $v=$recNeraca['c1149']: $v="";
+    echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
+  </tr>
+';
+
+}
+?>
+
+<!-- End piutang -->
+
   <tr>
     <td>1150</td>
     <td></td>
@@ -382,24 +465,62 @@ echo navigation(1);
     <td>Simpanan</td>
     <td><input type="text" size="40" name="c2110" value="<?php isset($recNeraca['c2110']) ? $v=$recNeraca['c2110']: $v=""; echo number_format($v,2,',','.'); ?>" disabled="disabled" class="input-text" /></td>
   </tr>
+
+<?php
+if ($_SESSION['tipekoperasi'] == 3 OR $_SESSION['tipekoperasi'] == 5) {
+    echo '
+<!-- Syariah -->
+
+  <tr>
+    <td></td>
+    <td>2111</td>
+    <td>Simpanan Wadiah</td>
+    <td><input type="text" size="40" name="c2111" value="'; isset($recNeraca['c2111']) ? $v=$recNeraca['c2111']: $v=""; echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>2112</td>
+    <td>Simpanan Mudharabah berjangka (kurang 1 tahun)</td>
+    <td><input type="text" size="40" name="c2112" value="'; isset($recNeraca['c2112']) ? $v=$recNeraca['c2112']: $v=""; echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
+  </tr>
+  <tr>
+    <td>2120</td>
+    <td></td>
+    <td>Titipan Dana Bagian ZIS</td>
+    <td><input type="text" size="40" name="c2120" value="'; isset($recNeraca['c2120']) ? $v=$recNeraca['c2120']: $v=""; echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
+  </tr>
+';
+
+} else {
+    echo '
+
+<!-- Konvensional -->
+
   <tr>
     <td></td>
     <td>2111</td>
     <td>Simpanan Sukarela / Tabungan</td>
-    <td><input type="text" size="40" name="c2111" value="<?php isset($recNeraca['c2111']) ? $v=$recNeraca['c2111']: $v=""; echo number_format($v,2,',','.'); ?>" disabled="disabled" class="input-text" /></td>
+    <td><input type="text" size="40" name="c2111" value="'; isset($recNeraca['c2111']) ? $v=$recNeraca['c2111']: $v=""; echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
   </tr>
   <tr>
     <td></td>
     <td>2112</td>
     <td>Simpanan Berjangka (kurang 1 tahun)</td>
-    <td><input type="text" size="40" name="c2112" value="<?php isset($recNeraca['c2112']) ? $v=$recNeraca['c2112']: $v=""; echo number_format($v,2,',','.'); ?>" disabled="disabled" class="input-text" /></td>
+    <td><input type="text" size="40" name="c2112" value="'; isset($recNeraca['c2112']) ? $v=$recNeraca['c2112']: $v=""; echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
   </tr>
   <tr>
     <td>2120</td>
     <td></td>
     <td>Dana Bagian SHU</td>
-    <td><input type="text" size="40" name="c2120" value="<?php isset($recNeraca['c2120']) ? $v=$recNeraca['c2120']: $v=""; echo number_format($v,2,',','.'); ?>" disabled="disabled" class="input-text" /></td>
+    <td><input type="text" size="40" name="c2120" value="'; isset($recNeraca['c2120']) ? $v=$recNeraca['c2120']: $v=""; echo number_format($v,2,',','.') . '" disabled="disabled" class="input-text" /></td>
   </tr>
+
+    ';
+}
+?>
+
+<!-- End -->
+
   <tr>
     <td>2130</td>
     <td></td>
@@ -454,6 +575,20 @@ echo navigation(1);
     <td>Hutang Jangka Panjang Lain</td>
     <td><input type="text" size="40" name="c2240" value="<?php isset($recNeraca['c2240']) ? $v=$recNeraca['c2240']: $v=""; echo number_format($v,2,',','.'); ?>" disabled="disabled" class="input-text" /></td>
   </tr>
+
+<?php
+if ($_SESSION['tipekoperasi'] == 3 OR $_SESSION['tipekoperasi'] == 5) {
+    echo '
+  <tr>
+    <td>2250</td>
+    <td></td>
+    <td>Pembiayaan Syariah lainnya (lebih 1 tahun)</td>
+    <td><input type="text" size="40" name="c2250" value="'; isset($recNeraca['c2250']) ? $v=$recNeraca['c2250']: $v=""; echo number_format($v,2,',','.') . '"disabled="disabled" class="input-text" /></td>
+  </tr>
+    ';
+}
+?>
+
   <tr style="background: #999">
     <td>3</td>
     <td></td>
