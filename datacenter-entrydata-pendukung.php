@@ -203,7 +203,7 @@ echo navigation(3);
     }
     echo '<option value="0">--- Pilih nama ---</option>';
     while ($choice = $option->fetch_assoc()) {
-        if ($choice['idkoperasi'] == $recNeraca['idkoperasi'] OR $choice['idkoperasi'] == $_SESSION['koperasi']) {
+        if ($choice['idkoperasi'] == $recNon['idkoperasi'] OR $choice['idkoperasi'] == $_SESSION['koperasi']) {
             echo '<option value="'.$choice['idkoperasi'].'" SELECTED >'.$choice['nama'].'</option>';
         } else {
             echo '<option value="'.$choice['idkoperasi'].'">'.$choice['nama'].'</option>';

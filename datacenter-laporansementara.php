@@ -9,7 +9,7 @@ if (isset($_POST['searchCoa'])) {
 	if ($kopnama <>"" AND $lapperiod <>"") {
 		$search_limit = ' k.idkoperasi ='. $kopnama . ' AND c.dateposting like "'.$lapperiod.'%"';
 		// get record
-		$sql_text = "SELECT c.*, k.nama, FROM coa as c";
+		$sql_text = "SELECT c.*, k.nama, k.jenis FROM coa as c";
 		$sql_text .= " LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi ";
 		if (isset($search_limit)) {
 			$sql_text .= "WHERE ". $search_limit;
@@ -241,7 +241,7 @@ echo navigation(1);
 <!-- Piutang Start -->
 
 <?php
-if ($_SESSION['tipekoperasi'] == 3 OR $_SESSION['tipekoperasi'] == 5) {
+if ($_SESSION['tipekoperasi'] == 3 OR $_SESSION['tipekoperasi'] == 5 OR $recNeraca['jenis'] == 3 OR $recNeraca['jenis'] == 5) {
 echo '
 <!-- Syariah -->
 
@@ -467,7 +467,7 @@ echo '
   </tr>
 
 <?php
-if ($_SESSION['tipekoperasi'] == 3 OR $_SESSION['tipekoperasi'] == 5) {
+if ($_SESSION['tipekoperasi'] == 3 OR $_SESSION['tipekoperasi'] == 5 OR $recNeraca['jenis'] == 3 OR $recNeraca['jenis'] == 5) {
     echo '
 <!-- Syariah -->
 
@@ -577,7 +577,7 @@ if ($_SESSION['tipekoperasi'] == 3 OR $_SESSION['tipekoperasi'] == 5) {
   </tr>
 
 <?php
-if ($_SESSION['tipekoperasi'] == 3 OR $_SESSION['tipekoperasi'] == 5) {
+if ($_SESSION['tipekoperasi'] == 3 OR $_SESSION['tipekoperasi'] == 5 OR $recNeraca['jenis'] == 3 OR $recNeraca['jenis'] == 5) {
     echo '
   <tr>
     <td>2250</td>

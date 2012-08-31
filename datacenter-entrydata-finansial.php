@@ -30,22 +30,32 @@ if (isset($_POST['saveHarian'])) {
     }
     $data['iduser']=$_POST['iduser'];
     
-    if (isset($idday) AND $idday <> 0) {
-        $update = $sql_op->update('harian', $data, 'idday ='.$idday);
-        if ($update) {
-            $message='Data Harian berhasil diperbaiki.';
-            recLogs("Finansial diubah - ".$idday, "Finansial");
+    // Error Handling
+    $isError = false;
+    if ($data['h8'] > 100 OR $data['h9'] > 100 OR $data['h10'] > 100) {
+        $isError = true;
+        $message = 'Bunga Pinjaman dan Nilai NPL dalam persentase.';
+        $recHarian = $data;
+    }
+    
+    if (!$isError) {
+        if (isset($idday) AND $idday <> 0) {
+            $update = $sql_op->update('harian', $data, 'idday ='.$idday);
+            if ($update) {
+                $message='Data Harian berhasil diperbaiki.';
+                recLogs("Finansial diubah - ".$idday, "Finansial");
+            } else {
+                $message=$sql_op->error.' Data Harian GAGAL diperbaiki.';
+            }
         } else {
-            $message=$sql_op->error.' Data Harian GAGAL diperbaiki.';
-        }
-    } else {
-        $insert = $sql_op->insert('harian', $data);
-        if ($insert) {
-            $message='Data Harian berhasil disimpan.';
-            $idday = $sql_op->insert_id;
-            recLogs("Finansial ditambah - ".$idday, "Finansial");
-        } else {
-            $message=$sql_op->error.' Data Harian GAGAL disimpan.';
+            $insert = $sql_op->insert('harian', $data);
+            if ($insert) {
+                $message='Data Harian berhasil disimpan.';
+                $idday = $sql_op->insert_id;
+                recLogs("Finansial ditambah - ".$idday, "Finansial");
+            } else {
+                $message=$sql_op->error.' Data Harian GAGAL disimpan.';
+            }
         }
     }
 }
@@ -100,7 +110,7 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 
 <body>
 <?php
-    if (isset($message)) {
+    if (isset($message) AND $message <> "") {
         utility::jsAlert($message);
     }
 ?>

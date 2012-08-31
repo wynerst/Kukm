@@ -76,10 +76,10 @@ href="datacenter-delete.php?nid='.$tmp_rec['idcoa'].'">Hapus</a></td>';
 function listNonNeraca() {
 	global $dbs;
 	$datagrid = new simbio_datagrid();
-	$table_spec = 'non_coa as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi LEFT JOIN periode as p ON c.idperiode = p.idperiode';
+	$table_spec = 'non_coa as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi';
 	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata-pendukung.php?nid=\',c.idnon_coa,\'">Edit</a>\') as \'&nbsp;\'',
 		'CONCAT(\'<a href="datacenter-delete.php?oid=\',c.idnon_coa,\'">Hapus</a>\') as \'&nbsp;\'',
-		'k.nama AS \'Koperasi\'', 'p.periode AS \'Periode Laporan\'');
+		'k.nama AS \'Koperasi\'', 'c.periode AS \'Periode Laporan\'');
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
 	$datagrid->debug = true;
 
