@@ -1,0 +1,287 @@
+
+
+
+
+  
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>lib/jqueryui/images/ui-bg_inset-soft_95_fef1ec_1x100.png | Source/SVN | Assembla</title>
+    <link href="https://assets2.assembla.com/favicon.ico?1327583367" type="image/x-icon" rel="shortcut icon" />
+    <link href="https://assets2.assembla.com/favicon.ico?1327583367" type="image/x-icon" rel="icon" />
+    <link href="https://assets1.assembla.com/favicon.gif?1327583367" type="image/gif" rel="icon" />
+    <meta name="csrf-param" content="authenticity_token"/>
+<meta name="csrf-token" content="6DhfYyGHZfuxCpWlsjsajJR9gaue+lYoK8VatiKgSOo="/>
+    <link href="https://www.assembla.com/assets/base_app_and_alerts.css?1346452792" media="all" rel="stylesheet" type="text/css" />
+    
+    
+    <link href="https://www.assembla.com/assets/code.css?1346452792" media="all" rel="stylesheet" type="text/css" />  
+
+    
+    <!--[if IE 7]>
+      <link href="https://www.assembla.com/assets/ie7.css?1346452792" media="all" rel="stylesheet" type="text/css" />
+    <![endif]-->
+    <!--[if lte IE 8]>
+      <link href="https://www.assembla.com/assets/ie8.css?1346452792" media="all" rel="stylesheet" type="text/css" />
+    <![endif]-->
+    <link href="https://www.assembla.com/assets/print.css?1346452792" media="print" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript">
+      if (!Breakout) { var Breakout = {}; }
+          Breakout.space_wiki_name = "labzone";
+          Breakout.space_id = "cwbn5URaGr35ONeJe5cbLr";
+        Breakout.space_new_record = false;
+        Breakout.controller_name = "spaces/nodes"
+        Breakout.action_name = "show"
+    </script>
+    
+    <script src="https://www.assembla.com/assets/base.js?1346452887" type="text/javascript"></script>
+    <script src="https://www.assembla.com/assets/code.js?1346452792" type="text/javascript"></script>
+    
+    
+      
+
+      
+  
+  
+
+
+    <!-- prevents swf file caching -->
+    <meta http-equiv="PRAGMA" content="NO-CACHE" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    
+  </head>
+
+  <body class="locale_en " data-locale="en">
+    <div class="outer">
+      
+      <!--[if IE 6]>
+        <div class="browser-ie6" style="display: none;"><div>
+      <![endif]-->
+      <div class="b-wrapper ">
+        <a name="pagetop"></a>
+          <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-2641193-1']);
+    _gaq.push(['_setDomainName', 'assembla.com']);
+    _gaq.push(['_setCustomVar', 1, 'Logged', 'false', 1]);
+    
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+    })();
+  
+  </script>
+
+
+        <div class="hidden">
+          <a href="#content">Skip to contents</a>
+        </div>
+
+        
+          
+
+<div id="header-w">
+  <div id="header" class="_">
+    <div id="header-links">
+        <div id="user-box">
+                <a href="/features/compare" class="try-assembla">Try Assembla</a>
+
+  <a href="/login" class="login">Login</a>
+
+
+        </div>
+      <div class=""><span id="space-role">Free/Private Space</span></div>
+    </div>
+    <div id="logo">
+      <div >
+        <h1 class="header-w clear-float">
+            <a href="/">
+              <img src="/images/assembla-logo-small.png" alt="Go to Assembla" title="Go to Assembla" />
+            </a>
+
+            <span>khancute's lab</span>
+        </h1>
+      </div>
+    </div>
+
+    <div class="cut">&nbsp;</div>
+
+  </div><!-- /header -->
+</div><!-- /header-w -->
+
+        
+      <div id="main-menu-w">
+        <ul class='clear-float' id='main-menu'><li class="current"><a href="/code/labzone/subversion/nodes" class="icon-source-svn"><span>Source/SVN</span></a></li><li class=""><a href="/spaces/labzone/team" class="icon-team"><span>Team</span></a></li><li class=""><a href="/spaces/labzone/stream" class="icon-stream"><span>Stream</span></a></li><li class="grayed-out"><a href="/spaces/labzone/additional_tools" class="icon-"><span>Upgrade</span></a></li><li class="search-field"><form accept-charset="UTF-8" action="/spaces/labzone/search" id="search-form" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div><input id="object_scope_top_right" name="object_scope" type="hidden" value="10" />
+<input class="main-search" id="q" name="q" onfocus="this.value == 'Search this space' ? this.value = '' : true" size="15" type="text" value="Search this space" />
+</form></li></ul>
+      </div><!-- /main-menu-w -->
+
+      <ul class='menu-submenu'><li><a href="/code/labzone/subversion/nodes" class="first selected">Browse</a></li><li><a href="/code/labzone/subversion/changesets" class="">Changesets</a></li><li><a href="/code/labzone/subversion/repo/instructions" class=" last">Instructions</a></li></ul><div class='cut'></div>
+
+        
+
+        <div id="content" class="">
+          
+          
+          
+          
+            
+<div class="repository-browser">
+
+  <h1 class="icon-breadcrumb-path"><a href="/code/labzone/subversion/nodes?rev=7" class="root">root</a>/<a href="/code/labzone/subversion/nodes/lib?rev=7">lib</a>/<a href="/code/labzone/subversion/nodes/lib/jqueryui?rev=7">jqueryui</a>/<a href="/code/labzone/subversion/nodes/lib/jqueryui/images?rev=7">images</a>/<span>ui-bg_inset-soft_95_fef1ec_1x100.png</span><span>    <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+            width="110"
+            height="14"
+            id="clippy" >
+    <param name="movie" value="/clippy.swf"/>
+    <param name="allowScriptAccess" value="always" />
+    <param name="quality" value="high" />
+    <param name="scale" value="noscale" />
+    <param NAME="FlashVars" value="text=https://subversion.assembla.com/svn/labzone/lib/jqueryui/images/ui-bg_inset-soft_95_fef1ec_1x100.png/" />
+    <param name="bgcolor" value="#FFFFFF" />
+    <param name="wmode" value="transparent" />
+    <embed src="/clippy.swf"
+           width="110"
+           height="14"
+           name="clippy"
+           quality="high"
+           allowScriptAccess="always"
+           type="application/x-shockwave-flash"
+           pluginspage="http://www.macromedia.com/go/getflashplayer"
+           FlashVars="text=https://subversion.assembla.com/svn/labzone/lib/jqueryui/images/ui-bg_inset-soft_95_fef1ec_1x100.png/"
+           bgcolor="#FFFFFF"
+           wmode="transparent"
+    />
+    </object>
+</span></h1>
+  
+<div class="commit-infobox">
+  <div class="commit-options">
+    <a href="/code/labzone/subversion/node/logs/lib/jqueryui/images/ui-bg_inset-soft_95_fef1ec_1x100.png?rev=7" class="revision-log" rel="nofollow">Revision log</a>
+      <div style="margin-right: 10px;" class="small-icon-button">
+        <a href="/code/labzone/subversion/node/live/7/lib/jqueryui/images/ui-bg_inset-soft_95_fef1ec_1x100.png" class="view-icon" rel="nofollow">View as a web page</a>
+      </div>
+
+        <div style="margin-right: 10px;" class="small-icon-button">
+    <a class="download-icon" href="#" onclick="nobotGoto('!/code/labzone/subversion/nodes/lib/jqueryui/images/ui-bg_inset-soft_95_fef1ec_1x100.png?_format=raw&amp;rev=7'); return false;">Download</a>
+  </div>
+
+
+  </div>
+
+  <div class="committer-pic">
+    <img alt="User picture" src="https://assets1.assembla.com/images/no-picture.png?1346452792" />
+  </div>
+
+  
+<div class="commit-info">
+
+    <p class="committer-info"><span>Author:</span> <a href="/profile/khancute" tabindex="-1" target="_blank" title="Show Profile">khancute</a></p>
+
+  <p class="committer-info"><span>Revision:</span> <a href="/code/labzone/subversion/changesets/7">7</a> (<span>«<a href="/code/labzone/subversion/nodes?rev=6">Previous</a></span> <span><a href="/code/labzone/subversion/nodes?rev=8">Next</a>»</span> <a href="/code/labzone/subversion/nodes">Latest</a>)</p><br />
+    <p class="commit-size">
+      <span>File Size:</span>
+      123 Bytes
+    </p>
+  <p class="commit-date">(August 20, 2010 06:30 UTC) About 2 years ago</p>
+</div>
+
+
+
+  <p class="commit-description">
+    <pre></pre>
+  </p>
+</div>
+
+<div class="cut">&nbsp;</div>
+
+
+  <img alt="ui-bg_inset-soft_95_fef1ec_1x100.png" src="https://assets2.assembla.com/code/labzone/subversion/node/blob/lib/jqueryui/images/ui-bg_inset-soft_95_fef1ec_1x100.png?rev=7" />
+</div>
+
+
+        </div><!-- /content -->
+
+          
+
+          <div class="push-app"></div>
+      </div><!-- /b-wrapper -->
+
+        <div class="cut">&nbsp;</div>
+
+        <div id="footer-w">
+  <div class="tutorial-and-bookmark">
+      <div class="video-link" style="text-align: center;"><a href="/features-videos?video=subversion" rel="fancybox">Watch our tutorial video for the Source/SVN Tool</a></div><div class='promotion'>Subversion and the Subversion logo are trademarks of the <a href='http://www.apache.org'>Apache Software Foundation</a>.</div>
+  </div>
+
+  
+
+  <div id="footer">
+
+    <p>
+      <a href="/">Home</a>
+      / <a href="/community">Community</a>
+      / <a href="/features">Tour</a>
+      / <a href="/catalog/49">Get a Space</a>
+      &nbsp; - &nbsp; Solutions for <a href="/features/bug-tracking">Bug &amp; Issue Tracking</a>, <a href="/features/collaboration">Collaboration Tools</a>, <a href="http://offers.assembla.com/free-subversion-hosting">Free Subversion Hosting</a>, <a href="http://offers.assembla.com/free-git-hosting">Free GIT Hosting</a>
+
+    </p>
+
+
+    <p id="copyr-contact">
+    Khancute's lab is powered by Assembla Workspaces. <a href="/">Learn More</a>
+</p>
+
+  </div><!-- /footer -->
+</div><!-- /footer-w -->
+
+
+
+      
+  
+
+
+  <!-- Start Apptegic Code -->
+  <script type="text/javascript">
+var _aaq = _aaq || [];
+var apptegicAccount = 'assembla';
+var apptegicBaseURL = document.location.protocol + "//" + apptegicAccount + ".apptegic.com/";
+
+_aaq.push(['setAccount', apptegicAccount]);
+_aaq.push(['setDataset', 'demo']);
+
+_aaq.push(['setUser', 'Anonymous']);
+_aaq.push(['setCompany', 'bgfq4qA1Gr2QjIaaaHk9wZ']);
+_aaq.push(['setAccountType', 'free']);
+_aaq.push(['setCustomVariable', 'Plan', 'null', 'visit']);
+
+_aaq.push(['trackAction', Breakout.controller_name + ":" + Breakout.action_name]);
+
+(function(){
+    var d=document,
+        g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.defer=true; g.async=true;
+        g.src=apptegicBaseURL+'scripts/apptegic.min.js';
+        s.parentNode.insertBefore(g,s);
+})();
+</script>
+
+  <!-- End Apptegic Code -->
+
+
+      
+    </div>
+
+    
+  </body>
+</html>
+
+
+
