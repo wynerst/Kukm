@@ -29,6 +29,7 @@ if (isset($_POST['saveNeraca'])) {
         $testdate = $dbs->query("SELECT LAST_DAY('".$date['time']."')");
         $resultdate = $testdate->fetch_row();
         $data['dateposting'] = $resultdate[0];
+        $data['tahunan'] = 0;
     } else {
         $data['dateposting'] = $date['tahun']."-12-31";
         $data['tahunan'] = 1;
@@ -203,11 +204,24 @@ if (isset($_POST['saveNeraca'])) {
     $date2 = date_create($data['dateposting']);
     if ($date1 < $date2) {
         $isError = true;
-        $message = 'Periode pelaporan tidak mungkin lebih besar dari hari ini.';
+        $message = 'Periode pelaporan tidak mungkin lebih besar dari tanggal hari ini.';
     }
 
+    // Cek existing data
+    $query_text = "SELECT * from coa WHERE idkoperasi = " . $data['idkoperasi'] . " AND " . "dateposting = '". $data['dateposting'] ."' AND tahunan = ". $data['tahunan'] ;
+    $cek_double = $dbs->query($query_text);
+    if ($cek_double->num_rows > 0) {
+        $isError = true;
+        if (isset($message) AND $message <> "") {
+            $message .= "\n" . "Periode pelaporan sudah ada. Hanya bisa satu laporan per periode.";
+        } else {
+            $message = 'Periode pelaporan sudah ada. Hanya bisa satu laporan per periode.';
+        } 
+    }   
+
     $recNeraca = $data;
-    for ($i=1; $i<=13; $i++) {
+    $kesalahan = false;
+/**     for ($i=1; $i<=13; $i++) {
         if ($galat[$i] <> "") {
             $kesalahan = true;
             break;
@@ -216,7 +230,7 @@ if (isset($_POST['saveNeraca'])) {
         }
     }
     
-/** Calculating Balance
+    // Calculating Balance
  
     $balance = $data[c1] - $data[c2];
     if ($balance <> 0) {
@@ -224,7 +238,7 @@ if (isset($_POST['saveNeraca'])) {
     }
 **/
     
-    if ($kesalahan) {
+    if (isset($kesalahan) AND $kesalahan) {
         $message=" Ada revisi perhitungan Data Neraca, perbaiki lebih dulu sebelum menyimpan kembali. (Balance = ".number_format($balance,2,',','.')." ).";
         $display = true;
     } else if (!$isError) {

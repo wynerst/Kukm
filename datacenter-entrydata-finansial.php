@@ -35,8 +35,19 @@ if (isset($_POST['saveHarian'])) {
     if ($data['h8'] > 100 OR $data['h9'] > 100 OR $data['h10'] > 100) {
         $isError = true;
         $message = 'Bunga Pinjaman dan Nilai NPL dalam persentase.';
-        $recHarian = $data;
     }
+    
+    // Cek existing data
+    $query_text = "SELECT * from harian WHERE idkoperasi = " . $data['idkoperasi'] . " AND " . "periode = '". $data['periode'] ."'";
+    $cek_double = $dbs->query($query_text);
+    if ($cek_double->num_rows > 0) {
+        $isError = true;
+        if (isset($message) AND $message <> "") {
+            $message .= "\n" . "Periode pelaporan sudah ada. Hanya bisa satu laporan per periode.";
+        } else {
+            $message = 'Periode pelaporan sudah ada. Hanya bisa satu laporan per periode.';
+        } 
+    }   
     
     if (!$isError) {
         if (isset($idday) AND $idday <> 0) {
@@ -57,6 +68,8 @@ if (isset($_POST['saveHarian'])) {
                 $message=$sql_op->error.' Data Harian GAGAL disimpan.';
             }
         }
+    } else {
+        $recHarian = $data;
     }
 }
 
