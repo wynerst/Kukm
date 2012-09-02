@@ -3,7 +3,7 @@ require SIMBIO_BASE_DIR.'simbio_GUI/table/simbio_table.inc.php';
 require SIMBIO_BASE_DIR.'simbio_GUI/paging/simbio_paging.inc.php';
 require SIMBIO_BASE_DIR.'simbio_DB/datagrid/simbio_dbgrid.inc.php';
 
-function listNeraca($syariah = false) {
+function listNeraca($syariah = false,$sql_criteria = "") {
 	global $dbs;
     $criteria = "";
     $koperasi = $_SESSION['koperasi'];
@@ -13,11 +13,11 @@ function listNeraca($syariah = false) {
 	$table_spec = 'coa as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi LEFT JOIN periode as p ON c.idperiode = p.idperiode';
     if ($syariah) {
 	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrysyariah.php?nid=\',c.idcoa,\'">Edit</a>\') as \'&nbsp;\'',
-		'CONCAT(\'<a href="datacenter-delete.php?nid=\',c.idcoa,\'">Hapus</a>\') as \'&nbsp;\'',
+		'CONCAT(\'<a href="datacenter-delete.php?nid=\',c.idcoa,\'" class="confirm">Hapus</a>\') as \'&nbsp;\'',
 		'k.nama AS \'Koperasi\'', 'DATE(c.dateposting) AS \'Periode Laporan\'', 'IF(c.tahunan > 0, \'Tahunan\', \'Bulanan\') AS \'Jenis\'');
     } else {
 	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata.php?nid=\',c.idcoa,\'">Edit</a>\') as \'&nbsp;\'',
-		'CONCAT(\'<a href="datacenter-delete.php?nid=\',c.idcoa,\'">Hapus</a>\') as \'&nbsp;\'',
+		'CONCAT(\'<a href="datacenter-delete.php?nid=\',c.idcoa,\'" class="confirm">Hapus</a>\') as \'&nbsp;\'',
 		'k.nama AS \'Koperasi\'', 'DATE(c.dateposting) AS \'Periode Laporan\'', 'IF(c.tahunan > 0, \'Tahunan\', \'Bulanan\') AS \'Jenis\'');
     }
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
@@ -28,6 +28,14 @@ function listNeraca($syariah = false) {
         $criteria = "c.idkoperasi =" . $koperasi;
     }
 
+    if (isset($sql_criteria) AND $sql_criteria <> "") {
+        if ($criteria <> "") {
+            $criteria .= ' AND '. $sql_criteria;
+        } else {
+            $criteria = $sql_criteria;
+        }
+    }
+    
     if ($criteria <> "") {
         $datagrid->setSQLcriteria($criteria);
     }
@@ -38,7 +46,7 @@ function listNeraca($syariah = false) {
 }
 
 // neraca admin spv
-function listNeracaAdmin($syariah = false) {
+function listNeracaAdmin($syariah = false,$sql_criteria = "") {
 	global $dbs;
     $criteria = "";
     $counter = 0;
@@ -49,6 +57,10 @@ function listNeracaAdmin($syariah = false) {
     $sql_text = 'SELECT c.idcoa, k.nama, k.jenis, DATE(c.dateposting) AS periode, ';
     $sql_text .= 'IF(c.tahunan > 0, \'Tahunan\', \'Bulanan\')  AS laporan ';
     $sql_text .= 'FROM coa as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi';
+    if (isset($sql_criteria) AND $sql_criteria <> "") {
+        $sql_text .= ' WHERE ' . $sql_criteria;
+    }
+
     $tmp_neraca = $dbs->query($sql_text);
     $tmp_result = '<table>';
 
@@ -58,11 +70,11 @@ function listNeracaAdmin($syariah = false) {
         $tmp_result .= '<td align="right">'. $counter . '.</td>';
         if ($tmp_rec['jenis'] == 3 or $tmp_rec['jenis'] == 5) {
             $tmp_result .='<td><a
-href="datacenter-entrysyariah.php?nid='.$tmp_rec['idcoa'].'">Edit</a></td><td><a href="datacenter-delete.php?nid='.$tmp_rec['idcoa'].'">Hapus</a></td>';
+href="datacenter-entrysyariah.php?nid='.$tmp_rec['idcoa'].'">Edit</a></td><td><a href="datacenter-delete.php?nid='.$tmp_rec['idcoa'].'"  class="confirm">Hapus</a></td>';
         } else {
             $tmp_result .='<td><a
 href="datacenter-entrydata.php?nid='.$tmp_rec['idcoa'].'">Edit</a></td><td><a
-href="datacenter-delete.php?nid='.$tmp_rec['idcoa'].'">Hapus</a></td>';
+href="datacenter-delete.php?nid='.$tmp_rec['idcoa'].'" class="confirm">Hapus</a></td>';
         }
         $tmp_result .=
 '<td>'.$tmp_rec['nama'].'</td><td>'.$tmp_rec['periode'].'</td><td>'.$tmp_rec['laporan'].'</td></tr>';
@@ -70,7 +82,6 @@ href="datacenter-delete.php?nid='.$tmp_rec['idcoa'].'">Hapus</a></td>';
     $tmp_result .= '</table>';
 
         return $tmp_result;
-
 }
 
 function listNonNeraca() {
@@ -111,7 +122,7 @@ function listFinasial() {
 
 }
 
-function listShu($syariah = false) {
+function listShu($syariah = false,$sql_criteria = "") {
 	global $dbs;
 	$datagrid = new simbio_datagrid();
     $critera = "";
@@ -121,11 +132,11 @@ function listShu($syariah = false) {
 	$table_spec = 'shu as s LEFT JOIN koperasi as k ON s.idkoperasi = k.idkoperasi LEFT JOIN periode as p ON s.idperiode = p.idperiode';
     if ($syariah) {
 	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata-phu-syariah.php?nid=\',s.idshu,\'">Edit</a>\') as \'&nbsp;\'',
-		'CONCAT(\'<a href="datacenter-delete.php?pid=\',s.idshu,\'">Hapus</a>\') as \'&nbsp;\'',
+		'CONCAT(\'<a href="datacenter-delete.php?pid=\',s.idshu,\'" class="confirm">Hapus</a>\') as \'&nbsp;\'',
 		'k.nama AS \'Koperasi\'', 'DATE(s.dateposting) AS \'Periode Laporan\'', 'IF(s.tahunan > 0, \'Tahunan\', \'Bulanan\') AS \'Jenis\'');
     } else {
 	$datagrid->setSQLColumn('CONCAT(\'<a href="datacenter-entrydata-phu.php?nid=\',s.idshu,\'">Edit</a>\') as \'&nbsp;\'',
-		'CONCAT(\'<a href="datacenter-delete.php?pid=\',s.idshu,\'">Hapus</a>\') as \'&nbsp;\'',
+		'CONCAT(\'<a href="datacenter-delete.php?pid=\',s.idshu,\'" class="confirm">Hapus</a>\') as \'&nbsp;\'',
 		'k.nama AS \'Koperasi\'', 'DATE(s.dateposting) AS \'Periode Laporan\'', 'IF(s.tahunan > 0, \'Tahunan\', \'Bulanan\') AS \'Jenis\'');
     }
 	$datagrid->table_header_attr = 'style="font-weight: bold; color:rgb(255,255,255); background-color:cyan; vertical-align:middle;"';
@@ -135,6 +146,14 @@ function listShu($syariah = false) {
         $criteria = "s.idkoperasi =" . $koperasi;
     }
 
+    if (isset($sql_criteria) AND $sql_criteria <> "") {
+        if ($criteria <> "") {
+            $criteria .= ' AND '. $sql_criteria;
+        } else {
+            $criteria = $sql_criteria;
+        }
+    }
+    
     if ($criteria <> "") {
         $datagrid->setSQLcriteria($criteria);
     }
@@ -147,7 +166,7 @@ function listShu($syariah = false) {
 }
 
 //shu admin spv
-function listShuAdmin($syariah = false) {
+function listShuAdmin($syariah = false, $sql_criteria = "") {
 	global $dbs;
     $criteria = "";
     $counter = 0;
@@ -155,9 +174,12 @@ function listShuAdmin($syariah = false) {
     $koperasi = $_SESSION['koperasi'];
     $group = $_SESSION['group'];
     $jenis = $_SESSION['tipekoperasi'];
-    $sql_text = 'SELECT c.idshu, k.nama, k.jenis, DATE(c.dateposting) AS periode, ';
-    $sql_text .= 'IF(c.tahunan > 0, \'Tahunan\', \'Bulanan\') AS laporan ';
-    $sql_text .= 'FROM shu as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi';
+    $sql_text = 'SELECT s.idshu, k.nama, k.jenis, DATE(s.dateposting) AS periode, ';
+    $sql_text .= 'IF(s.tahunan > 0, \'Tahunan\', \'Bulanan\') AS laporan ';
+    $sql_text .= 'FROM shu as s LEFT JOIN koperasi as k ON s.idkoperasi = k.idkoperasi';
+    if (isset($sql_criteria) AND $sql_criteria <> "") {
+        $sql_text .= ' WHERE ' . $sql_criteria;
+    }
 	  
     $tmp_neraca = $dbs->query($sql_text);
     $tmp_result = '<table>';
@@ -168,11 +190,11 @@ function listShuAdmin($syariah = false) {
         $tmp_result .= '<td align="right">'. $counter . '.</td>';
         if ($tmp_rec['jenis'] == 3 or $tmp_rec['jenis'] == 5) {
             $tmp_result .='<td><a
-href="datacenter-entrydata-phu-syariah.php?nid='.$tmp_rec['idshu'].'">Edit</a></td><td><a href="datacenter-delete.php?pid='.$tmp_rec['idshu'].'">Hapus</a></td>';
+href="datacenter-entrydata-phu-syariah.php?nid='.$tmp_rec['idshu'].'">Edit</a></td><td><a href="datacenter-delete.php?pid='.$tmp_rec['idshu'].'" class="confirm">Hapus</a></td>';
         } else {
             $tmp_result .='<td><a
 href="datacenter-entrydata-phu.php?nid='.$tmp_rec['idshu'].'">Edit</a></td><td><a
-href="datacenter-delete.php?pid='.$tmp_rec['idshu'].'">Hapus</a></td>';
+href="datacenter-delete.php?pid='.$tmp_rec['idshu'].'" class="confirm">Hapus</a></td>';
         }
         $tmp_result .=
 '<td>'.$tmp_rec['nama'].'</td><td>'.$tmp_rec['periode'].'</td><td>'.$tmp_rec['laporan'].'</td></tr>';
@@ -180,7 +202,6 @@ href="datacenter-delete.php?pid='.$tmp_rec['idshu'].'">Hapus</a></td>';
     $tmp_result .= '</table>';
 
         return $tmp_result;
-
 }
 
 function listKoperasi() {

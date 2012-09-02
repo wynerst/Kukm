@@ -199,6 +199,16 @@ if (isset($_POST['saveNeraca'])) {
         $galat[8] = "";
     }
 
+    // Error Handling - tanggal
+    $isError = false;
+    $date1 = new datetime("now");
+    $date2 = date_create($data['dateposting']);
+    if ($date1 < $date2) {
+        $isError = true;
+        $message = 'Periode pelaporan tidak mungkin lebih besar dari hari ini.';
+        $recNeraca = $data;
+    }
+
     $recNeraca = $data;
     for ($i=1; $i<=13; $i++) {
         if ($galat[$i] <> "") {
@@ -220,7 +230,7 @@ if (isset($_POST['saveNeraca'])) {
     if ($kesalahan) {
         $message=" Ada revisi perhitungan Data Neraca, perbaiki lebih dulu sebelum menyimpan kembali. (Balance = ".number_format($balance,2,',','.')." ).";
         $display = true;
-    } else {
+    } else if (!$isError) {
         if (isset($idcoa) AND $idcoa <> 0) {
             $update = $sql_op->update('coa', $data, 'idcoa ='.$idcoa);
             if ($update) {
@@ -258,6 +268,36 @@ if (isset($_POST['saveNeraca'])) {
     }
 }
 
+if (isset($_POST['setFilter'])) {
+    $limit_sql = "";
+    if (isset($_POST['filter_kop']) AND $_POST['filter_kop'] <> "") {
+        $limit_sql = 'k.nama like \'%'. $_POST['filter_kop'] . '%\'';
+    }
+    if (isset($_POST['filter_jenis']) AND $_POST['filter_jenis'] <> "") {
+        if ($limit_sql <> "") {
+            $limit_sql .= ' AND k.primkop='. $_POST['filter_jenis'];
+        } else {
+            $limit_sql = 'k.primkop='. $_POST['filter_jenis'];
+        }
+    }
+    if (isset($_POST['filter_type']) AND $_POST['filter_type'] <> "") {
+        if ($limit_sql <> "") {
+            $limit_sql .= ' AND c.tahunan='. $_POST['filter_type'];
+        } else {
+            $limit_sql = 'c.tahunan='. $_POST['filter_type'];
+        }
+    }
+    if (isset($_POST['filter_date']) AND $_POST['filter_date'] <> "") {
+        if ($limit_sql <> "") {
+            $limit_sql .= ' AND c.dateposting like \'%'. $_POST['filter_date'] . '%\'';
+        } else {
+            $limit_sql = 'c.dateposting like \'%'. $_POST['filter_date'] . '%\'';
+        }
+    }
+    
+}
+
+
 if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
     echo '<script type="text/javascript">alert(\'Anda tidak berhak mengakses laman!\');';
     echo 'location.href = \'index.php\';</script>';
@@ -292,6 +332,10 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 	
 	<!-- datePicker required styles -->
 	<link rel="stylesheet" type="text/css" media="screen" href="css/datePicker.css">
+	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/jquery.easy-confirm-dialog.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/jquery-ui.css" />
 	<script type="text/javascript">
 	$(document).ready(function(){
 		$(".tabs > ul").tabs();
@@ -302,6 +346,11 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
                     $('input:radio').attr("disabled", true);
                }
         });
+   		$(".confirm").easyconfirm();
+		$("#alert").click(function() {
+			alert("You approved the action");
+		});
+
 	});
 
 	$(function()
@@ -309,6 +358,10 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 		$('.date-pick').datePicker({clickInput:true})
 	});
 	</script>
+   	<style type="text/css">
+	.ui-dialog { font-size: 11px; }
+	</style>
+
 	<title>Kementerian KUKM - JKUK</title>
 </head>
 
@@ -386,9 +439,33 @@ echo navigation(1);
 			if (isset($_GET['list'])) {
 				echo "<fieldset>\n<legend>Data Neraca Tersedia</legend>";
 				if($_SESSION['group']==1){
-					echo listNeracaAdmin();
-				}else{
-					echo listNeraca(true);
+                    echo '<form method="POST"><table class="nostyle"><tr>';
+                    echo '<td>Nama Koperasi</td><td><input type="text" name="filter_kop" /></td>';
+                    echo '<td>Laporan</td><td><input type="radio" name="filter_type" value="1"/>Tahunan&nbsp;';
+                    echo '<input type="radio" name="filter_type" value="0"/>Bulanan</td>';
+                    echo '<td>&nbsp;</td></tr><tr>';
+                    echo '<td>Primer Koperasi</td>';
+                    echo '<td><select name="filter_jenis" /><option value="">- Pilih -</option><option value="1">Nasional</option><option value="2">Propinsi</option><option value="3">Kabupaten</option></select></td>';
+                    echo '<td>Tanggal</td><td><input type="text" name="filter_date" /></td>';
+                    echo '<td align="right"><input type="reset" value=" RESET " />&nbsp;<input type="submit" name="setFilter" value=" Filter " /></td></tr>';
+                    echo '<tr><td colspan="5">&nbsp;</td></tr></table></form>';
+                    if (isset($limit_sql) and $limit_sql <> "") {
+                        echo listNeracaAdmin(false,$limit_sql);
+                    } else {
+                        echo listNeracaAdmin(false,$limit_sql);
+                    }
+				} else {
+                    echo '<form method="POST"><table class="nostyle"><tr>';
+                    echo '<td>Laporan</td><td><input type="radio" name="filter_type" value="1"/>Tahunan&nbsp;';
+                    echo '<input type="radio" name="filter_type" value="0"/>Bulanan</td><td>&nbsp;</td></tr><tr>';
+                    echo '<td>Tanggal</td><td><input type="text" name="filter_date" /></td>';
+                    echo '<td align="right"><input type="reset" value=" RESET " />&nbsp;<input type="submit" name="setFilter" value=" Filter " /></td></tr>';
+                    echo '<tr><td colspan="3">&nbsp;</td></tr></table></form>';
+                    if (isset($limit_sql) and $limit_sql <> "") {
+                        echo listNeraca(true,$limit_sql);
+                    } else {
+                        echo listNeraca(true);
+                    }
 				}
 				echo '<form action="datacenter-entrysyariah.php" method="link"><table class="nostyle">';
 				echo '<div style="text-align:right";><input type="submit" class="input-submit" value="Data Baru" /></div></form>';

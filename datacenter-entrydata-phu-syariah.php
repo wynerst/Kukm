@@ -72,28 +72,41 @@ if (isset($_POST['saveShu'])) {
 	$data[s3] = $data[s31]+$data[s32]+$data[s33]+$data[s34];
 
 	 $recShu = $data; 
-	 
-	if (isset($idshu) AND $idshu <> 0) {
-		$update = $sql_op->update('shu', $data, 'idshu ='.$idshu);
-		if ($update) {
-            $message='Data Sisa Hasil Usaha berhasil diperbaiki.';
-            recLogs("SHU/PHU diubah - ".$idshu, "SHU");
-            $display = false;
-		} else {
-			$message=$sql_op->error.' -- Data Sisa Hasil Usaha GAGAL diperbaiki.';
-		}
-	} else {
-		$insert = $sql_op->insert('shu', $data);
-		if ($insert) {
-			$message='Data Sisa Hasil Usaha berhasil disimpan.';
-            $idshu = $sql_op->insert_id;
-            recLogs("SHU/PHU ditambah - ".$idshu, "SHU");
-            $display = false;
-		} else {
-			$message=$sql_op->error.' -- Data Sisa Hasil Usaha GAGAL disimpan.';
-            $display = true;
-		}
-	}
+	    $recShu = $data;
+
+    // Error Handling - tanggal
+    $isError = false;
+    $date1 = new datetime("now");
+    $date2 = date_create($data['dateposting']);
+    if ($date1 < $date2) {
+        $isError = true;
+        $message = 'Periode pelaporan tidak mungkin lebih besar dari hari ini.';
+    }
+    
+    if (!$isError) {
+ 
+        if (isset($idshu) AND $idshu <> 0) {
+            $update = $sql_op->update('shu', $data, 'idshu ='.$idshu);
+            if ($update) {
+                $message='Data Sisa Hasil Usaha berhasil diperbaiki.';
+                recLogs("SHU/PHU diubah - ".$idshu, "SHU");
+                $display = false;
+            } else {
+                $message=$sql_op->error.' -- Data Sisa Hasil Usaha GAGAL diperbaiki.';
+            }
+        } else {
+            $insert = $sql_op->insert('shu', $data);
+            if ($insert) {
+                $message='Data Sisa Hasil Usaha berhasil disimpan.';
+                $idshu = $sql_op->insert_id;
+                recLogs("SHU/PHU ditambah - ".$idshu, "SHU");
+                $display = false;
+            } else {
+                $message=$sql_op->error.' -- Data Sisa Hasil Usaha GAGAL disimpan.';
+                $display = true;
+            }
+        }
+    }
 }
 
 if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
@@ -107,10 +120,35 @@ if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
 	$recShu = $q_shu->fetch_assoc();
 }
 
-// start the output buffering for main content
-ob_start();
+if (isset($_POST['setFilter'])) {
+    $limit_sql = "";
+    if (isset($_POST['filter_kop']) AND $_POST['filter_kop'] <> "") {
+        $limit_sql = 'k.nama like \'%'. $_POST['filter_kop'] . '%\'';
+    }
+    if (isset($_POST['filter_jenis']) AND $_POST['filter_jenis'] <> "") {
+        if ($limit_sql <> "") {
+            $limit_sql .= ' AND k.primkop='. $_POST['filter_jenis'];
+        } else {
+            $limit_sql = 'k.primkop='. $_POST['filter_jenis'];
+        }
+    }
+    if (isset($_POST['filter_type']) AND $_POST['filter_type'] <> "") {
+        if ($limit_sql <> "") {
+            $limit_sql .= ' AND s.tahunan='. $_POST['filter_type'];
+        } else {
+            $limit_sql = 's.tahunan='. $_POST['filter_type'];
+        }
+    }
+    if (isset($_POST['filter_date']) AND $_POST['filter_date'] <> "") {
+        if ($limit_sql <> "") {
+            $limit_sql .= ' AND s.dateposting like \'%'. $_POST['filter_date'] . '%\'';
+        } else {
+            $limit_sql = 's.dateposting like \'%'. $_POST['filter_date'] . '%\'';
+        }
+    }
+    
+}
 
-session_start();
 if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
     echo '<script type="text/javascript">alert(\'Anda tidak berhak mengakses laman!\');';
     echo 'location.href = \'index.php\';</script>';
@@ -136,6 +174,10 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
 	<script type="text/javascript" src="js/toggle.js"></script>
 	<script type="text/javascript" src="js/ui.core.js"></script>
 	<script type="text/javascript" src="js/ui.tabs.js"></script>
+	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/jquery.easy-confirm-dialog.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/jquery-ui.css" />
 	<script type="text/javascript">
 	$(document).ready(function(){
 		$(".tabs > ul").tabs();
@@ -146,8 +188,15 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
                     $('input:radio').attr("disabled", true);
                }
         });
+   		$(".confirm").easyconfirm();
+		$("#alert").click(function() {
+			alert("You approved the action");
+		});
 	});
 	</script>
+   	<style type="text/css">
+	.ui-dialog { font-size: 11px; }
+	</style>
 	<title>Kementerian KUKM - JKUK</title>
 </head>
 
@@ -224,9 +273,33 @@ echo navigation(2);
 			if (isset($_GET['list'])) {
 				echo "<fieldset>\n<legend>Data Neraca Tersedia</legend>";
 				if($_SESSION['group']==1){
-					echo listShuAdmin();
-				}else{
-					echo listShu(true);
+                    echo '<form method="POST"><table class="nostyle"><tr>';
+                    echo '<td>Nama Koperasi</td><td><input type="text" name="filter_kop" /></td>';
+                    echo '<td>Laporan</td><td><input type="radio" name="filter_type" value="1"/>Tahunan&nbsp;';
+                    echo '<input type="radio" name="filter_type" value="0"/>Bulanan</td>';
+                    echo '<td>&nbsp;</td></tr><tr>';
+                    echo '<td>Primer Koperasi</td>';
+                    echo '<td><select name="filter_jenis" /><option value="">- Pilih -</option><option value="1">Nasional</option><option value="2">Propinsi</option><option value="3">Kabupaten</option></select></td>';
+                    echo '<td>Tanggal</td><td><input type="text" name="filter_date" /></td>';
+                    echo '<td align="right"><input type="reset" value=" RESET " />&nbsp;<input type="submit" name="setFilter" value=" Filter " /></td></tr>';
+                    echo '<tr><td colspan="5">&nbsp;</td></tr></table></form>';
+                    if (isset($limit_sql) and $limit_sql <> "") {
+                        echo listShuAdmin(false, $limit_sql);
+                    } else {
+                        echo listShuAdmin();
+                    }
+				} else {
+                    echo '<form method="POST"><table class="nostyle"><tr>';
+                    echo '<td>Laporan</td><td><input type="radio" name="filter_type" value="1"/>Tahunan&nbsp;';
+                    echo '<input type="radio" name="filter_type" value="0"/>Bulanan</td><td>&nbsp;</td></tr><tr>';
+                    echo '<td>Tanggal</td><td><input type="text" name="filter_date" /></td>';
+                    echo '<td align="right"><input type="reset" value=" RESET " />&nbsp;<input type="submit" name="setFilter" value=" Filter " /></td></tr>';
+                    echo '<tr><td colspan="3">&nbsp;</td></tr></table></form>';
+                    if (isset($limit_sql) and $limit_sql <> "") {
+                        echo listShu(true,$limit_sql);
+                    } else {
+                        echo listShu(true);
+                    }
 				}
 				echo '<form action="datacenter-entrydata.php" method="link"><table class="nostyle">';
 				echo '<div style="text-align:right";><input type="submit" class="input-submit" value="Data Baru" /></div></form>';

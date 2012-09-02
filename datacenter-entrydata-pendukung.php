@@ -26,22 +26,34 @@ if (isset($_POST['saveNon'])) {
         $data[$key] = preg_replace("/[^0-9]/",".",$temp);
     }
 
-    if (isset($idncoa) AND $idncoa <> 0) {
-        $update = $sql_op->update('non_coa', $data, 'idnon_coa ='.$idncoa);
-        if ($update) {
-            $message = 'Data Non-Neraca berhasil diperbaiki.';
-            recLogs("Pengukung diubah - ".$idncoa, "Pendukung");
+    // Error Handling
+    $isError = false;
+    $date1 = new datetime("now");
+    $date2 = date_create($data['dateposting']);
+    if ($date1 < $date2) {
+        $isError = true;
+        $message = 'Periode pelaporan tidak mungkin lebih besar dari hari ini.';
+    }
+    
+    if (!$isError) {
+
+        if (isset($idncoa) AND $idncoa <> 0) {
+            $update = $sql_op->update('non_coa', $data, 'idnon_coa ='.$idncoa);
+            if ($update) {
+                $message = 'Data Non-Neraca berhasil diperbaiki.';
+                recLogs("Pengukung diubah - ".$idncoa, "Pendukung");
+            } else {
+                $message = $sql_op->error.' -- Data Non-Neraca GAGAL diperbaiki.';
+            }
         } else {
-            $message = $sql_op->error.' -- Data Non-Neraca GAGAL diperbaiki.';
-        }
-    } else {
-        $insert = $sql_op->insert('non_coa', $data);
-        if ($insert) {
-            $message = 'Data Non-Neraca berhasil disimpan.';
-            $idncoa = $sql_op->insert_id;
-            recLogs("Pendukung ditambah - ".$idncoa, "Pendukung");
-        } else {
-            $message = $sql_op->error.' -- Data Non-Neraca GAGAL disimpan.';
+            $insert = $sql_op->insert('non_coa', $data);
+            if ($insert) {
+                $message = 'Data Non-Neraca berhasil disimpan.';
+                $idncoa = $sql_op->insert_id;
+                recLogs("Pendukung ditambah - ".$idncoa, "Pendukung");
+            } else {
+                $message = $sql_op->error.' -- Data Non-Neraca GAGAL disimpan.';
+            }
         }
     }
 
