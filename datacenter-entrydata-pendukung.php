@@ -94,11 +94,22 @@ if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
     <script type="text/javascript" src="js/toggle.js"></script>
     <script type="text/javascript" src="js/ui.core.js"></script>
     <script type="text/javascript" src="js/ui.tabs.js"></script>
+	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/jquery.easy-confirm-dialog.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/jquery-ui.css" />
     <script type="text/javascript">
     $(document).ready(function(){
         $(".tabs > ul").tabs();
+   		$(".confirm").easyconfirm();
+		$("#alert").click(function() {
+			alert("You approved the action");
+		});
     });
     </script>
+   	<style type="text/css">
+	.ui-dialog { font-size: 11px; }
+	</style>
     <title>Kementerian KUKM - JKUK</title>
 </head>
 
