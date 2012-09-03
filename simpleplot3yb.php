@@ -7,28 +7,15 @@
 require 'sysconfig.inc.php';
 require_once 'phplot/phplot.php';
 
-/** SELECT YEAR( h.periode ) AS 'Tahun', count(*) as 'Jml.Kop.', h.periode, sum(h.h1) AS '1', sum(h.h2) AS '2',sum(h.h3) AS '3', sum(h.h4) AS '4', sum(h.h5) AS '5', sum(h.h6) AS '6', sum(h.h7) AS '7', avg(h.h8) AS '8', avg(h.h9) AS '9', avg(h.h10) AS '10'
-FROM harian AS h 
-LEFT JOIN koperasi AS k ON h.idkoperasi = k.idkoperasi
-WHERE YEAR( h.periode ) < YEAR(curdate())
-GROUP BY YEAR(h.periode)
-**/
-
 $sql_text = 'SELECT
-	YEAR(h.periode) as \'2\',
-	sum(h.h1) AS \'3\',
-	sum(h.h2) AS \'4\',
-	sum(h.h3) AS \'5\',
-	sum(h.h4) AS \'6\',
-	sum(h.h5) AS \'7\',
-	sum(h.h6) AS \'8\',
-	sum(h.h7) AS \'9\',
-    count(*) AS \'99\'
-FROM harian as h
-LEFT JOIN koperasi as k ON h.idkoperasi=k.idkoperasi
-WHERE YEAR(h.periode) < YEAR(curdate())
-GROUP BY YEAR(h.periode)
-ORDER BY YEAR(h.periode) ASC
+	Tahun as \'2\',
+	avg(h.8) AS \'3\',
+	avg(h.9) AS \'4\',
+	avg(h.10) AS \'5\'
+FROM monitor_tahunan as h
+WHERE Tahun < YEAR(curdate())
+GROUP BY Tahun
+ORDER BY Tahun ASC
 LIMIT 0,5';
 
 $xdata = array();
@@ -36,27 +23,19 @@ $xlegend = array();
 $arrseries = array();
 $arrlegend = array();
 
-$arrseries['0'][]='Simpanan';
-$arrseries['1'][]='Pinjaman';
-$arrseries['2'][]='Modal Dalam';
-$arrseries['3'][]='Modal Luar';
-$arrseries['4'][]='Volume Usaha';
-$arrseries['5'][]='Aset';
-$arrseries['6'][]='SHU';
+$arrseries['0'][]='Bunga Simpanan';
+$arrseries['1'][]='Bunga Pinjaman';
+$arrseries['2'][]='NPL';
 
 $set_yearly = $dbs->query($sql_text);
 while ($rec = $set_yearly->fetch_assoc()) {
- $arrlegend[] = $rec['2'] . '(Kop: ' . $rec['99'] . ')' ;
+ $arrlegend[] = $rec['2'];
  $arrseries['0'][]=$rec['3'];
  $arrseries['1'][]=$rec['4'];
  $arrseries['2'][]=$rec['5'];
- $arrseries['3'][]=$rec['6'];
- $arrseries['4'][]=$rec['7'];
- $arrseries['5'][]=$rec['8'];
- $arrseries['6'][]=$rec['9'];
 }
 
- $xdata = $arrseries;
+$xdata = $arrseries;
 # Create a PHPlot object which will make an 800x400 pixel image:
 $p = new PHPlot(900, 400);
 
@@ -64,7 +43,7 @@ $p = new PHPlot(900, 400);
 //$p->SetDefaultTTFont('./arial.ttf');
 
 # Set the main plot title:
-$p->SetTitle('Data Keuangan Koperasi Indonesia');
+$p->SetTitle('Data Bunga Simpanan, Pinjaman dan NPL');
 
 # Select the data array representation and store the data:
 $p->SetDataType('text-data');
@@ -99,7 +78,7 @@ $p->SetYTickLabelPos('yaxis');
 
 # Force bottom to Y=0 and set reasonable tick interval:
 //$p->SetPlotAreaWorld(NULL, 0, NULL, NULL);
-//$p->SetYTickIncrement(1000);
+$p->SetYTickIncrement(1);
 # Format the Y tick labels as numerics to get thousands separators:
 $p->SetYLabelType('data');
 $p->SetPrecisionY(0);

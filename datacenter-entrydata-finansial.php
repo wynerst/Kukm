@@ -6,6 +6,9 @@ include "listdata.php";
 include "nav_datacenter.php";
 require 'lib/logs.php';
 
+$date1 = new datetime("now");
+$display = true;
+
 // start the output buffering for main content
 ob_start();
 
@@ -82,6 +85,13 @@ if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
     $q_harian = $dbs->query($sql_text);
     if ($q_harian) {
         $recHarian = $q_harian->fetch_assoc();
+        $date2 = date_create($recHarian['date_create']);
+        $intervaldate = date_diff($date2,$date1);
+        $interval = $intervaldate->format('%a');
+        if ($interval > 14) {
+            $message = "Batas waktu perbaikan sudah lebih dari 14 hari \n(" . date_format($date2,'Y-m-d') . "-" . date_format($date1,'Y-m-d') . " = " . $interval ." hari)";
+            $display = false;
+        }
     } else {
         $message = "Data tidak ditemukan.";
     }

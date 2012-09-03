@@ -37,7 +37,10 @@ function listNeraca($syariah = false,$sql_criteria = "") {
     }
     
     if ($criteria <> "") {
+        // $criteria .= " AND datediff(curdate(),c.createdate) < 14 ";
         $datagrid->setSQLcriteria($criteria);
+    } else {
+        // $datagrid->setSQLcriteria("datediff(curdate(),c.createdate) < 14");
     }
 	// put the result into variables
 	$datagrid_result = $datagrid->createDataGrid($dbs, $table_spec, 50, false);
@@ -58,7 +61,9 @@ function listNeracaAdmin($syariah = false,$sql_criteria = "") {
     $sql_text .= 'IF(c.tahunan > 0, \'Tahunan\', \'Bulanan\')  AS laporan ';
     $sql_text .= 'FROM coa as c LEFT JOIN koperasi as k ON c.idkoperasi = k.idkoperasi';
     if (isset($sql_criteria) AND $sql_criteria <> "") {
-        $sql_text .= ' WHERE ' . $sql_criteria;
+        $sql_text .= ' WHERE ' . $sql_criteria ; // . 'AND datediff(curdate(),c.createdate) < 14';
+    } else {
+        // $sql_text .= ' WHERE datediff(curdate(),c.createdate) < 14';
     }
 
     $tmp_neraca = $dbs->query($sql_text);
@@ -113,6 +118,9 @@ function listFinasial() {
         't.jenis AS \'Tipe Koperasi\'', 'h.periode AS \'Periode Lap\'');
     if ($group ==2 ) {
         $datagrid->setSQLcriteria("h.idkoperasi = ".$koperasi);
+        $datagrid->setSQLcriteria("datediff(curdate(),h.periode) < 14");
+    } else {
+//        $datagrid->setSQLcriteria("datediff(curdate(),h.periode) < 14");
     }
 	$datagrid->debug = true;
 
@@ -155,8 +163,12 @@ function listShu($syariah = false,$sql_criteria = "") {
     }
     
     if ($criteria <> "") {
+        // $criteria .= " AND datediff(curdate(),s.createdate) < 14 ";
         $datagrid->setSQLcriteria($criteria);
+    } else {
+        // $datagrid->setSQLcriteria("datediff(curdate(),s.createdate) < 14");
     }
+
 	$datagrid->debug = true;
 
 	// put the result into variables
@@ -178,7 +190,9 @@ function listShuAdmin($syariah = false, $sql_criteria = "") {
     $sql_text .= 'IF(s.tahunan > 0, \'Tahunan\', \'Bulanan\') AS laporan ';
     $sql_text .= 'FROM shu as s LEFT JOIN koperasi as k ON s.idkoperasi = k.idkoperasi';
     if (isset($sql_criteria) AND $sql_criteria <> "") {
-        $sql_text .= ' WHERE ' . $sql_criteria;
+        $sql_text .= ' WHERE ' . $sql_criteria ; // . 'AND datediff(curdate(),c.createdate) < 14';
+    } else {
+        // $sql_text .= ' WHERE datediff(curdate(),c.createdate) < 14';
     }
 	  
     $tmp_neraca = $dbs->query($sql_text);

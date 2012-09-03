@@ -9,6 +9,7 @@ require 'lib/logs.php';
 $display = true;
 $err_jml = '<font color="red">&nbsp;Jumlah direvisi.</font>';
 $galat = array();
+$date1 = new datetime("now");
 
 // start the output buffering for main content
 ob_start();
@@ -202,7 +203,6 @@ if (isset($_POST['saveNeraca'])) {
 
     // Error Handling - tanggal
     $isError = false;
-    $date1 = new datetime("now");
     $date2 = date_create($data['dateposting']);
     if ($date1 < $date2) {
         $isError = true;
@@ -278,6 +278,13 @@ if (isset($_POST['saveNeraca'])) {
             WHERE c.idcoa =". $idcoa;
         $q_neraca = $dbs->query($sql_text);
         $recNeraca = $q_neraca->fetch_assoc();
+        $date2 = date_create($recNeraca['createdate']);
+        $intervaldate = date_diff($date2,$date1);
+        $interval = $intervaldate->format('%a');
+        if ($interval > 14) {
+            $message = "Batas waktu perbaikan sudah lebih dari 14 hari \n(" . date_format($date2,'Y-m-d') . "-" . date_format($date1,'Y-m-d') . " = " . $interval ." hari)";
+            $display = false;
+        }
     }
 }
 

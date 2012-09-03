@@ -10,16 +10,10 @@ require_once 'phplot/phplot.php';
 $sql_text = 'SELECT
 h.periode as \'1\',
 CONCAT(MONTHNAME(h.periode),\' \',YEAR(h.periode)) as \'2\',
-sum(h.h1) AS \'3\',
-sum(h.h2) AS \'4\',
-sum(h.h3) AS \'5\',
-sum(h.h4) AS \'6\',
 sum(h.h5) AS \'7\',
 sum(h.h6) AS \'8\',
 sum(h.h7) AS \'9\',
-avg(h.h8) AS \'10\',
-avg(h.h9) AS \'11\',
-avg(h.h10) AS \'12\'
+count(*) AS \'99\'
 FROM koperasi as k
 RIGHT JOIN harian as h ON h.idkoperasi = k.idkoperasi
 WHERE YEAR(h.periode) = YEAR(curdate())
@@ -31,30 +25,16 @@ $xlegend = array();
 $arrseries = array();
 $arrlegend = array();
 
-$arrseries['0'][]='Simpanan';
-$arrseries['1'][]='Pinjaman';
-$arrseries['2'][]='Modal Dalam';
-$arrseries['3'][]='Modal Luar';
-$arrseries['4'][]='Volume Usaha';
-$arrseries['5'][]='Aset';
-$arrseries['6'][]='SHU';
-$arrseries['7'][]='Bunga Simpanan';
-$arrseries['8'][]='Bunga Pinjaman';
-$arrseries['9'][]='NPL';
+$arrseries['0'][]='Volume Usaha';
+$arrseries['1'][]='Aset';
+$arrseries['2'][]='SHU';
  
 $set_yearly = $dbs->query($sql_text);
 while ($rec = $set_yearly->fetch_assoc()) {
- $arrlegend[] = $rec['2'];
- $arrseries['0'][]=$rec['3'];
- $arrseries['1'][]=$rec['4'];
- $arrseries['2'][]=$rec['5'];
- $arrseries['3'][]=$rec['6'];
- $arrseries['4'][]=$rec['7'];
- $arrseries['5'][]=$rec['8'];
- $arrseries['6'][]=$rec['9'];
- $arrseries['7'][]=$rec['10'];
- $arrseries['8'][]=$rec['11'];
- $arrseries['9'][]=$rec['12'];
+ $arrlegend[] = $rec['2']. ' (Kop: '.$rec['99'].')';
+ $arrseries['0'][]=$rec['7'];
+ $arrseries['1'][]=$rec['8'];
+ $arrseries['2'][]=$rec['9'];
  }
 
  $xdata = $arrseries;

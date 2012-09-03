@@ -8,6 +8,7 @@ require 'lib/logs.php';
 
 $display = true;
 $err_jml = '<font color="red">&nbsp;Jumlah direvisi.</font>';
+$date1 = new datetime("now");
 
 // start the output buffering for main content
 ob_start();
@@ -125,12 +126,18 @@ if (isset($_POST['saveShu'])) {
 if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
 	// get record
 	$idshu = $_GET['nid'];
-	$sql_text = "SELECT s.*, p.*, k.* FROM shu as s
-		LEFT JOIN periode as p ON s.idperiode = p.idperiode
+	$sql_text = "SELECT s.*, k.* FROM shu as s
 		LEFT JOIN koperasi as k ON s.idkoperasi = k.idkoperasi
 		WHERE s.idshu =". $idshu;
 	$q_shu = $dbs->query($sql_text);
 	$recShu = $q_shu->fetch_assoc();
+    $date2 = date_create($recShu['createdate']);
+    $intervaldate = date_diff($date2,$date1);
+    $interval = $intervaldate->format('%a');
+    if ($interval > 14) {
+        $message = "Batas waktu perbaikan sudah lebih dari 14 hari \n(" . date_format($date2,'Y-m-d') . "-" . date_format($date1,'Y-m-d') . " = " . $interval ." hari)";
+        $display = false;
+    }
 }
 
 if (isset($_POST['setFilter'])) {

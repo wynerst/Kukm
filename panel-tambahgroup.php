@@ -45,7 +45,7 @@ if (isset($_POST['saveGroup'])) {
 		if ($insert) {
 			utility::jsAlert('Data Group berhasil disimpan.');
 		} else {
-			utility::jsAlert('Data Group GAGAL disimpan.');
+			utility::jsAlert($sql_op->error.' Data Group GAGAL disimpan.');
 		}
 	}
 

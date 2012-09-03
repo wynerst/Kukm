@@ -1,4 +1,4 @@
-<?php
+<?php   
 // required file
 require 'sysconfig.inc.php';
 require SIMBIO_BASE_DIR.'simbio_DB/simbio_dbop.inc.php';
@@ -8,6 +8,7 @@ require 'lib/logs.php';
 
 $display = true;
 $err_jml = '<font color="red">&nbsp;Jumlah direvisi.</font>';
+$date1 = new datetime("now");
 
 // start the output buffering for main content
 ob_start();
@@ -77,7 +78,6 @@ if (isset($_POST['saveShu'])) {
 
     // Error Handling - tanggal
     $isError = false;
-    $date1 = new datetime("now");
     $date2 = date_create($data['dateposting']);
     if ($date1 < $date2) {
         $isError = true;
@@ -130,6 +130,13 @@ if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
 	$q_shu = $dbs->query($sql_text);
     if ($q_shu) {
         $recShu = $q_shu->fetch_assoc();
+        $date2 = date_create($recShu['createdate']);
+        $intervaldate = date_diff($date2,$date1);
+        $interval = $intervaldate->format('%a');
+        if ($interval > 14) {
+            $message = "Batas waktu perbaikan sudah lebih dari 14 hari \n(" . date_format($date2,'Y-m-d') . "-" . date_format($date1,'Y-m-d') . " = " . $interval ." hari)";
+            $display = false;
+        }
     } else {
         $message = "Data tidak ditemukan.";
     }

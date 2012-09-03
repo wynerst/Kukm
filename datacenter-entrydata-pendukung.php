@@ -6,6 +6,9 @@ include "listdata.php";
 include "nav_datacenter.php";
 require 'lib/logs.php';
 
+$display = true;
+$date1 = new datetime("now");
+
 // start the output buffering for main content
 ob_start();
 
@@ -28,7 +31,6 @@ if (isset($_POST['saveNon'])) {
 
     // Error Handling
     $isError = false;
-    $date1 = new datetime("now");
     $date2 = date_create($data['periode']);
     if ($date1 < $date2) {
         $isError = true;
@@ -81,6 +83,13 @@ if (isset($_GET['nid']) AND $_GET['nid'] <> "") {
         WHERE n.idnon_coa =". $idncoa;
     $q_ncoa = $dbs->query($sql_text);
     $recNon = $q_ncoa->fetch_assoc();
+    $date2 = date_create($recNon['createdate']);
+    $intervaldate = date_diff($date2,$date1);
+    $interval = $intervaldate->format('%a');
+    if ($interval > 14) {
+        $message = "Batas waktu perbaikan sudah lebih dari 14 hari \n(" . date_format($date2,'Y-m-d') . "-" . date_format($date1,'Y-m-d') . " = " . $interval ." hari)";
+        $display = false;
+    }
 }
 
 if (!isset($_SESSION['access']) AND !$_SESSION['access']) {
@@ -225,6 +234,13 @@ echo navigation(3);
             <form id=nonForm method=post>
             <h3 class="tit">Entry Data</h3>
             <fieldset>
+<?php
+if ($display) {
+    $disabled = '" class="input-text" ';
+} else {
+    $disabled = '" class="input-text" disabled ';
+}
+?>
                 <legend>Informasi Entry Data</legend>
                 <table class="nostyle">
                     <tr>
@@ -284,27 +300,27 @@ echo navigation(3);
   <tr>
     <td>1</td>
     <td>Jumlah Penasehat/Pengawas</td>
-    <td><input type="text" size="40" name="non[pengawas]" value="<?php echo isset($recNon['pengawas']) ? $recNon['pengawas'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="non[pengawas]" value="<?php echo isset($recNon['pengawas']) ? $recNon['pengawas'] : "0"; echo $disabled; ?> /></td>
   </tr>
   <tr>
     <td>2</td>
     <td>Jumlah Pengurus</td>
-    <td><input type="text" size="40" name="non[pengurus]" value="<?php echo isset($recNon['pengurus']) ? $recNon['pengurus'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="non[pengurus]" value="<?php echo isset($recNon['pengurus']) ? $recNon['pengurus'] : "0"; echo $disabled; ?> /></td>
   </tr>
   <tr>
     <td>3</td>
     <td>Jumlah Karyawan</td>
-    <td><input type="text" size="40" name="non[karyawan]" value="<?php echo isset($recNon['karyawan']) ? $recNon['karyawan'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="non[karyawan]" value="<?php echo isset($recNon['karyawan']) ? $recNon['karyawan'] : "0"; echo $disabled; ?> /></td>
   </tr>
   <tr>
     <td>4</td>
     <td>Jumlah Anggota</td>
-    <td><input type="text" size="40" name="non[anggota]" value="<?php echo isset($recNon['anggota']) ? $recNon['anggota'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="non[anggota]" value="<?php echo isset($recNon['anggota']) ? $recNon['anggota'] : "0"; echo $disabled; ?> /></td>
   </tr>
   <tr>
     <td>5</td>
     <td>Jumlah Calon Anggota/Anggota tidak tetap</td>
-    <td><input type="text" size="40" name="non[calon_anggota]" value="<?php echo isset($recNon['calon_anggota']) ? $recNon['calon_anggota'] : "0"; ?>" class="input-text" /></td>
+    <td><input type="text" size="40" name="non[calon_anggota]" value="<?php echo isset($recNon['calon_anggota']) ? $recNon['calon_anggota'] : "0"; echo $disabled; ?> /></td>
   </tr>
   <tr>
     <td colspan="4" class="t-right"><input type="submit" name="saveNon" class="input-submit" value="Submit" /></td>
