@@ -46,7 +46,7 @@ $arrseries['6'][]='SHU';
 
 $set_yearly = $dbs->query($sql_text);
 while ($rec = $set_yearly->fetch_assoc()) {
- $arrlegend[] = $rec['2'] . '(Kop: ' . $rec['99'] . ')' ;
+ $arrlegend[] = $rec['2'] . ' (Kop: ' . $rec['99'] . ')' ;
  $arrseries['0'][]=$rec['3'];
  $arrseries['1'][]=$rec['4'];
  $arrseries['2'][]=$rec['5'];

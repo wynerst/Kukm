@@ -8,14 +8,16 @@ require 'sysconfig.inc.php';
 require_once 'phplot/phplot.php';
 
 $sql_text = 'SELECT
-	Tahun as \'2\',
-	avg(h.8) AS \'3\',
-	avg(h.9) AS \'4\',
-	avg(h.10) AS \'5\'
-FROM monitor_tahunan as h
-WHERE Tahun < YEAR(curdate())
-GROUP BY Tahun
-ORDER BY Tahun ASC
+	YEAR(h.periode) as \'2\',
+	avg(h.h8) AS \'3\',
+	avg(h.h9) AS \'4\',
+	avg(h.h10) AS \'5\',
+    count(*) AS \'99\'
+FROM harian as h
+LEFT JOIN koperasi as k ON h.idkoperasi=k.idkoperasi
+WHERE YEAR(h.periode) < YEAR(curdate())
+GROUP BY YEAR(h.periode)
+ORDER BY YEAR(h.periode) ASC
 LIMIT 0,5';
 
 $xdata = array();
@@ -29,7 +31,7 @@ $arrseries['2'][]='NPL';
 
 $set_yearly = $dbs->query($sql_text);
 while ($rec = $set_yearly->fetch_assoc()) {
- $arrlegend[] = $rec['2'];
+ $arrlegend[] = $rec['2'] . ' (Kop: ' . $rec['99'] . ')' ;
  $arrseries['0'][]=$rec['3'];
  $arrseries['1'][]=$rec['4'];
  $arrseries['2'][]=$rec['5'];
