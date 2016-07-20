@@ -47,11 +47,11 @@ class Quick_CSV_import
   function import()
   {
     global $dbs;
-    if($this->table_name=="") {
+    if($this->table_name=="") 
       $this->table_name = "temp_".date("d_m_Y_H_i_s");
       $this->table_exists = false;
       $this->create_import_table();
-    }
+    
     
     if(empty($this->arr_csv_columns))
       $this->get_csv_header_fields();
